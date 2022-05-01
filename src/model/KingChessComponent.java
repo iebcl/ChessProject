@@ -1,5 +1,5 @@
 package model;
-// 车
+// 王
 import view.ChessboardPoint;
 import controller.ClickController;
 
@@ -9,68 +9,68 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * 这个类表示国际象棋里面的车
+ * 这个类表示国际象棋里面的王
  */
-public class RookChessComponent extends ChessComponent {
+public class KingChessComponent extends ChessComponent {
     /**
-     * 黑车和白车的图片，static使得其可以被所有车对象共享
+     * 黑王和白王的图片，static使得其可以被所有王对象共享
      * <br>
      * FIXME: 需要特别注意此处加载的图片是没有背景底色的！！！
      */
-    private static Image ROOK_WHITE;
-    private static Image ROOK_BLACK;
+    private static Image King_WHITE;
+    private static Image King_BLACK;
 
     /**
-     * 车棋子对象自身的图片，是上面两种中的一种
+     * 王棋子对象自身的图片，是上面两种中的一种
      */
-    private Image rookImage;
+    private Image KingImage;
 
     /**
-     * 读取加载车棋子的图片
+     * 读取加载王棋子的图片
      *
      * @throws IOException
      */
     public void loadResource() throws IOException {
-        if (ROOK_WHITE == null) {
-            ROOK_WHITE = ImageIO.read(new File("./images/rook-white.png"));
+        if (King_WHITE == null) {
+            King_WHITE = ImageIO.read(new File("./images/king-white.png"));
         }
 
-        if (ROOK_BLACK == null) {
-            ROOK_BLACK = ImageIO.read(new File("./images/rook-black.png"));
+        if (King_BLACK == null) {
+            King_BLACK = ImageIO.read(new File("./images/king-black.png"));
         }
     }
 
 
     /**
-     * 在构造棋子对象的时候，调用此方法以根据颜色确定rookImage的图片是哪一种
+     * 在构造棋子对象的时候，调用此方法以根据颜色确定KingImage的图片是哪一种
      *
      * @param color 棋子颜色
      */
 
-    private void initiateRookImage(ChessColor color) {
+    private void initiateKingImage(ChessColor color) {
         try {
             loadResource();
             if (color == ChessColor.WHITE) {
-                rookImage = ROOK_WHITE;
+                KingImage = King_WHITE;
             } else if (color == ChessColor.BLACK) {
-                rookImage = ROOK_BLACK;
+                KingImage = King_BLACK;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public RookChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size) {
-        super("Rook", chessboardPoint, location, color, listener, size);
-        initiateRookImage(color);
+    public KingChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size) {
+        super("King", chessboardPoint, location, color, listener, size);
+        initiateKingImage(color);
     }
 
     /**
-     * 车棋子的移动规则
+     * 王棋子的移动规则
      *
      * @param chessComponents 棋盘
      * @param destination     目标位置，如(0, 0), (0, 7)等等
-     * @return 车棋子移动的合法性
+     * @return 王棋子移动的合法性
      */
 
     @Override
@@ -81,7 +81,6 @@ public class RookChessComponent extends ChessComponent {
             for (int col = Math.min(source.getY(), destination.getY()) + 1;
                  col < Math.max(source.getY(), destination.getY()); col++) {
                 if (!(chessComponents[row][col] instanceof EmptySlotComponent)) {
-                    // 不能跨越棋子
                     return false;
                 }
             }
@@ -107,8 +106,8 @@ public class RookChessComponent extends ChessComponent {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-//        g.drawImage(rookImage, 0, 0, getWidth() - 13, getHeight() - 20, this);
-        g.drawImage(rookImage, 0, 0, getWidth() , getHeight(), this);
+//        g.drawImage(KingImage, 0, 0, getWidth() - 13, getHeight() - 20, this);
+        g.drawImage(KingImage, 0, 0, getWidth() , getHeight(), this);
         g.setColor(Color.BLACK);
         if (isSelected()) { // Highlights the model if selected.
             g.setColor(Color.RED);

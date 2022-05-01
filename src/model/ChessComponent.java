@@ -39,10 +39,13 @@ public abstract class ChessComponent extends JComponent {
     protected final ChessColor chessColor;
     private boolean selected;
 
-    protected ChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor chessColor, ClickController clickController, int size) {
+    private String name;
+
+    protected ChessComponent(String name, ChessboardPoint chessboardPoint, Point location, ChessColor chessColor, ClickController clickController, int size) {
         enableEvents(AWTEvent.MOUSE_EVENT_MASK);
         setLocation(location);
         setSize(size, size);
+        this.name = name;
         this.chessboardPoint = chessboardPoint;
         this.chessColor = chessColor;
         this.selected = false;
@@ -55,6 +58,11 @@ public abstract class ChessComponent extends JComponent {
 
     public void setChessboardPoint(ChessboardPoint chessboardPoint) {
         this.chessboardPoint = chessboardPoint;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     public ChessColor getChessColor() {
@@ -105,7 +113,7 @@ public abstract class ChessComponent extends JComponent {
      * <br>
      * 这个方法主要是检查移动的合法性，如果合法就返回true，反之是false
      */
-    public abstract boolean canMoveTo(ChessComponent[][] chessboard, ChessboardPoint destination);
+    public abstract boolean canMoveTo(ChessComponent[][] chessboard, ChessboardPoint destination, ChessColor color);
 
     /**
      * 这个方法主要用于加载一些特定资源，如棋子图片等等。
