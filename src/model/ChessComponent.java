@@ -41,6 +41,9 @@ public abstract class ChessComponent extends JComponent {
 
     private String name;
 
+
+    private boolean Moved;
+
     protected ChessComponent(String name, ChessboardPoint chessboardPoint, Point location, ChessColor chessColor, ClickController clickController, int size) {
         enableEvents(AWTEvent.MOUSE_EVENT_MASK);
         setLocation(location);
@@ -75,6 +78,14 @@ public abstract class ChessComponent extends JComponent {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public void setMoved(boolean moved) {
+        Moved = moved;
+    }
+
+    public boolean isMoved() {
+        return Moved;
     }
 
     /**

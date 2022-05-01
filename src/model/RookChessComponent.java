@@ -1,5 +1,6 @@
 package model;
 // 车
+
 import view.ChessboardPoint;
 import controller.ClickController;
 
@@ -108,11 +109,11 @@ public class RookChessComponent extends ChessComponent {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 //        g.drawImage(rookImage, 0, 0, getWidth() - 13, getHeight() - 20, this);
-        g.drawImage(rookImage, 0, 0, getWidth() , getHeight(), this);
+        g.drawImage(rookImage, 0, 0, getWidth(), getHeight(), this);
         g.setColor(Color.BLACK);
         if (isSelected()) { // Highlights the model if selected.
             g.setColor(Color.RED);
-            g.drawOval(0, 0, getWidth() , getHeight());
+            g.drawOval(0, 0, getWidth(), getHeight());
         }
     }
 }

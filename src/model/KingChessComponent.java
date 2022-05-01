@@ -26,6 +26,8 @@ public class KingChessComponent extends ChessComponent {
      */
     private Image KingImage;
 
+    private boolean Moved = false;
+
     /**
      * 读取加载王棋子的图片
      *
@@ -86,6 +88,32 @@ public class KingChessComponent extends ChessComponent {
                     }
                 }
             }
+            Moved = true;
+            return true;
+        } else if (!Moved &&
+                destination.getX() - source.getX() == 0 && (destination.getY() - source.getY() == 2 || destination.getY() - source.getY() == -2)) {
+            ChessboardPoint middle = new ChessboardPoint(destination.getX(), (destination.getY() + source.getY()) / 2);
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    if (!chessComponents[i][j].getChessColor().equals(color) &&
+                            (chessComponents[i][j].canMoveTo(chessComponents, destination, color) || chessComponents[i][j].canMoveTo(chessComponents, source, color) || chessComponents[i][j].canMoveTo(chessComponents, middle, color))) {
+                        return false;
+                    }
+                }
+            }
+            if (destination.getY() < source.getY()) {
+                for (int i = 1; i < 4; i++) {
+                    if (!(chessComponents[source.getX()][i] instanceof EmptySlotComponent)){
+                        return false;
+                    }
+                }
+            } else {
+                for (int i = 5; i < 7; i++) {
+                    if (!(chessComponents[source.getX()][i] instanceof EmptySlotComponent)){
+                        return false;
+                    }
+                }
+            }
             return true;
         }
         return false;
@@ -108,3 +136,4 @@ public class KingChessComponent extends ChessComponent {
         }
     }
 }
+

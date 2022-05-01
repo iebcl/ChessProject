@@ -52,11 +52,21 @@ public class ClickController {
 
     private boolean handleSecond(ChessComponent chessComponent) {
         if (chessComponent.getName().equals("Pawn")) {
-            return chessComponent.getChessColor() != chessboard.getCurrentColor() &&
-                    first.canMoveTo(chessboard.getChessComponents(), chessComponent.getChessboardPoint(),first.getChessColor());
+            if ( chessComponent.getChessColor() != chessboard.getCurrentColor() &&
+                    first.canMoveTo(chessboard.getChessComponents(), chessComponent.getChessboardPoint(),first.getChessColor())){
+                chessComponent.setMoved(true);
+                return true;
+            }else{
+                return false;
+            }
         } else {
-            return chessComponent.getChessColor() != chessboard.getCurrentColor() &&
-                    first.canMoveTo(chessboard.getChessComponents(), chessComponent.getChessboardPoint(),first.getChessColor());
+            if ( chessComponent.getChessColor() != chessboard.getCurrentColor() &&
+                    first.canMoveTo(chessboard.getChessComponents(), chessComponent.getChessboardPoint(),first.getChessColor())){
+                chessComponent.setMoved(true);
+                return true;
+            }else{
+                return false;
+            }
         }
     }
 }
