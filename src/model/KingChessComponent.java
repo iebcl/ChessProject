@@ -79,14 +79,14 @@ public class KingChessComponent extends ChessComponent {
         ChessboardPoint source = getChessboardPoint();
         if ((destination.getX() - source.getX() <= 1 && destination.getX() - source.getX() >= -1)
                 && destination.getY() - source.getY() <= 1 && destination.getY() - source.getY() >= -1) {
-            return true;
-        }
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                if (chessComponents[i][j].canMoveTo(chessComponents,destination,color)){
-                    return false;
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    if (!chessComponents[i][j].getChessColor().equals(color) && chessComponents[i][j].canMoveTo(chessComponents, destination, color)) {
+                        return false;
+                    }
                 }
             }
+            return true;
         }
         return false;
     }
