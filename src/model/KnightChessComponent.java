@@ -1,5 +1,6 @@
 package model;
 // 马
+
 import view.ChessboardPoint;
 import controller.ClickController;
 
@@ -76,26 +77,27 @@ public class KnightChessComponent extends ChessComponent {
     @Override
     public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination, ChessColor color) {
         ChessboardPoint source = getChessboardPoint();
-        if (source.getX() == destination.getX()) {
-            int row = source.getX();
-            for (int col = Math.min(source.getY(), destination.getY()) + 1;
-                 col < Math.max(source.getY(), destination.getY()); col++) {
-                if (!(chessComponents[row][col] instanceof EmptySlotComponent)) {
-                    return false;
-                }
-            }
-        } else if (source.getY() == destination.getY()) {
-            int col = source.getY();
-            for (int row = Math.min(source.getX(), destination.getX()) + 1;
-                 row < Math.max(source.getX(), destination.getX()); row++) {
-                if (!(chessComponents[row][col] instanceof EmptySlotComponent)) {
-                    return false;
-                }
-            }
-        } else { // Not on the same row or the same column.
+        //假设子在（0，0）时，有八个角度：
+        // (2,1)、（2、-1）、（-2，-1）、（-2，-1）
+        //（1，2）、（1，-2）、（-1，2）、（-1，-2）
+        if((Math.abs(source.getY()-destination.getY())==0||Math.abs(source.getX()-destination.getX())==0)){//排除/num中num=0的情况
             return false;
-        }
-        return true;
+        }else {
+            if (Math.abs(source.getX() - destination.getX()) / (Math.abs(source.getY() - destination.getY())) == 2) {
+                // (2,1)、（2、-1）、（-2，-1）、（-2，-1）
+                if ((Math.abs(source.getY() - destination.getY()) != 1)) { //只能走一个日字
+                    return false;
+                }
+            } else if ((Math.abs(source.getY() - destination.getY()) / Math.abs(source.getX() - destination.getX())) == 2) {
+                //（1，2）、（1，-2）、（-1，2）、（-1，-2）
+                if ((Math.abs(source.getX() - destination.getX()) != 1)) { //只能走一个日字
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }return true;
+
     }
 
     /**
@@ -107,11 +109,11 @@ public class KnightChessComponent extends ChessComponent {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 //        g.drawImage(KnightImage, 0, 0, getWidth() - 13, getHeight() - 20, this);
-        g.drawImage(KnightImage, 0, 0, getWidth() , getHeight(), this);
+        g.drawImage(KnightImage, 0, 0, getWidth(), getHeight(), this);
         g.setColor(Color.BLACK);
         if (isSelected()) { // Highlights the model if selected.
             g.setColor(Color.RED);
-            g.drawOval(0, 0, getWidth() , getHeight());
+            g.drawOval(0, 0, getWidth(), getHeight());
         }
     }
 }
