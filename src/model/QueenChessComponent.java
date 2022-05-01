@@ -1,5 +1,6 @@
 package model;
 // 后
+
 import view.ChessboardPoint;
 import controller.ClickController;
 
@@ -92,7 +93,43 @@ public class QueenChessComponent extends ChessComponent {
                     return false;
                 }
             }
-        } else { // Not on the same row or the same column.
+        } else if (source.getX() + source.getY() == destination.getX() + destination.getY()) {
+            //走斜线45度斜角
+            if (source.getY() > destination.getY()) {
+                for (int i = 1; i < source.getY() - destination.getY(); i++) {//不能越子
+                    if (!(chessComponents[destination.getX() - i][destination.getY() + i] instanceof EmptySlotComponent)) {
+                        return false;
+                    }
+                }
+            } else if (source.getY() < destination.getY()) {
+                for (int i = 1; i < -source.getY() + destination.getY(); i++) {//不能越子
+                    if (!(chessComponents[source.getX() - i][source.getY() + i] instanceof EmptySlotComponent)) {
+                        return false;
+                    }
+                }
+            } else {
+                //source==destination
+                return false;
+            }
+        } else if (source.getX() - source.getY() == destination.getX() - destination.getY()) {
+            //走斜线135度斜角
+            if (source.getY() > destination.getY()) {
+                for (int i = 1; i < source.getY() - destination.getY(); i++) {//不能越子
+                    if (!(chessComponents[destination.getX() + i][destination.getY() + i] instanceof EmptySlotComponent)) {
+                        return false;
+                    }
+                }
+            } else if (source.getY() < destination.getY()) {
+                for (int i = 1; i < -source.getY() + destination.getY(); i++) {//不能越子
+                    if (!(chessComponents[source.getX() + i][source.getY() + i] instanceof EmptySlotComponent)) {
+                        return false;
+                    }
+                }
+            } else {
+                //source==destination
+                return false;
+            }
+        } else {
             return false;
         }
         return true;
@@ -107,11 +144,11 @@ public class QueenChessComponent extends ChessComponent {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 //        g.drawImage(QueenImage, 0, 0, getWidth() - 13, getHeight() - 20, this);
-        g.drawImage(QueenImage, 0, 0, getWidth() , getHeight(), this);
+        g.drawImage(QueenImage, 0, 0, getWidth(), getHeight(), this);
         g.setColor(Color.BLACK);
         if (isSelected()) { // Highlights the model if selected.
             g.setColor(Color.RED);
-            g.drawOval(0, 0, getWidth() , getHeight());
+            g.drawOval(0, 0, getWidth(), getHeight());
         }
     }
 }
