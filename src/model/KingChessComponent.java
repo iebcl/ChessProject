@@ -1,5 +1,6 @@
 package model;
 // 王
+
 import view.ChessboardPoint;
 import controller.ClickController;
 
@@ -76,26 +77,18 @@ public class KingChessComponent extends ChessComponent {
     @Override
     public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination, ChessColor color) {
         ChessboardPoint source = getChessboardPoint();
-        if (source.getX() == destination.getX()) {
-            int row = source.getX();
-            for (int col = Math.min(source.getY(), destination.getY()) + 1;
-                 col < Math.max(source.getY(), destination.getY()); col++) {
-                if (!(chessComponents[row][col] instanceof EmptySlotComponent)) {
-                    return false;
-                }
-            }
-        } else if (source.getY() == destination.getY()) {
-            int col = source.getY();
-            for (int row = Math.min(source.getX(), destination.getX()) + 1;
-                 row < Math.max(source.getX(), destination.getX()); row++) {
-                if (!(chessComponents[row][col] instanceof EmptySlotComponent)) {
-                    return false;
-                }
-            }
-        } else { // Not on the same row or the same column.
-            return false;
+        if ((destination.getX() - source.getX() <= 1 && destination.getX() - source.getX() >= -1)
+                && destination.getY() - source.getY() <= 1 && destination.getY() - source.getY() >= -1) {
+            return true;
         }
-        return true;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (chessComponents[i][j].canMoveTo(chessComponents,destination,color)){
+                    return false;
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -107,11 +100,11 @@ public class KingChessComponent extends ChessComponent {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 //        g.drawImage(KingImage, 0, 0, getWidth() - 13, getHeight() - 20, this);
-        g.drawImage(KingImage, 0, 0, getWidth() , getHeight(), this);
+        g.drawImage(KingImage, 0, 0, getWidth(), getHeight(), this);
         g.setColor(Color.BLACK);
         if (isSelected()) { // Highlights the model if selected.
             g.setColor(Color.RED);
-            g.drawOval(0, 0, getWidth() , getHeight());
+            g.drawOval(0, 0, getWidth(), getHeight());
         }
     }
 }
