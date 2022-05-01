@@ -1,5 +1,6 @@
 package model;
 // 象
+
 import view.ChessboardPoint;
 import controller.ClickController;
 
@@ -61,7 +62,7 @@ public class BishopChessComponent extends ChessComponent {
     }
 
     public BishopChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size) {
-        super("Bishop",chessboardPoint, location, color, listener, size);
+        super("Bishop", chessboardPoint, location, color, listener, size);
         initiateBishopImage(color);
     }
 
@@ -75,24 +76,47 @@ public class BishopChessComponent extends ChessComponent {
 
     @Override
     public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination, ChessColor color) {
-        ChessboardPoint source = getChessboardPoint();
-        if (source.getX() == destination.getX()) {
-            int row = source.getX();
-            for (int col = Math.min(source.getY(), destination.getY()) + 1;
-                 col < Math.max(source.getY(), destination.getY()); col++) {
-                if (!(chessComponents[row][col] instanceof EmptySlotComponent)) {
-                    return false;
+        ChessboardPoint source = getChessboardPoint();//象原本位置
+        if (source.getX() + source.getY() == destination.getX() + destination.getY()) {
+            //走斜线45度斜角
+            if (source.getY() > destination.getY()) {
+                for (int i = 1; i < source.getY() - destination.getY(); i++) {//不能越子
+                    if (!(chessComponents[destination.getX() - i][destination.getY() + i] instanceof EmptySlotComponent)) {
+                        return false;
+                    }
+                }
+            } else if (source.getY() < destination.getY()) {
+                for (int i = 1; i < -source.getY() + destination.getY(); i++) {//不能越子
+                    if (!(chessComponents[source.getX() - i][source.getY() + i] instanceof EmptySlotComponent)) {
+                        return false;
+                    }
                 }
             }
-        } else if (source.getY() == destination.getY()) {
-            int col = source.getY();
-            for (int row = Math.min(source.getX(), destination.getX()) + 1;
-                 row < Math.max(source.getX(), destination.getX()); row++) {
-                if (!(chessComponents[row][col] instanceof EmptySlotComponent)) {
-                    return false;
+            else{
+                //source==destination
+                return false;
+            }
+        } else if (source.getX() - source.getY() == destination.getX() - destination.getY()) {
+            //走斜线135度斜角
+            if (source.getY() > destination.getY()) {
+                for (int i = 1; i < source.getY() - destination.getY(); i++) {//不能越子
+                    if (!(chessComponents[destination.getX() + i][destination.getY() + i] instanceof EmptySlotComponent)) {
+                        return false;
+                    }
+                }
+            } else if (source.getY() < destination.getY()) {
+                for (int i = 1; i < -source.getY() + destination.getY(); i++) {//不能越子
+                    if (!(chessComponents[source.getX() + i][source.getY() + i] instanceof EmptySlotComponent)) {
+                        return false;
+                    }
                 }
             }
-        } else { // Not on the same row or the same column.
+            else{
+                //source==destination
+                return false;
+            }
+
+        } else {
             return false;
         }
         return true;
@@ -107,11 +131,11 @@ public class BishopChessComponent extends ChessComponent {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 //        g.drawImage(BishopImage, 0, 0, getWidth() - 13, getHeight() - 20, this);
-        g.drawImage(BishopImage, 0, 0, getWidth() , getHeight(), this);
+        g.drawImage(BishopImage, 0, 0, getWidth(), getHeight(), this);
         g.setColor(Color.BLACK);
         if (isSelected()) { // Highlights the model if selected.
             g.setColor(Color.RED);
-            g.drawOval(0, 0, getWidth() , getHeight());
+            g.drawOval(0, 0, getWidth(), getHeight());
         }
     }
 }
