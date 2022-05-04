@@ -85,7 +85,6 @@ public class PawnChessComponent extends ChessComponent {
 
     @Override
     public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination, ChessColor color) {
-        //
         ChessboardPoint source = getChessboardPoint();
         if (source.getY() == destination.getY()) {//只能直走
             if (color.getName().equals("Black")) {//黑棋，上方
@@ -101,6 +100,7 @@ public class PawnChessComponent extends ChessComponent {
                                 if (!(chessComponents[source.getX() + 2][source.getY()] instanceof EmptySlotComponent)) {
                                     return false;
                                 } else {
+                                    setGuoLuChiBing(true);
                                     StepOne = false;
                                     return true;
                                 }
@@ -141,7 +141,11 @@ public class PawnChessComponent extends ChessComponent {
         } else if ((destination.getY() - source.getY() == 1 || destination.getY() - source.getY() == -1)) {//斜角
             if (color.getName().equals("Black")) {
                 if (destination.getX() - source.getX() == 1) {
-                    if ((!chessComponents[destination.getX()][destination.getY()].getName().equals("Empty")) && chessComponents[destination.getX()][destination.getY()].getChessColor() != color) {
+                    if ((chessComponents[destination.getX()][destination.getY()].getName().equals("White"))) {
+                        StepOne = false;
+                        return true;
+                    } else if (chessComponents[destination.getX() - 1][destination.getY()].getName().equals("White")
+                            && chessComponents[destination.getX() - 1][destination.getY()].isGuoLuChiBing()) {
                         StepOne = false;
                         return true;
                     } else {
@@ -153,6 +157,10 @@ public class PawnChessComponent extends ChessComponent {
             } else if (color.getName().equals("White")) {
                 if (destination.getX() - source.getX() == -1) {
                     if ((!chessComponents[destination.getX()][destination.getY()].getName().equals("Empty")) && chessComponents[destination.getX()][destination.getY()].getChessColor() != color) {
+                        StepOne = false;
+                        return true;
+                    } else if (chessComponents[destination.getX() + 1][destination.getY()].getName().equals("Black")
+                            && chessComponents[destination.getX() + 1][destination.getY()].isGuoLuChiBing()) {
                         StepOne = false;
                         return true;
                     } else {

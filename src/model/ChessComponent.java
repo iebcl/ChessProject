@@ -1,5 +1,6 @@
 package model;
 
+import view.ChessGameFrame;
 import view.ChessboardPoint;
 import controller.ClickController;
 
@@ -38,11 +39,10 @@ public abstract class ChessComponent extends JComponent {
     private ChessboardPoint chessboardPoint;
     protected final ChessColor chessColor;
     private boolean selected;
-
     private String name;
-
-
-    private boolean Moved;
+    private boolean Moved = false;
+    private boolean GuoLuChiBing = false;
+    private boolean WangCheYiWei = false;
 
     protected ChessComponent(String name, ChessboardPoint chessboardPoint, Point location, ChessColor chessColor, ClickController clickController, int size) {
         enableEvents(AWTEvent.MOUSE_EVENT_MASK);
@@ -80,12 +80,28 @@ public abstract class ChessComponent extends JComponent {
         this.selected = selected;
     }
 
+    public boolean isMoved() {
+        return Moved;
+    }
+
     public void setMoved(boolean moved) {
         Moved = moved;
     }
 
-    public boolean isMoved() {
-        return Moved;
+    public void setGuoLuChiBing(boolean guoLuChiBing) {
+        GuoLuChiBing = guoLuChiBing;
+    }
+
+    public boolean isGuoLuChiBing() {
+        return GuoLuChiBing;
+    }
+
+    public boolean isWangCheYiWei() {
+        return WangCheYiWei;
+    }
+
+    public void setWangCheYiWei(boolean wangCheYiWei) {
+        WangCheYiWei = wangCheYiWei;
     }
 
     /**
