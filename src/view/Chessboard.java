@@ -137,13 +137,10 @@ public class Chessboard extends JComponent {
             currentColor=ChessColor.WHITE;
         }
     }
-<<<<<<< HEAD
 
     public int getCHESS_SIZE() {
         return CHESS_SIZE;
     }
-=======
->>>>>>> d50c60d208f933d67ea806721131b29b70012c34
 
     public ChessColor getCurrentColor() {
         return currentColor;
