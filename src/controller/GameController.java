@@ -17,9 +17,9 @@ public class GameController {
         this.chessboard = chessboard;
     }
 
-    public List<String> loadGameFromFile(String path) {
+    public List<String> loadGameFromFile(String filename) {
         try {
-            FileReader fileReader = new FileReader(path);
+            FileReader fileReader = new FileReader(new String("resource\\" + filename + ".txt"));
             BufferedReader reader = new BufferedReader(fileReader);
             String line;
             List<String> readLines = new ArrayList<>();

@@ -5,6 +5,12 @@ import model.ChessColor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
@@ -18,6 +24,17 @@ public class ChessGameFrame extends JFrame {
     private final int HEIGTH;
     public final int CHESSBOARD_SIZE;
     private GameController gameController;
+    public Chessboard chessboard;
+
+    public Chessboard getChessboard() {
+        return chessboard;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    private String filename;
 
     public ChessGameFrame(int width, int height) {
         setTitle("2022 CS102A Project Demo"); //设置标题
@@ -35,7 +52,7 @@ public class ChessGameFrame extends JFrame {
         JButton start = new JButton("Start");
         JButton restart = new JButton("Restart");
         JLabel background = new JLabel(new ImageIcon("./images/backg.jpg"));
-        Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE, statusLabel, SelectColor);
+        this.chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE, statusLabel, SelectColor);
         //新建的
         addStart(chessboard, statusLabel, start);//开始按键
         addBackGround(background);//开始时的背景设置，可以换图片
@@ -85,6 +102,17 @@ public class ChessGameFrame extends JFrame {
             background.setVisible(false);
             addLabel(chessboard, statusLabel);
             start.setVisible(false);
+
+            Date date = new Date();
+            SimpleDateFormat simple = new SimpleDateFormat("yyyyMMddHHmmss");
+            this.filename = simple.format(date);
+            String dir = new String("resource\\" + this.filename + ".txt");
+            try {
+                File file = new File(dir);
+                file.createNewFile();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
     }
 
@@ -114,6 +142,18 @@ public class ChessGameFrame extends JFrame {
             chessboard.init(currentColor1.get());
             addLabel(chessboard, chessboard.sta);
             chessboard.setVisible(true);
+
+            Date date = new Date();
+            SimpleDateFormat simple = new SimpleDateFormat("yyyyMMddHHmmss");
+            System.out.println(simple.format(date));
+            this.filename = simple.format(date);
+            String dir = new String("resource\\" + filename + ".txt");
+            try {
+                File file = new File(dir);
+                file.createNewFile();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
     }
 
@@ -166,7 +206,7 @@ public class ChessGameFrame extends JFrame {
 
         button.addActionListener(e -> {
             System.out.println("Click load");
-            String path = JOptionPane.showInputDialog(this, "Input Path here");
+            String path = JOptionPane.showInputDialog(this, "Input filename here");
             gameController.loadGameFromFile(path);
         });
     }
