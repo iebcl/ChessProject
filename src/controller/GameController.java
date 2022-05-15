@@ -18,25 +18,29 @@ public class GameController {
     }
 
     public List<String> loadGameFromFile(String filename) {
-        try {
-            FileReader fileReader = new FileReader(new String("resource\\" + filename + ".txt"));
-            BufferedReader reader = new BufferedReader(fileReader);
-            String line;
-            List<String> readLines = new ArrayList<>();
-            while ((line = reader.readLine()) != null) {
-                readLines.add(line);
-            }
-            chessboard.loadGame(readLines);
-            reader.close();
-            fileReader.close();
-            return readLines;
+        if (!filename.substring(filename.length() - 4, filename.length() - 1).equals(".txt")) {
+            System.out.println("Wrong file format.");
+            return null;
+        } else {
+            try {
+                FileReader fileReader = new FileReader(new String("resource\\" + filename));
+                BufferedReader reader = new BufferedReader(fileReader);
+                String line;
+                List<String> readLines = new ArrayList<>();
+                while ((line = reader.readLine()) != null) {
+                    readLines.add(line);
+                }
+                chessboard.loadGame(readLines);
+                reader.close();
+                fileReader.close();
+                return readLines;
 
 //            List<String> chessData = Files.readAllLines(Path.of(path));
 //            return chessData;
-        } catch (IOException e) {
-            e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
         }
-        return null;
     }
-
 }
