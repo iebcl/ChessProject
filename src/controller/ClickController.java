@@ -1,78 +1,45 @@
 package controller;
 
 
-import model.ChessComponent;
-import model.EmptySlotComponent;
+import model.*;
+import view.ChessGameFrame;
 import view.Chessboard;
 import view.ChessboardPoint;
 
 import javax.swing.*;
 import java.awt.*;
 
-
 public class ClickController {
     private final Chessboard chessboard;
-    private ChessComponent first;
-    String text;
-    JLabel statusLabel;
+    public ChessComponent first;
 
     public ClickController(Chessboard chessboard) {
         this.chessboard = chessboard;
-//        statusLabel=new JLabel("Time for "+chessboard.getCurrentColor().getName());
     }
 
-
     public void onClick(ChessComponent chessComponent) {
-        if (first == null) {
+        //chesscomponent是第二次被点击的位置--棋子即将去到的地方
+        //first是我们选中的棋子
+        if (first == null) {//最开始就没选中棋子
             if (handleFirst(chessComponent)) {
                 chessComponent.setSelected(true);
                 first = chessComponent;
                 first.repaint();
             }
-        } else {
+        } else {//选中棋子
             if (first == chessComponent) { // 再次点击取消选取
                 chessComponent.setSelected(false);
                 ChessComponent recordFirst = first;
                 first = null;
                 recordFirst.repaint();
-            } else if (handleSecond(chessComponent)) {
-
+            } else if (handleSecond(chessComponent)) {//canmoveto chesscomponent
                 //repaint in swap chess method.
-
-//                if (first.getName().equals("Pawn")
-//                        && chessComponent.getLocation().getY() != first.getLocation().getY()
-//                        && chessComponent.getName().equals("Empty")) {
-//                    if (chessboard.getChessComponents()[first.getX()][chessComponent.getY()].getName().equals("Pawn")
-//                            && !chessboard.getChessComponents()[first.getX()][chessComponent.getY()].getChessColor().equals(chessComponent.getChessColor())
-//                    ) {
-//                        ChessComponent rm = new EmptySlotComponent(new ChessboardPoint(chessComponent.getX(), first.getY()), new Point(chessComponent.getX(), first.getY()), this, chessboard.getCHESS_SIZE());
-//                        chessboard.putChessOnBoard(rm);
-//                    }
-//                }
-//
-//                if (first.getName().equals("King") && first.isWangCheYiWei()) {
-//                    ChessboardPoint MiddlePoint = new ChessboardPoint(chessComponent.getX(), (chessComponent.getY()) + first.getY() / 2);
-//                    Point middlepoint = new Point(chessComponent.getX(), chessComponent.getY());
-//                    ChessComponent Middle = new EmptySlotComponent(MiddlePoint, middlepoint, this, chessboard.getCHESS_SIZE());
-//                    if (chessComponent.getY() < first.getY()) {
-//                        chessboard.swapChessComponents(chessboard.getChessComponents()[first.getX()][0], Middle);
-//                    } else {
-//                        chessboard.swapChessComponents(chessboard.getChessComponents()[first.getX()][7], Middle);
-//                    }
-//                }
-
                 chessboard.swapChessComponents(first, chessComponent);
-                chessboard.swapColor();
-                text = "Time for " + chessboard.getCurrentColor().getName();
-                statusLabel = new JLabel(text);
+                chessboard.swapColor();//下完这步，换下棋方
                 first.setSelected(false);
                 first = null;
             }
         }
-    }
-
-    public JLabel getStatusLabel() {
-        return statusLabel;
     }
 
     /**
@@ -90,12 +57,35 @@ public class ClickController {
      */
 
     private boolean handleSecond(ChessComponent chessComponent) {
-        if (chessComponent.getChessColor() != chessboard.getCurrentColor() &&
-                first.canMoveTo(chessboard.getChessComponents(), chessComponent.getChessboardPoint(), first.getChessColor())) {
-            chessComponent.setMoved(true);
-            return true;
+        if (chessComponent.getName().equals("Pawn")) {
+            boolean a = chessComponent.getChessColor() != chessboard.getCurrentColor() &&
+                    first.canMoveTo(chessboard.getChessComponents(), chessComponent.getChessboardPoint(), first.getChessColor(), chessboard.getTurnchessboard(), chessboard);
+            return a;
         } else {
-            return false;
+            boolean a = chessComponent.getChessColor() != chessboard.getCurrentColor() &&
+                    first.canMoveTo(chessboard.getChessComponents(), chessComponent.getChessboardPoint(), first.getChessColor(), chessboard.getTurnchessboard(), chessboard);
+            return a;
         }
     }
+    public  void  turntoOther(ChessboardPoint chesspoint,int size,int select){
+        ChessboardPoint source = chesspoint;
+        ChessboardPoint k = new ChessboardPoint(source.getX(), source.getY());
+        Point l = first.getLocation();
+        ClickController p =first.getClickController();
+        int s = size;//为新的空棋子的参数
+        chessboard.remove(first);
+        if (select == 0)//选后
+        {
+            first= new QueenChessComponent(k, l, first.getChessColor(), p, s);
+        } else if (select == 1)//Rook
+        {
+            first= new RookChessComponent(k, l, first.getChessColor(), p, s);
+        } else if (select == 2) {
+            first= new KnightChessComponent(k, l, first.getChessColor(), p, s);
+        } else if (select== 3) {
+           first= new BishopChessComponent(k, l, first.getChessColor(), p, s);
+        }
+        chessboard.add(first);
+    }
+
 }

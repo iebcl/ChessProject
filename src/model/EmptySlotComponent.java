@@ -1,5 +1,6 @@
 package model;
 
+import view.Chessboard;
 import view.ChessboardPoint;
 import controller.ClickController;
 
@@ -16,7 +17,7 @@ public class EmptySlotComponent extends ChessComponent {
     }
 
     @Override
-    public boolean canMoveTo(ChessComponent[][] chessboard, ChessboardPoint destination, ChessColor color) {
+    public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination, ChessColor color,Boolean Turnboard,  Chessboard chessboard) {
         return false;
     }
 

@@ -5,12 +5,6 @@ import model.ChessColor;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
@@ -24,17 +18,6 @@ public class ChessGameFrame extends JFrame {
     private final int HEIGTH;
     public final int CHESSBOARD_SIZE;
     private GameController gameController;
-    public Chessboard chessboard;
-
-    public Chessboard getChessboard() {
-        return chessboard;
-    }
-
-    public String getFilename() {
-        return filename;
-    }
-
-    private String filename;
 
     public ChessGameFrame(int width, int height) {
         setTitle("2022 CS102A Project Demo"); //设置标题
@@ -51,8 +34,9 @@ public class ChessGameFrame extends JFrame {
         AtomicInteger SelectColor = new AtomicInteger();
         JButton start = new JButton("Start");
         JButton restart = new JButton("Restart");
+        JButton store=new JButton("Store");
         JLabel background = new JLabel(new ImageIcon("./images/backg.jpg"));
-        this.chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE, statusLabel, SelectColor);
+        Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE, statusLabel, SelectColor);
         //新建的
         addStart(chessboard, statusLabel, start);//开始按键
         addBackGround(background);//开始时的背景设置，可以换图片
@@ -65,9 +49,20 @@ public class ChessGameFrame extends JFrame {
 //        addLabel(chessboard, statusLabel);
 //        addHelloButton();
         addLoadButton();
+        addStore(chessboard,store);
 
     }
+    private void addStore(Chessboard chessboard,JButton store){
+        store.setLocation(HEIGTH, HEIGTH / 10*7);
+        store.setSize(200, 60);
+        store.setFont(new Font("Store", Font.BOLD, 20));
+        add(store);
+    }
+    private  void PressStore(Chessboard chessboard,JButton store){
+        store.addActionListener(e -> {
 
+        });
+    }
     // 添加开始按键
     private void addStart(Chessboard chessboard, JLabel statusLabel, JButton start) {
 
@@ -95,24 +90,11 @@ public class ChessGameFrame extends JFrame {
         start.addActionListener(e -> {
             //Black :selectColor==0.White:SelectColor==1
             SelectColor.set(JOptionPane.showOptionDialog(null, "Select your color!", "Select", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, color, color[0]));
-//            System.out.println(SelectColor.get());
             chessboard.setCurrentColor(SelectColor.get());
             chessboard.init(chessboard.getCurrentColor());
-
             background.setVisible(false);
             addLabel(chessboard, statusLabel);
             start.setVisible(false);
-
-            Date date = new Date();
-            SimpleDateFormat simple = new SimpleDateFormat("yyyyMMddHHmmss");
-            this.filename = simple.format(date);
-            String dir = new String("resource\\" + this.filename + ".txt");
-            try {
-                File file = new File(dir);
-                file.createNewFile();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
         });
     }
 
@@ -142,18 +124,6 @@ public class ChessGameFrame extends JFrame {
             chessboard.init(currentColor1.get());
             addLabel(chessboard, chessboard.sta);
             chessboard.setVisible(true);
-
-            Date date = new Date();
-            SimpleDateFormat simple = new SimpleDateFormat("yyyyMMddHHmmss");
-            System.out.println(simple.format(date));
-            this.filename = simple.format(date);
-            String dir = new String("resource\\" + filename + ".txt");
-            try {
-                File file = new File(dir);
-                file.createNewFile();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
         });
     }
 
@@ -206,7 +176,7 @@ public class ChessGameFrame extends JFrame {
 
         button.addActionListener(e -> {
             System.out.println("Click load");
-            String path = JOptionPane.showInputDialog(this, "Input filename here");
+            String path = JOptionPane.showInputDialog(this, "Input Path here");
             gameController.loadGameFromFile(path);
         });
     }

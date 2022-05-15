@@ -1,6 +1,7 @@
 package model;
 // 象
 
+import view.Chessboard;
 import view.ChessboardPoint;
 import controller.ClickController;
 
@@ -9,6 +10,9 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
+
+
+/////
 /**
  * 这个类表示国际象棋里面的象
  */
@@ -75,50 +79,54 @@ public class BishopChessComponent extends ChessComponent {
      */
 
     @Override
-    public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination, ChessColor color) {
+    public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination, ChessColor color, Boolean Turnboard , Chessboard chessboard) {
         ChessboardPoint source = getChessboardPoint();//象原本位置
-        if (source.getX() + source.getY() == destination.getX() + destination.getY()) {
-            //走斜线45度斜角
-            if (source.getY() > destination.getY()) {
-                for (int i = 1; i < source.getY() - destination.getY(); i++) {//不能越子
-                    if (!(chessComponents[destination.getX() - i][destination.getY() + i] instanceof EmptySlotComponent)) {
-                        return false;
+        //翻转对象没有影响
+            if (source.getX() + source.getY() == destination.getX() + destination.getY()) {
+                //走斜线45度斜角
+                if (source.getY() > destination.getY()) {
+                    for (int i = 1; i < source.getY() - destination.getY(); i++) {//不能越子
+                        if (!(chessComponents[destination.getX() - i][destination.getY() + i] instanceof EmptySlotComponent)) {
+                            return false;
+                        }
                     }
-                }
-            } else if (source.getY() < destination.getY()) {
-                for (int i = 1; i < -source.getY() + destination.getY(); i++) {//不能越子
-                    if (!(chessComponents[source.getX() - i][source.getY() + i] instanceof EmptySlotComponent)) {
-                        return false;
+                } else if (source.getY() < destination.getY()) {
+                    for (int i = 1; i < -source.getY() + destination.getY(); i++) {//不能越子
+                        if (!(chessComponents[source.getX() - i][source.getY() + i] instanceof EmptySlotComponent)) {
+                            return false;
+                        }
                     }
+                } else {
+                    //source==destination
+                    return false;
                 }
-            }
-            else{
-                //source==destination
-                return false;
-            }
-        } else if (source.getX() - source.getY() == destination.getX() - destination.getY()) {
-            //走斜线135度斜角
-            if (source.getY() > destination.getY()) {
-                for (int i = 1; i < source.getY() - destination.getY(); i++) {//不能越子
-                    if (!(chessComponents[destination.getX() + i][destination.getY() + i] instanceof EmptySlotComponent)) {
-                        return false;
+            } else if (source.getX() - source.getY() == destination.getX() - destination.getY()) {
+                //走斜线135度斜角
+                if (source.getY() > destination.getY()) {
+                    for (int i = 1; i < source.getY() - destination.getY(); i++) {//不能越子
+                        if (!(chessComponents[destination.getX() + i][destination.getY() + i] instanceof EmptySlotComponent)) {
+                            return false;
+                        }
                     }
-                }
-            } else if (source.getY() < destination.getY()) {
-                for (int i = 1; i < -source.getY() + destination.getY(); i++) {//不能越子
-                    if (!(chessComponents[source.getX() + i][source.getY() + i] instanceof EmptySlotComponent)) {
-                        return false;
+                } else if (source.getY() < destination.getY()) {
+                    for (int i = 1; i < -source.getY() + destination.getY(); i++) {//不能越子
+                        if (!(chessComponents[source.getX() + i][source.getY() + i] instanceof EmptySlotComponent)) {
+                            return false;
+                        }
                     }
+                } else {
+                    //source==destination
+                    return false;
                 }
-            }
-            else{
-                //source==destination
-                return false;
-            }
 
-        } else {
-            return false;
-        }
+            } else {
+                return false;
+            }
+            if (color.equals(ChessColor.BLACK)) {
+                color.setLastone(Color.BLACK, false, 11, 11);//设置为11，即不在棋盘上，不影响吃过路兵功能
+            } else if (color.equals(ChessColor.WHITE)) {
+                color.setLastone(Color.WHITE, false, 11, 11);//设置为11，即不在棋盘上，不影响吃过路兵功能
+            }
         return true;
     }
 

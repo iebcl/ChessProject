@@ -1,6 +1,6 @@
 package model;
 
-import view.ChessGameFrame;
+import view.Chessboard;
 import view.ChessboardPoint;
 import controller.ClickController;
 
@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.EventListener;
 
 /**
  * 这个类是一个抽象类，主要表示8*8棋盘上每个格子的棋子情况，当前有两个子类继承它，分别是EmptySlotComponent(空棋子)和RookChessComponent(车)。
@@ -23,12 +24,11 @@ public abstract class ChessComponent extends JComponent {
      */
 
 //    private static final Dimension CHESSGRID_SIZE = new Dimension(1080 / 4 * 3 / 8, 1080 / 4 * 3 / 8);
-    private static final Color[] BACKGROUND_COLORS = {Color.WHITE, Color.BLACK};
+    private static final Color[] BACKGROUND_COLORS = {Color.WHITE, Color.LIGHT_GRAY};
     /**
      * handle click event
      */
     private ClickController clickController;
-
     /**
      * chessboardPoint: 表示8*8棋盘中，当前棋子在棋格对应的位置，如(0, 0), (1, 0), (0, 7),(7, 7)等等
      * <br>
@@ -39,10 +39,10 @@ public abstract class ChessComponent extends JComponent {
     private ChessboardPoint chessboardPoint;
     protected final ChessColor chessColor;
     private boolean selected;
+
     private String name;
-    private boolean Moved = false;
-    private boolean GuoLuChiBing = false;
-    private boolean WangCheYiWei = false;
+    private  boolean firstAndTwo=false;//这个为第一次行棋且直进两格
+    public boolean flag1=false;
 
     protected ChessComponent(String name, ChessboardPoint chessboardPoint, Point location, ChessColor chessColor, ClickController clickController, int size) {
         enableEvents(AWTEvent.MOUSE_EVENT_MASK);
@@ -53,6 +53,23 @@ public abstract class ChessComponent extends JComponent {
         this.chessColor = chessColor;
         this.selected = false;
         this.clickController = clickController;
+    }
+
+    @Override
+    public Point getLocation(Point rv) {
+        return super.getLocation(rv);
+    }
+
+    public ClickController getClickController() {
+        return clickController;
+    }
+
+    public void setFirstAndTwo(boolean firstAndTwo) {
+        this.firstAndTwo = firstAndTwo;
+    }
+
+    public boolean isFirstAndTwo() {
+        return firstAndTwo;
     }
 
     public ChessboardPoint getChessboardPoint() {
@@ -80,30 +97,6 @@ public abstract class ChessComponent extends JComponent {
         this.selected = selected;
     }
 
-    public boolean isMoved() {
-        return Moved;
-    }
-
-    public void setMoved(boolean moved) {
-        Moved = moved;
-    }
-
-    public void setGuoLuChiBing(boolean guoLuChiBing) {
-        GuoLuChiBing = guoLuChiBing;
-    }
-
-    public boolean isGuoLuChiBing() {
-        return GuoLuChiBing;
-    }
-
-    public boolean isWangCheYiWei() {
-        return WangCheYiWei;
-    }
-
-    public void setWangCheYiWei(boolean wangCheYiWei) {
-        WangCheYiWei = wangCheYiWei;
-    }
-
     /**
      * @param another 主要用于和另外一个棋子交换位置
      *                <br>
@@ -128,7 +121,6 @@ public abstract class ChessComponent extends JComponent {
         super.processMouseEvent(e);
 
         if (e.getID() == MouseEvent.MOUSE_PRESSED) {
-            System.out.printf("Click [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
             clickController.onClick(this);
         }
     }
@@ -140,7 +132,7 @@ public abstract class ChessComponent extends JComponent {
      * <br>
      * 这个方法主要是检查移动的合法性，如果合法就返回true，反之是false
      */
-    public abstract boolean canMoveTo(ChessComponent[][] chessboard, ChessboardPoint destination, ChessColor color);
+    public abstract boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination, ChessColor color, Boolean Turnboard , Chessboard chessboard);
 
     /**
      * 这个方法主要用于加载一些特定资源，如棋子图片等等。
@@ -152,10 +144,10 @@ public abstract class ChessComponent extends JComponent {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponents(g);
-        System.out.printf("repaint chess [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
-//        ChessGameFrame.getFilename()
+//        System.out.printf("repaint chess [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
         Color squareColor = BACKGROUND_COLORS[(chessboardPoint.getX() + chessboardPoint.getY()) % 2];
         g.setColor(squareColor);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
     }
+
 }

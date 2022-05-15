@@ -1,6 +1,7 @@
 package model;
 // 王
 
+import view.Chessboard;
 import view.ChessboardPoint;
 import controller.ClickController;
 
@@ -25,7 +26,6 @@ public class KingChessComponent extends ChessComponent {
      * 王棋子对象自身的图片，是上面两种中的一种
      */
     private Image KingImage;
-    private boolean Moved;
 
     /**
      * 读取加载王棋子的图片
@@ -76,54 +76,28 @@ public class KingChessComponent extends ChessComponent {
      */
 
     @Override
-    public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination, ChessColor color) {
+    public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination, ChessColor color,Boolean Turnboard,  Chessboard chessboard) {
         ChessboardPoint source = getChessboardPoint();
+        //翻转对象没有影响
+
         if ((destination.getX() - source.getX() <= 1 && destination.getX() - source.getX() >= -1)
                 && destination.getY() - source.getY() <= 1 && destination.getY() - source.getY() >= -1) {
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
-                    if (!chessComponents[i][j].getChessColor().equals(color) && chessComponents[i][j].canMoveTo(chessComponents, destination, color)) {
+                    if (!chessComponents[i][j].getChessColor().equals(color) && chessComponents[i][j].
+                            canMoveTo(chessComponents, destination, color,Turnboard, chessboard)) {
                         return false;
                     }
                 }
             }
-            Moved = true;
-            return true;
-        } else if (!Moved && destination.getX() == source.getX()
-                && (destination.getY() - source.getY() == 2 || destination.getY() - source.getY() == -2)) {
-            ChessboardPoint middle = new ChessboardPoint(destination.getX(), (destination.getY()) + source.getY() / 2);
-            for (int i = 0; i < 8; i++) {
-                for (int j = 0; j < 8; j++) {
-                    if (!chessComponents[i][j].getChessColor().equals(color)
-                            && (chessComponents[i][j].canMoveTo(chessComponents, destination, color)
-                            || chessComponents[i][j].canMoveTo(chessComponents, middle, color))) {
-                        return false;
-                    }
-                }
+            if(color.equals(ChessColor.BLACK)) {
+                color.setLastone(Color.BLACK, false,11,11);//设置为11，即不在棋盘上，不影响吃过路兵功能
+            }else if(color.equals(ChessColor.WHITE)){
+                color.setLastone(Color.WHITE, false,11,11);//设置为11，即不在棋盘上，不影响吃过路兵功能
             }
-            if (destination.getY() < source.getY()) {
-                if (!chessComponents[source.getX()][source.getY()].isMoved()
-                        && !chessComponents[source.getX()][0].isMoved()) {
-                    for (int i = 1; i < 4; i++) {
-                        if (!chessComponents[source.getX()][i].getName().equals("Empty")) {
-                            return false;
-                        }
-                    }
-                }
-            } else {
-                if (!chessComponents[source.getX()][source.getY()].isMoved()
-                        && !chessComponents[source.getX()][7].isMoved()) {
-                    for (int i = 6; i > 4; i--) {
-                        if (!chessComponents[source.getX()][i].getName().equals("Empty")) {
-                            return false;
-                        }
-                    }
-                }
-            }
-            setWangCheYiWei(true);
-            Moved = true;
             return true;
         }
+
         return false;
     }
 

@@ -1,6 +1,7 @@
 package model;
 // 马
 
+import view.Chessboard;
 import view.ChessboardPoint;
 import controller.ClickController;
 
@@ -75,8 +76,10 @@ public class KnightChessComponent extends ChessComponent {
      */
 
     @Override
-    public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination, ChessColor color) {
+    public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination, ChessColor color,Boolean Turnboard , Chessboard chessboard) {
         ChessboardPoint source = getChessboardPoint();
+        //翻转对象没有影响
+
         //假设子在（0，0）时，有八个角度：
         // (2,1)、（2、-1）、（-2，-1）、（-2，-1）
         //（1，2）、（1，-2）、（-1，2）、（-1，-2）
@@ -96,7 +99,14 @@ public class KnightChessComponent extends ChessComponent {
             } else {
                 return false;
             }
-        }return true;
+        }
+
+        if(color.equals(ChessColor.BLACK)) {
+            color.setLastone(Color.BLACK, false,11,11);//设置为11，即不在棋盘上，不影响吃过路兵功能
+        }else if(color.equals(ChessColor.WHITE)){
+            color.setLastone(Color.WHITE, false,11,11);//设置为11，即不在棋盘上，不影响吃过路兵功能
+        }
+        return true;
 
     }
 

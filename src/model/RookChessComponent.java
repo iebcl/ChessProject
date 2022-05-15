@@ -1,5 +1,6 @@
 package model;
 // 车
+import view.Chessboard;
 import view.ChessboardPoint;
 import controller.ClickController;
 
@@ -74,8 +75,9 @@ public class RookChessComponent extends ChessComponent {
      */
 
     @Override
-    public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination, ChessColor color) {
+    public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination, ChessColor color,Boolean Turnboard , Chessboard chessboard) {
         ChessboardPoint source = getChessboardPoint();
+        //翻转对象没有影响
         if (source.getX() == destination.getX()) {
             int row = source.getX();
             for (int col = Math.min(source.getY(), destination.getY()) + 1;
@@ -95,6 +97,11 @@ public class RookChessComponent extends ChessComponent {
             }
         } else { // Not on the same row or the same column.
             return false;
+        }
+        if(color.equals(ChessColor.BLACK)) {
+            color.setLastone(Color.BLACK, false,11,11);//设置为11，即不在棋盘上，不影响吃过路兵功能
+        }else if(color.equals(ChessColor.WHITE)){
+            color.setLastone(Color.WHITE, false,11,11);//设置为11，即不在棋盘上，不影响吃过路兵功能
         }
         return true;
     }

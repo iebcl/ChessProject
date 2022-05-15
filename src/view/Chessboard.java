@@ -138,10 +138,6 @@ public class Chessboard extends JComponent {
         }
     }
 
-    public int getCHESS_SIZE() {
-        return CHESS_SIZE;
-    }
-
     public ChessColor getCurrentColor() {
         return currentColor;
     }
