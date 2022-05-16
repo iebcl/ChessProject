@@ -1,6 +1,7 @@
 package view;
 
 
+import jdk.nashorn.internal.scripts.JO;
 import model.*;
 import controller.ClickController;
 
@@ -27,7 +28,7 @@ public class Chessboard extends JComponent {
     private static final int CHESSBOARD_SIZE = 8;
 
     private final ChessComponent[][] chessComponents = new ChessComponent[CHESSBOARD_SIZE][CHESSBOARD_SIZE];
-    private ChessColor currentColor ;
+    private ChessColor currentColor;
     //all chessComponents in this chessboard are shared only one model controller
     private final ClickController clickController = new ClickController(this);
     private final int CHESS_SIZE;
@@ -35,25 +36,26 @@ public class Chessboard extends JComponent {
     JLabel sta;
 
 
-    public Chessboard(int width, int height, JLabel statusLabel, AtomicInteger SelectColor ) {
+    public Chessboard(int width, int height, JLabel statusLabel, AtomicInteger SelectColor) {
         setLayout(null); // Use absolute layout.
         setSize(width, height);
         CHESS_SIZE = width / 8;
-        if(SelectColor.get()==0){
-            currentColor=ChessColor.BLACK;
-        }else{
-            currentColor=ChessColor.WHITE;
+        if (SelectColor.get() == 0) {
+            currentColor = ChessColor.BLACK;
+        } else {
+            currentColor = ChessColor.WHITE;
         }
 //        System.out.printf("chessboard size = %d, chess size = %d\n", width, CHESS_SIZE);
         init(currentColor);
-        sta=statusLabel;
+        sta = statusLabel;
     }
-    public void init(ChessColor currentColor1){
+
+    public void init(ChessColor currentColor1) {
 
         initiateEmptyChessboard();
-        currentColor= ChessColor.WHITE;
-        if(currentColor1==ChessColor.WHITE) {
-            turnchessboard=true;
+        currentColor = ChessColor.WHITE;
+        if (currentColor1 == ChessColor.WHITE) {
+            turnchessboard = true;
             initRookOnBoard(0, 0, ChessColor.BLACK);
             initRookOnBoard(0, CHESSBOARD_SIZE - 1, ChessColor.BLACK);
             initRookOnBoard(CHESSBOARD_SIZE - 1, 0, ChessColor.WHITE);
@@ -86,8 +88,8 @@ public class Chessboard extends JComponent {
             initPawnOnBoard(CHESSBOARD_SIZE - 2, 5, ChessColor.WHITE);
             initPawnOnBoard(CHESSBOARD_SIZE - 2, 6, ChessColor.WHITE);
             initPawnOnBoard(CHESSBOARD_SIZE - 2, 7, ChessColor.WHITE);
-        }else {
-            turnchessboard=false;
+        } else {
+            turnchessboard = false;
             initRookOnBoard(0, 0, ChessColor.WHITE);
             initRookOnBoard(0, CHESSBOARD_SIZE - 1, ChessColor.WHITE);
             initRookOnBoard(CHESSBOARD_SIZE - 1, 0, ChessColor.BLACK);
@@ -126,15 +128,16 @@ public class Chessboard extends JComponent {
     public ChessComponent[][] getChessComponents() {
         return chessComponents;
     }
+
     public Boolean getTurnchessboard() {
         return turnchessboard;
     }
 
     public void setCurrentColor(int num) {
-        if(num==0){
-            currentColor=ChessColor.BLACK;
-        }else{
-            currentColor=ChessColor.WHITE;
+        if (num == 0) {
+            currentColor = ChessColor.WHITE;
+        } else {
+            currentColor = ChessColor.BLACK;
         }
     }
 
@@ -175,9 +178,10 @@ public class Chessboard extends JComponent {
             }
         }
     }
+
     public void swapColor() {
         currentColor = currentColor == ChessColor.BLACK ? ChessColor.WHITE : ChessColor.BLACK;
-        sta.setText("Time for "+currentColor.getName());
+        sta.setText("Time for " + currentColor.getName());
     }
 
     private void initRookOnBoard(int row, int col, ChessColor color) {
@@ -186,31 +190,31 @@ public class Chessboard extends JComponent {
         putChessOnBoard(chessComponent);
     }
 
-    private void initPawnOnBoard(int row, int col, ChessColor color){
+    private void initPawnOnBoard(int row, int col, ChessColor color) {
         ChessComponent chessComponent = new PawnChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE);
         chessComponent.setVisible(true);
         putChessOnBoard(chessComponent);
     }
 
-    private void initKnightOnBoard(int row, int col, ChessColor color){
+    private void initKnightOnBoard(int row, int col, ChessColor color) {
         ChessComponent chessComponent = new KnightChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE);
         chessComponent.setVisible(true);
         putChessOnBoard(chessComponent);
     }
 
-    private void initKingOnBoard(int row, int col, ChessColor color){
+    private void initKingOnBoard(int row, int col, ChessColor color) {
         ChessComponent chessComponent = new KingChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE);
         chessComponent.setVisible(true);
         putChessOnBoard(chessComponent);
     }
 
-    private void initQueenOnBoard(int row, int col, ChessColor color){
+    private void initQueenOnBoard(int row, int col, ChessColor color) {
         ChessComponent chessComponent = new QueenChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE);
         chessComponent.setVisible(true);
         putChessOnBoard(chessComponent);
     }
 
-    private void initBishopOnBoard(int row, int col, ChessColor color){
+    private void initBishopOnBoard(int row, int col, ChessColor color) {
         ChessComponent chessComponent = new BishopChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE);
         chessComponent.setVisible(true);
         putChessOnBoard(chessComponent);
@@ -228,6 +232,65 @@ public class Chessboard extends JComponent {
     }
 
     public void loadGame(List<String> chessData) {
-        chessData.forEach(System.out::println);
+//        chessData.forEach(System.out::println);
+        if (chessData.get(0).equals("WHITE")) {
+            this.currentColor = ChessColor.WHITE;
+        } else if (chessData.get(0).equals("BLACK")) {
+            this.currentColor = ChessColor.BLACK;
+        } else {
+            JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "No current player message!", "Warning", 0);
+            return;
+        }
+        if (chessData.size() != 65) {
+            JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chessboard!", "Warning", 0);
+            return;
+        }
+        this.setVisible(false);
+        this.init(this.currentColor);
+        for (int i = 1; i < 65; i++) {
+            int x = (i - 1) / 8;
+            int y = i - 8 * x - 1;
+            this.remove(chessComponents[x][y]);
+            char c = chessData.get(i).charAt(0);
+            ChessColor tempColori;
+            if (c == 'N') {
+                chessComponents[x][y] = new EmptySlotComponent(new ChessboardPoint(x, y), calculatePoint(x, y), clickController, CHESS_SIZE);
+                this.add(chessComponents[x][y]);
+                continue;
+            } else if (c == 'W') {
+                tempColori = ChessColor.WHITE;
+            } else if (c == 'B') {
+                tempColori = ChessColor.BLACK;
+            } else {
+                JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chess!", "Warning", 0);
+                return;
+            }
+            switch (chessData.get(i).substring(5,7)) {
+                case "Bi":
+                    chessComponents[x][y] = new BishopChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE);
+                    break;
+                case "Ki":
+                    chessComponents[x][y] = new KingChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE);
+                    break;
+                case "Kn":
+                    chessComponents[x][y] = new KnightChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE);
+                    break;
+                case "Pa":
+                    chessComponents[x][y] = new PawnChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE);
+                    break;
+                case "Qu":
+                    chessComponents[x][y] = new QueenChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE);
+                    break;
+                case "Ro":
+                    chessComponents[x][y] = new RookChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE);
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chess!", "Warning", 0);
+                    return;
+            }
+            this.add(chessComponents[x][y]);
+        }
+        sta.setText("Time for " + currentColor.getName());
+        this.setVisible(true);
     }
 }
