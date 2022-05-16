@@ -160,7 +160,8 @@ public class PawnChessComponent extends ChessComponent {
                                         color.setLastone(Color.WHITE, true, destination.getX(), destination.getY());
                                     } else if (color.equals(ChessColor.WHITE)) {
                                         color.setLastone(Color.BLACK, true, destination.getX(), destination.getY());
-                                    }                            ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
+                                    }
+                                    ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
                                     return true;
                                 }
                             } else {
@@ -183,7 +184,8 @@ public class PawnChessComponent extends ChessComponent {
                                 color.setLastone(Color.WHITE, false, destination.getX(), destination.getY());
                             } else if (color.equals(ChessColor.WHITE)) {
                                 color.setLastone(Color.BLACK, false, destination.getX(), destination.getY());
-                            }                            ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
+                            }
+                            ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
 
                             return true;
                         } else if (chessComponents[destination.getX()][destination.getY()].getName().equals("Empty") &&
@@ -197,7 +199,8 @@ public class PawnChessComponent extends ChessComponent {
                             chessboard.remove(chessComponents[destination.getX() - 1][destination.getY()]);
                             chessComponents[destination.getX() - 1][destination.getY()] = new EmptySlotComponent(k, l, p, s);//新建空棋子
                             chessboard.add(chessComponents[destination.getX() - 1][destination.getY()]);
-                            super.flag1 = true;                            ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
+                            super.flag1 = true;
+                            ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
 
                             return true;
                         } else {
@@ -214,7 +217,8 @@ public class PawnChessComponent extends ChessComponent {
                                 color.setLastone(Color.WHITE, false, destination.getX(), destination.getY());
                             } else if (color.equals(ChessColor.WHITE)) {
                                 color.setLastone(Color.BLACK, false, destination.getX(), destination.getY());
-                            }                            ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
+                            }
+                            ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
 
                             return true;
                         } else if (chessComponents[destination.getX()][destination.getY()].getName().equals("Empty") &&
@@ -229,7 +233,8 @@ public class PawnChessComponent extends ChessComponent {
                             chessboard.remove(chessComponents[pointx][destination.getY()]);
                             chessComponents[pointx][destination.getY()] = new EmptySlotComponent(k, l, p, s);//新建空棋子
                             chessboard.add(chessComponents[pointx][destination.getY()]);
-                            super.flag1 = true;                            ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
+                            super.flag1 = true;
+                            ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
 
                             return true;
                         } else {
@@ -262,7 +267,8 @@ public class PawnChessComponent extends ChessComponent {
                                 color.setLastone(Color.BLACK, false, destination.getX(), destination.getY());
                             } else if (color.equals(ChessColor.WHITE)) {
                                 color.setLastone(Color.WHITE, false, destination.getX(), destination.getY());
-                            }                            ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
+                            }
+                            ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
 
                             return true;
                         } else {
@@ -277,7 +283,8 @@ public class PawnChessComponent extends ChessComponent {
                                             color.setLastone(Color.WHITE, true, destination.getX(), destination.getY());
                                         } else if (color.equals(ChessColor.WHITE)) {
                                             color.setLastone(Color.BLACK, true, destination.getX(), destination.getY());
-                                        }                            ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
+                                        }
+                                        ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
 
                                         return true;
                                     }
@@ -301,7 +308,8 @@ public class PawnChessComponent extends ChessComponent {
                                 color.setLastone(Color.WHITE, false, destination.getX(), destination.getY());
                             } else if (color.equals(ChessColor.WHITE)) {
                                 color.setLastone(Color.BLACK, false, destination.getX(), destination.getY());
-                            }                            ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
+                            }
+                            ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
 
                             return true;
                         }
@@ -316,7 +324,8 @@ public class PawnChessComponent extends ChessComponent {
                                         color.setLastone(Color.WHITE, true, destination.getX(), destination.getY());
                                     } else if (color.equals(ChessColor.WHITE)) {
                                         color.setLastone(Color.BLACK, true, destination.getX(), destination.getY());
-                                    }                            ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
+                                    }
+                                    ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
 
                                     return true;
                                 }
@@ -341,7 +350,8 @@ public class PawnChessComponent extends ChessComponent {
                                 color.setLastone(Color.WHITE, false, destination.getX(), destination.getY());
                             } else if (color.equals(ChessColor.WHITE)) {
                                 color.setLastone(Color.BLACK, false, destination.getX(), destination.getY());
-                            }                            ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
+                            }
+                            ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
 
                             return true;
                         } else if (chessComponents[destination.getX()][destination.getY()].getName().equals("Empty") &&
@@ -356,7 +366,8 @@ public class PawnChessComponent extends ChessComponent {
                             chessboard.remove(chessComponents[pointx][destination.getY()]);
                             chessComponents[pointx][destination.getY()] = new EmptySlotComponent(k, l, p, s);//新建空棋子
                             chessboard.add(chessComponents[pointx][destination.getY()]);
-                            super.flag1 = true;                            ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
+                            super.flag1 = true;
+                            ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
 
                             return true;
                         } else {
@@ -375,7 +386,8 @@ public class PawnChessComponent extends ChessComponent {
                                 color.setLastone(Color.WHITE, true, destination.getX(), destination.getY());
                             } else if (color.equals(ChessColor.WHITE)) {
                                 color.setLastone(Color.BLACK, true, destination.getX(), destination.getY());
-                            }                            ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
+                            }
+                            ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
 
                             return true;
                         } else if (chessComponents[destination.getX()][destination.getY()].getName().equals("Empty") &&
@@ -390,7 +402,8 @@ public class PawnChessComponent extends ChessComponent {
                             chessboard.remove(chessComponents[pointx][destination.getY()]);
                             chessComponents[pointx][destination.getY()] = new EmptySlotComponent(k, l, p, s);//新建空棋子
                             chessboard.add(chessComponents[pointx][destination.getY()]);
-                            super.flag1 = true;                            ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
+                            super.flag1 = true;
+                            ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
 
                             return true;
                         } else {
@@ -460,18 +473,18 @@ public class PawnChessComponent extends ChessComponent {
                 if (destination.getX() == 0) {
                     receiveSideLine(chessComponents, color, chessboard);
                 }
-            }else {//black
+            } else {//black
                 if (destination.getX() == 7) {
                     receiveSideLine(chessComponents, color, chessboard);
                 }
             }
 
-        }else {
+        } else {
             if (color.getName().equals("White")) {
                 if (destination.getX() == 7) {
                     receiveSideLine(chessComponents, color, chessboard);
                 }
-            }else {//black
+            } else {//black
                 if (destination.getX() == 0) {
                     receiveSideLine(chessComponents, color, chessboard);
                 }
