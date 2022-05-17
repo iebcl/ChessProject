@@ -249,7 +249,6 @@ public class Chessboard extends JComponent {
                 JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chessboard!", "Warning", 0);
                 return;
             }
-            this.setVisible(false);
             this.init(this.currentColor);
             for (int i = 1; i < 65; i++) {
                 int x = (i - 1) / 8;
@@ -258,39 +257,59 @@ public class Chessboard extends JComponent {
                 char c = chessData.get(i).charAt(0);
                 ChessColor tempColori;
                 if (c == 'N') {
-                    chessComponents[x][y] = new EmptySlotComponent(new ChessboardPoint(x, y), calculatePoint(x, y), clickController, CHESS_SIZE);
-                    this.add(chessComponents[x][y]);
-                    continue;
+                    if (chessData.get(i).length() >= 4) {
+                        if (chessData.get(i).substring(0, 5).equals("NONE")) {
+                            chessComponents[x][y] = new EmptySlotComponent(new ChessboardPoint(x, y), calculatePoint(x, y), clickController, CHESS_SIZE);
+                            this.add(chessComponents[x][y]);
+                            continue;
+                        }
+                    }
+                    JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chess!", "Warning", 0);
+                    return;
                 } else if (c == 'W') {
-                    tempColori = ChessColor.WHITE;
+                    if (chessData.get(i).length() >= 5) {
+                        if (chessData.get(i).substring(0, 6).equals("WHITE")) {
+                            tempColori = ChessColor.WHITE;
+                        } else {
+                            JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chess!", "Warning", 0);
+                            return;
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chess!", "Warning", 0);
+                        return;
+                    }
                 } else if (c == 'B') {
-                    tempColori = ChessColor.BLACK;
+                    if (chessData.get(i).length() >= 5) {
+                        if (chessData.get(i).substring(0, 6).equals("BLACK")) {
+                            tempColori = ChessColor.BLACK;
+                        } else {
+                            JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chess!", "Warning", 0);
+                            return;
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chess!", "Warning", 0);
+                        return;
+                    }
                 } else {
                     JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chess!", "Warning", 0);
                     return;
                 }
-                switch (chessData.get(i).substring(5, 7)) {
-                    case "Bi":
-                        chessComponents[x][y] = new BishopChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE);
-                        break;
-                    case "Ki":
-                        chessComponents[x][y] = new KingChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE);
-                        break;
-                    case "Kn":
-                        chessComponents[x][y] = new KnightChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE);
-                        break;
-                    case "Pa":
-                        chessComponents[x][y] = new PawnChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE);
-                        break;
-                    case "Qu":
-                        chessComponents[x][y] = new QueenChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE);
-                        break;
-                    case "Ro":
-                        chessComponents[x][y] = new RookChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE);
-                        break;
-                    default:
-                        JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chess!", "Warning", 0);
-                        return;
+
+                if (chessData.get(i).length() == 11 && chessData.get(i).substring(5, 11).equals("Bishop")) {
+                    chessComponents[x][y] = new BishopChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE);
+                } else if (chessData.get(i).length() == 9 && chessData.get(i).substring(5, 9).equals("King")) {
+                    chessComponents[x][y] = new KingChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE);
+                } else if (chessData.get(i).length() == 11 && chessData.get(i).substring(5, 11).equals("Knight")) {
+                    chessComponents[x][y] = new KnightChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE);
+                } else if (chessData.get(i).length() == 9 && chessData.get(i).substring(5, 9).equals("Pawn")) {
+                    chessComponents[x][y] = new PawnChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE);
+                } else if (chessData.get(i).length() == 10 && chessData.get(i).substring(5, 10).equals("Queen")) {
+                    chessComponents[x][y] = new QueenChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE);
+                } else if (chessData.get(i).length() == 9 && chessData.get(i).substring(5, 9).equals("Rook")) {
+                    chessComponents[x][y] = new RookChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE);
+                } else {
+                    JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chess!", "Warning", 0);
+                    return;
                 }
                 this.add(chessComponents[x][y]);
             }
