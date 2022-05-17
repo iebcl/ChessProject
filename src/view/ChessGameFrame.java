@@ -4,6 +4,7 @@ import controller.GameController;
 import model.ChessColor;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.Font;
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -50,7 +51,7 @@ public class ChessGameFrame extends JFrame {
         addStore(chessboard, store);
         PressStartButton(chessboard, statusLabel, background, start, SelectColor);//按下开始之后，将背景图片设为不可见
         PressReStartButton(background, restart, chessboard, statusLabel, SelectColor);//重新开始，背景图片重新可见
-        PressLoadButton(chessboard, background, load);
+        PressLoadButton(chessboard, background, load, start);
         PressStoreButton(chessboard, store);
 
         addBackGround(background);//开始时的背景设置，可以换图片
@@ -155,13 +156,21 @@ public class ChessGameFrame extends JFrame {
         add(load);
     }
 
-    private void PressLoadButton(Chessboard chessboard, JLabel background, JButton load){
+    private void PressLoadButton(Chessboard chessboard, JLabel background, JButton load, JButton start) {
         load.addActionListener(e -> {
-            String path = JOptionPane.showInputDialog(this, "Input filename here");
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(new File("resource\\"));
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            String saveType[] = {"txt"};
+            fileChooser.setFileFilter(new FileNameExtensionFilter(".txt", saveType));
+            fileChooser.showOpenDialog(new ChessGameFrame(1000, 760));
+            String path = fileChooser.getSelectedFile().getName();
+//            String path = JOptionPane.showInputDialog(this, "Input filename here");
             this.filename = path;
             background.setVisible(false);
             gameController.loadGameFromFile(path);
             addLabel(chessboard, chessboard.sta);
+            removeStartButton(start);
         });
     }
 
@@ -176,7 +185,7 @@ public class ChessGameFrame extends JFrame {
     private void PressStoreButton(Chessboard chessboard, JButton store) {
         store.addActionListener(e -> {
             try {
-                BufferedWriter writer = new BufferedWriter(new FileWriter("resource\\" + getFilename() + ".txt"));
+                BufferedWriter writer = new BufferedWriter(new FileWriter("resource\\" + getFilename()));
                 writer.write(chessboard.getCurrentColor().toString());
                 writer.newLine();
                 for (int i = 0; i < 8; i++) {

@@ -5,6 +5,7 @@ import view.Chessboard;
 
 import javax.swing.*;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,7 +22,7 @@ public class GameController {
 
     public List<String> loadGameFromFile(String filename) {
         if (!filename.substring(filename.length() - 4).equals(".txt")) {
-            JOptionPane.showMessageDialog(new ChessGameFrame(1000,760),"Wrong file format.","Warning",0);
+            JOptionPane.showMessageDialog(new ChessGameFrame(1000,760),"Wrong file format!","Warning",0);
             return null;
         } else {
             try {
