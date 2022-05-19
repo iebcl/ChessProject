@@ -53,7 +53,7 @@ public class Chessboard extends JComponent {
     public void init(ChessColor currentColor1) {
 
         initiateEmptyChessboard();
-        currentColor = ChessColor.WHITE;
+        currentColor = currentColor1;
         if (currentColor1 == ChessColor.WHITE) {
             turnchessboard = true;
             initRookOnBoard(0, 0, ChessColor.BLACK);
@@ -135,9 +135,9 @@ public class Chessboard extends JComponent {
 
     public void setCurrentColor(int num) {
         if (num == 0) {
-            currentColor = ChessColor.WHITE;
-        } else {
             currentColor = ChessColor.BLACK;
+        } else {
+            currentColor = ChessColor.WHITE;
         }
     }
 
@@ -253,12 +253,12 @@ public class Chessboard extends JComponent {
             for (int i = 1; i < 65; i++) {
                 int x = (i - 1) / 8;
                 int y = i - 8 * x - 1;
-                this.remove(chessComponents[x][y]);
                 char c = chessData.get(i).charAt(0);
                 ChessColor tempColori;
                 if (c == 'N') {
                     if (chessData.get(i).length() >= 4) {
-                        if (chessData.get(i).substring(0, 5).equals("NONE")) {
+                        if (chessData.get(i).substring(0, 4).equals("NONE")) {
+                            this.remove(chessComponents[x][y]);
                             chessComponents[x][y] = new EmptySlotComponent(new ChessboardPoint(x, y), calculatePoint(x, y), clickController, CHESS_SIZE);
                             this.add(chessComponents[x][y]);
                             continue;
@@ -268,7 +268,7 @@ public class Chessboard extends JComponent {
                     return;
                 } else if (c == 'W') {
                     if (chessData.get(i).length() >= 5) {
-                        if (chessData.get(i).substring(0, 6).equals("WHITE")) {
+                        if (chessData.get(i).substring(0, 5).equals("WHITE")) {
                             tempColori = ChessColor.WHITE;
                         } else {
                             JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chess!", "Warning", 0);
@@ -280,7 +280,7 @@ public class Chessboard extends JComponent {
                     }
                 } else if (c == 'B') {
                     if (chessData.get(i).length() >= 5) {
-                        if (chessData.get(i).substring(0, 6).equals("BLACK")) {
+                        if (chessData.get(i).substring(0, 5).equals("BLACK")) {
                             tempColori = ChessColor.BLACK;
                         } else {
                             JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chess!", "Warning", 0);
@@ -296,22 +296,30 @@ public class Chessboard extends JComponent {
                 }
 
                 if (chessData.get(i).length() == 11 && chessData.get(i).substring(5, 11).equals("Bishop")) {
+                    this.remove(chessComponents[x][y]);
                     chessComponents[x][y] = new BishopChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE);
                 } else if (chessData.get(i).length() == 9 && chessData.get(i).substring(5, 9).equals("King")) {
+                    this.remove(chessComponents[x][y]);
                     chessComponents[x][y] = new KingChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE);
                 } else if (chessData.get(i).length() == 11 && chessData.get(i).substring(5, 11).equals("Knight")) {
+                    this.remove(chessComponents[x][y]);
                     chessComponents[x][y] = new KnightChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE);
                 } else if (chessData.get(i).length() == 9 && chessData.get(i).substring(5, 9).equals("Pawn")) {
+                    this.remove(chessComponents[x][y]);
                     chessComponents[x][y] = new PawnChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE);
                 } else if (chessData.get(i).length() == 10 && chessData.get(i).substring(5, 10).equals("Queen")) {
+                    this.remove(chessComponents[x][y]);
                     chessComponents[x][y] = new QueenChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE);
                 } else if (chessData.get(i).length() == 9 && chessData.get(i).substring(5, 9).equals("Rook")) {
+                    this.remove(chessComponents[x][y]);
                     chessComponents[x][y] = new RookChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE);
                 } else {
+                    init(currentColor);
                     JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chess!", "Warning", 0);
                     return;
                 }
                 this.add(chessComponents[x][y]);
+                repaint();
             }
             sta.setText("Time for " + currentColor.getName());
             this.setVisible(true);

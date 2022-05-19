@@ -21,6 +21,8 @@ public class GameController {
     }
 
     public List<String> loadGameFromFile(String filename) {
+        if(filename.length()<=4)
+                return null;
         if (!filename.substring(filename.length() - 4).equals(".txt")) {
             JOptionPane.showMessageDialog(new ChessGameFrame(1000,760),"Wrong file format!","Warning",0);
             return null;

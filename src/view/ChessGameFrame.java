@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
+import static javax.swing.JFileChooser.CANCEL_OPTION;
+
 /**
  * 这个类表示游戏过程中的整个游戏界面，是一切的载体
  */
@@ -86,7 +88,7 @@ public class ChessGameFrame extends JFrame {
     }
 
     private void PressStartButton(Chessboard chessboard, JLabel statusLabel, JLabel background, JButton start, AtomicInteger SelectColor) {
-        Object[] color = {"White", "Black"};
+        Object[] color = {"Black", "White"};
         start.addActionListener(e -> {
             //Black :selectColor==0.White:SelectColor==1
             SelectColor.set(JOptionPane.showOptionDialog(null, "Select your color!", "Select", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, color, color[0]));
@@ -105,6 +107,18 @@ public class ChessGameFrame extends JFrame {
             try {
                 file = new File(dir);
                 file.createNewFile();
+                BufferedWriter writer = new BufferedWriter(new FileWriter("resource\\" + getFilename() + ".txt"));
+                writer.write(chessboard.getCurrentColor().toString());
+                writer.newLine();
+                for (int i = 0; i < 8; i++) {
+                    for (int j = 0; j < 8; j++) {
+                        writer.write(chessboard.getChessComponents()[i][j].getChessColor().toString());
+                        writer.write(chessboard.getChessComponents()[i][j].getName());
+                        writer.newLine();
+                    }
+                }
+                writer.flush();
+                writer.close();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -120,14 +134,14 @@ public class ChessGameFrame extends JFrame {
     }
 
     private void PressReStartButton(JLabel background, JButton restart, Chessboard chessboard, JLabel statusLabel, AtomicInteger SelectColor) {
-        Object[] color = {"White", "Black"};
+        Object[] color = {"Black", "White"};
         AtomicReference<ChessColor> currentColor1 = new AtomicReference<>();
         restart.addActionListener(e -> {
             SelectColor.set(JOptionPane.showOptionDialog(null, "Select your color!", "Select", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, color, color[0]));
             if (SelectColor.get() == 0) {
-                currentColor1.set(ChessColor.WHITE);
-            } else {
                 currentColor1.set(ChessColor.BLACK);
+            } else {
+                currentColor1.set(ChessColor.WHITE);
             }
             chessboard.setCurrentColor(SelectColor.get());
             chessboard.setVisible(false);
@@ -163,8 +177,13 @@ public class ChessGameFrame extends JFrame {
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
             String saveType[] = {"txt"};
             fileChooser.setFileFilter(new FileNameExtensionFilter(".txt", saveType));
-            fileChooser.showOpenDialog(new ChessGameFrame(1000, 760));
-            String path = fileChooser.getSelectedFile().getName();
+            String path = "";
+            int value = fileChooser.showOpenDialog(new ChessGameFrame(1000, 760));
+            if (value == JFileChooser.APPROVE_OPTION) {
+                path = fileChooser.getSelectedFile().getName();
+            }else{
+//                fileChooser.
+            }
 //            String path = JOptionPane.showInputDialog(this, "Input filename here");
             this.filename = path;
             background.setVisible(false);
@@ -185,7 +204,12 @@ public class ChessGameFrame extends JFrame {
     private void PressStoreButton(Chessboard chessboard, JButton store) {
         store.addActionListener(e -> {
             try {
-                BufferedWriter writer = new BufferedWriter(new FileWriter("resource\\" + getFilename()));
+                BufferedWriter writer;
+                if (getFilename().substring(getFilename().length() - 4).equals(".txt")) {
+                    writer = new BufferedWriter(new FileWriter("resource\\" + getFilename()));
+                } else {
+                    writer = new BufferedWriter(new FileWriter("resource\\" + getFilename() + ".txt"));
+                }
                 writer.write(chessboard.getCurrentColor().toString());
                 writer.newLine();
                 for (int i = 0; i < 8; i++) {
