@@ -82,7 +82,6 @@ public class KingChessComponent extends ChessComponent {
     public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination, ChessColor color, Boolean Turnboard, Chessboard chessboard) {
         ChessboardPoint source = getChessboardPoint();
         //翻转对象没有影响
-
         if ((destination.getX() - source.getX() <= 1 && destination.getX() - source.getX() >= -1)
                 && destination.getY() - source.getY() <= 1 && destination.getY() - source.getY() >= -1) {
             for (int i = 0; i < 8; i++) {

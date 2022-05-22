@@ -1,12 +1,15 @@
 package controller;
 
 import model.*;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 import view.ChessGameFrame;
 import view.Chessboard;
 import view.ChessboardPoint;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.*;
 
 public class ClickController {
     private final Chessboard chessboard;
@@ -19,6 +22,7 @@ public class ClickController {
     public void onClick(ChessComponent chessComponent) {
         //chesscomponent是第二次被点击的位置--棋子即将去到的地方
         //first是我们选中的棋子
+        playClick();
         if (first == null) {//最开始就没选中棋子
             if (handleFirst(chessComponent)) {
                 chessComponent.setSelected(true);
@@ -88,6 +92,22 @@ public class ClickController {
             first = new BishopChessComponent(k, l, first.getChessColor(), p, s, true,picture);
         }
         chessboard.add(first);
+    }
+    public static void playClick() {
+        File file = new File("resource//Windows XP 叮当声.wav");
+        InputStream inputStream = null;
+        AudioStream audioStream = null;
+        try {
+            inputStream = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            audioStream = new AudioStream(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        AudioPlayer.player.start(audioStream);
     }
 
 }
