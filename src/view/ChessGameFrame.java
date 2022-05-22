@@ -89,8 +89,8 @@ public class ChessGameFrame extends JFrame {
         start.addActionListener(e -> {
             //Black :selectColor==0.White:SelectColor==1
             SelectColor.set(JOptionPane.showOptionDialog(null, "Select your color!", "Select", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, color, color[0]));
-            chessboard.setCurrentColor(SelectColor.get());
-            chessboard.init(chessboard.getCurrentColor());
+            chessboard.setCurrentColor(1);
+            chessboard.init(SelectColor.get()==0?ChessColor.BLACK:ChessColor.WHITE);
 
             background.setVisible(false);
             addLabel(chessboard, statusLabel);
@@ -141,7 +141,7 @@ public class ChessGameFrame extends JFrame {
             } else {
                 currentColor1.set(ChessColor.WHITE);
             }
-            chessboard.setCurrentColor(SelectColor.get());
+            chessboard.setCurrentColor(1);
             chessboard.setVisible(false);
             chessboard.init(currentColor1.get());
             addLabel(chessboard, chessboard.sta);
@@ -192,7 +192,6 @@ public class ChessGameFrame extends JFrame {
             int value = fileChooser.showOpenDialog(new ChessGameFrame(1000, 760));
             if (value == JFileChooser.APPROVE_OPTION) {
                 path = fileChooser.getSelectedFile().getName();
-            } else {
             }
 //            String path = JOptionPane.showInputDialog(this, "Input filename here");
             this.filename = path;

@@ -31,11 +31,12 @@ public class Chessboard extends JComponent {
         setSize(width, height);
         CHESS_SIZE = width / 8;
         if (SelectColor.get() == 0) {
-            currentColor = ChessColor.BLACK;
+//            System.out.println(SelectColor.get());
+            currentColor = ChessColor.WHITE;
         } else {
             currentColor = ChessColor.WHITE;
         }
-//        System.out.printf("chessboard size = %d, chess size = %d\n", width, CHESS_SIZE);
+        System.out.println( currentColor);
         init(currentColor);
         sta = statusLabel;
     }
@@ -72,7 +73,7 @@ public class Chessboard extends JComponent {
     public void init(ChessColor currentColor1) {
 
         initiateEmptyChessboard();
-        currentColor = currentColor1;
+        currentColor = ChessColor.WHITE;
         if (currentColor1 == ChessColor.WHITE) {
             turnchessboard = true;
             initRookOnBoard(0, 0, ChessColor.BLACK);
