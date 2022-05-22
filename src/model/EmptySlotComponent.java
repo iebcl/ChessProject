@@ -12,8 +12,9 @@ import java.io.IOException;
  */
 public class EmptySlotComponent extends ChessComponent {
 
-    public EmptySlotComponent(ChessboardPoint chessboardPoint, Point location, ClickController listener, int size, boolean moved) {
-        super("Empty", chessboardPoint, location, ChessColor.NONE, listener, size, moved);
+
+    public EmptySlotComponent(ChessboardPoint chessboardPoint, Point location, ClickController listener, int size, boolean moved,int p) {
+        super("Empty", chessboardPoint, location, ChessColor.NONE, listener, size, moved,p);
     }
 
     @Override
@@ -22,7 +23,7 @@ public class EmptySlotComponent extends ChessComponent {
     }
 
     @Override
-    public void loadResource() throws IOException {
+    public void loadResource(int num) throws IOException {
         //No resource!
     }
 

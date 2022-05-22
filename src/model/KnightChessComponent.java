@@ -21,6 +21,7 @@ public class KnightChessComponent extends ChessComponent {
      */
     private static Image Knight_WHITE;
     private static Image Knight_BLACK;
+    public int picture;
 
     /**
      * 马棋子对象自身的图片，是上面两种中的一种
@@ -32,13 +33,14 @@ public class KnightChessComponent extends ChessComponent {
      *
      * @throws IOException
      */
-    public void loadResource() throws IOException {
-        if (Knight_WHITE == null) {
+    public void loadResource(int picture) throws IOException {
+        if (picture == 0) {
             Knight_WHITE = ImageIO.read(new File("./images/knight-white.png"));
-        }
-
-        if (Knight_BLACK == null) {
             Knight_BLACK = ImageIO.read(new File("./images/knight-black.png"));
+        } else if (picture == 1) {
+            Knight_WHITE = ImageIO.read(new File("./images/knight-white1.png"));
+            Knight_BLACK = ImageIO.read(new File("./images/knight-black1.png"));
+
         }
     }
 
@@ -49,9 +51,9 @@ public class KnightChessComponent extends ChessComponent {
      * @param color 棋子颜色
      */
 
-    private void initiateKnightImage(ChessColor color) {
+    private void initiateKnightImage(ChessColor color, int picture) {
         try {
-            loadResource();
+            loadResource(picture);
             if (color == ChessColor.WHITE) {
                 KnightImage = Knight_WHITE;
             } else if (color == ChessColor.BLACK) {
@@ -62,9 +64,9 @@ public class KnightChessComponent extends ChessComponent {
         }
     }
 
-    public KnightChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size, boolean moved) {
-        super("Knight", chessboardPoint, location, color, listener, size, moved);
-        initiateKnightImage(color);
+    public KnightChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size, boolean moved, int picture) {
+        super("Knight", chessboardPoint, location, color, listener, size, moved, picture);
+        initiateKnightImage(color, picture);
     }
 
     /**
@@ -76,16 +78,16 @@ public class KnightChessComponent extends ChessComponent {
      */
 
     @Override
-    public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination, ChessColor color,Boolean Turnboard , Chessboard chessboard) {
+    public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination, ChessColor color, Boolean Turnboard, Chessboard chessboard) {
         ChessboardPoint source = getChessboardPoint();
         //翻转对象没有影响
 
         //假设子在（0，0）时，有八个角度：
         // (2,1)、（2、-1）、（-2，-1）、（-2，-1）
         //（1，2）、（1，-2）、（-1，2）、（-1，-2）
-        if((Math.abs(source.getY()-destination.getY())==0||Math.abs(source.getX()-destination.getX())==0)){//排除/num中num=0的情况
+        if ((Math.abs(source.getY() - destination.getY()) == 0 || Math.abs(source.getX() - destination.getX()) == 0)) {//排除/num中num=0的情况
             return false;
-        }else {
+        } else {
             if (Math.abs(source.getX() - destination.getX()) / (Math.abs(source.getY() - destination.getY())) == 2) {
                 // (2,1)、（2、-1）、（-2，-1）、（-2，-1）
                 if ((Math.abs(source.getY() - destination.getY()) != 1)) { //只能走一个日字
@@ -101,10 +103,10 @@ public class KnightChessComponent extends ChessComponent {
             }
         }
 
-        if(color.equals(ChessColor.BLACK)) {
-            color.setLastone(Color.BLACK, false,11,11);//设置为11，即不在棋盘上，不影响吃过路兵功能
-        }else if(color.equals(ChessColor.WHITE)){
-            color.setLastone(Color.WHITE, false,11,11);//设置为11，即不在棋盘上，不影响吃过路兵功能
+        if (color.equals(ChessColor.BLACK)) {
+            color.setLastone(Color.BLACK, false, 11, 11);//设置为11，即不在棋盘上，不影响吃过路兵功能
+        } else if (color.equals(ChessColor.WHITE)) {
+            color.setLastone(Color.WHITE, false, 11, 11);//设置为11，即不在棋盘上，不影响吃过路兵功能
         }
         return true;
 

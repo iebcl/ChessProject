@@ -21,6 +21,7 @@ public class QueenChessComponent extends ChessComponent {
      */
     private static Image Queen_WHITE;
     private static Image Queen_BLACK;
+    public int  picture;
 
     /**
      * 后棋子对象自身的图片，是上面两种中的一种
@@ -32,13 +33,13 @@ public class QueenChessComponent extends ChessComponent {
      *
      * @throws IOException
      */
-    public void loadResource() throws IOException {
-        if (Queen_WHITE == null) {
-            Queen_WHITE = ImageIO.read(new File("./images/queen-white.png"));
-        }
+    public void loadResource(int picture) throws IOException {
+        if(picture==0) { Queen_WHITE = ImageIO.read(new File("./images/queen-white.png"));
+          Queen_BLACK = ImageIO.read(new File("./images/queen-black.png"));
+        }else if(picture==1){
+  Queen_WHITE = ImageIO.read(new File("./images/queen-white1.png"));
+ Queen_BLACK = ImageIO.read(new File("./images/queen-black1.png"));
 
-        if (Queen_BLACK == null) {
-            Queen_BLACK = ImageIO.read(new File("./images/queen-black.png"));
         }
     }
 
@@ -49,9 +50,9 @@ public class QueenChessComponent extends ChessComponent {
      * @param color 棋子颜色
      */
 
-    private void initiateQueenImage(ChessColor color) {
+    private void initiateQueenImage(ChessColor color,int picture) {
         try {
-            loadResource();
+            loadResource(picture);
             if (color == ChessColor.WHITE) {
                 QueenImage = Queen_WHITE;
             } else if (color == ChessColor.BLACK) {
@@ -62,9 +63,9 @@ public class QueenChessComponent extends ChessComponent {
         }
     }
 
-    public QueenChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size, boolean moved) {
-        super("Queen", chessboardPoint, location, color, listener, size, moved);
-        initiateQueenImage(color);
+    public QueenChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size, boolean moved,int picture) {
+        super("Queen", chessboardPoint, location, color, listener, size, moved,picture);
+        initiateQueenImage(color,picture);
     }
 
     /**

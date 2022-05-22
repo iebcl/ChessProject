@@ -21,6 +21,7 @@ public class RookChessComponent extends ChessComponent {
      */
     private static Image ROOK_WHITE;
     private static Image ROOK_BLACK;
+    public int  picture;
 
     /**
      * 车棋子对象自身的图片，是上面两种中的一种
@@ -32,14 +33,15 @@ public class RookChessComponent extends ChessComponent {
      *
      * @throws IOException
      */
-    public void loadResource() throws IOException {
-        if (ROOK_WHITE == null) {
-            ROOK_WHITE = ImageIO.read(new File("./images/rook-white.png"));
+    public void loadResource(int picture) throws IOException {
+        if(picture==0){
+                ROOK_WHITE = ImageIO.read(new File("./images/rook-white.png"));
+                ROOK_BLACK = ImageIO.read(new File("./images/rook-black.png"));
+        }else if(picture==1){
+                ROOK_WHITE = ImageIO.read(new File("./images/rook-white1.png"));
+                ROOK_BLACK = ImageIO.read(new File("./images/rook-black1.png"));
         }
 
-        if (ROOK_BLACK == null) {
-            ROOK_BLACK = ImageIO.read(new File("./images/rook-black.png"));
-        }
     }
 
 
@@ -49,9 +51,9 @@ public class RookChessComponent extends ChessComponent {
      * @param color 棋子颜色
      */
 
-    private void initiateRookImage(ChessColor color) {
+    private void initiateRookImage(ChessColor color,int picture) {
         try {
-            loadResource();
+            loadResource(picture);
             if (color == ChessColor.WHITE) {
                 rookImage = ROOK_WHITE;
             } else if (color == ChessColor.BLACK) {
@@ -62,9 +64,9 @@ public class RookChessComponent extends ChessComponent {
         }
     }
 
-    public RookChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size, boolean moved) {
-        super("Rook", chessboardPoint, location, color, listener, size, moved);
-        initiateRookImage(color);
+    public RookChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size, boolean moved,int picture) {
+        super("Rook", chessboardPoint, location, color, listener, size, moved,picture);
+        initiateRookImage(color,picture);
     }
 
     /**

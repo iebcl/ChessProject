@@ -69,7 +69,7 @@ public class ClickController {
                 && first.canMoveTo(chessboard.getChessComponents(), chessComponent.getChessboardPoint(), first.getChessColor(), chessboard.getTurnchessboard(), chessboard);
     }
 
-    public void turntoOther(ChessboardPoint chesspoint, int size, int select) {
+    public void turntoOther(ChessboardPoint chesspoint, int size, int select,int picture) {
         ChessboardPoint source = chesspoint;
         ChessboardPoint k = new ChessboardPoint(source.getX(), source.getY());
         Point l = first.getLocation();
@@ -78,14 +78,14 @@ public class ClickController {
         chessboard.remove(first);
         if (select == 0)//选后
         {
-            first = new QueenChessComponent(k, l, first.getChessColor(), p, s, true);
+            first = new QueenChessComponent(k, l, first.getChessColor(), p, s, true,picture);
         } else if (select == 1)//Rook
         {
-            first = new RookChessComponent(k, l, first.getChessColor(), p, s, true);
+            first = new RookChessComponent(k, l, first.getChessColor(), p, s, true,picture);
         } else if (select == 2) {
-            first = new KnightChessComponent(k, l, first.getChessColor(), p, s, true);
+            first = new KnightChessComponent(k, l, first.getChessColor(), p, s, true,picture);
         } else if (select == 3) {
-            first = new BishopChessComponent(k, l, first.getChessColor(), p, s, true);
+            first = new BishopChessComponent(k, l, first.getChessColor(), p, s, true,picture);
         }
         chessboard.add(first);
     }

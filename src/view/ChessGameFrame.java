@@ -24,7 +24,7 @@ public class ChessGameFrame extends JFrame {
 
     // Constructor
     public ChessGameFrame(int width, int height) {
-        setTitle("2022 CS102A Project Demo"); //设置标题
+        setTitle("2022 CS102A Project "); //设置标题
         this.WIDTH = width;
         this.HEIGTH = height;
         this.CHESSBOARD_SIZE = HEIGTH * 4 / 5;
@@ -37,7 +37,9 @@ public class ChessGameFrame extends JFrame {
         //来源
         JLabel statusLabel = new JLabel("");
         AtomicInteger SelectColor = new AtomicInteger();
-        Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE, statusLabel, SelectColor);
+
+        AtomicInteger SelectPicture = new AtomicInteger();
+        Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE, statusLabel, SelectColor, SelectPicture);
 
         JLabel background = new JLabel(new ImageIcon("./images/backg.jpg"));
         JButton start = new JButton("Start");
@@ -48,8 +50,8 @@ public class ChessGameFrame extends JFrame {
         addReStart(restart);
         addLoad(load);
         addStore(chessboard, store);
-        PressStartButton(chessboard, statusLabel, background, start, SelectColor);//按下开始之后，将背景图片设为不可见
-        PressReStartButton(background, restart, chessboard, statusLabel, SelectColor);//重新开始，背景图片重新可见
+        PressStartButton(chessboard, statusLabel, background, start, SelectColor, SelectPicture);//按下开始之后，将背景图片设为不可见
+        PressReStartButton(background, restart, chessboard, statusLabel, SelectColor, SelectPicture);//重新开始，背景图片重新可见
         PressLoadButton(chessboard, background, load, start);
         PressStoreButton(chessboard, store);
 
@@ -84,14 +86,15 @@ public class ChessGameFrame extends JFrame {
         remove(start);
     }
 
-    private void PressStartButton(Chessboard chessboard, JLabel statusLabel, JLabel background, JButton start, AtomicInteger SelectColor) {
+    private void PressStartButton(Chessboard chessboard, JLabel statusLabel, JLabel background, JButton start, AtomicInteger SelectColor, AtomicInteger pickPicture) {
         Object[] color = {"Black", "White"};
+        Object[] picture = {"black or white", "color"};
         start.addActionListener(e -> {
             //Black :selectColor==0.White:SelectColor==1
             SelectColor.set(JOptionPane.showOptionDialog(null, "Select your color!", "Select", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, color, color[0]));
             chessboard.setCurrentColor(1);
-            chessboard.init(SelectColor.get()==0?ChessColor.BLACK:ChessColor.WHITE);
-
+            pickPicture.set(JOptionPane.showOptionDialog(null, "Select your pictures!", "Select", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, picture, picture[0]));
+            chessboard.init(SelectColor.get() == 0 ? ChessColor.BLACK : ChessColor.WHITE, pickPicture.get());
             background.setVisible(false);
             addLabel(chessboard, statusLabel);
             start.setVisible(false);
@@ -131,8 +134,9 @@ public class ChessGameFrame extends JFrame {
         add(restart);
     }
 
-    private void PressReStartButton(JLabel background, JButton restart, Chessboard chessboard, JLabel statusLabel, AtomicInteger SelectColor) {
+    private void PressReStartButton(JLabel background, JButton restart, Chessboard chessboard, JLabel statusLabel, AtomicInteger SelectColor, AtomicInteger pickPicture) {
         Object[] color = {"Black", "White"};
+        Object[] picture = {"black or white", "color"};
         AtomicReference<ChessColor> currentColor1 = new AtomicReference<>();
         restart.addActionListener(e -> {
             SelectColor.set(JOptionPane.showOptionDialog(null, "Select your color!", "Select", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, color, color[0]));
@@ -141,9 +145,10 @@ public class ChessGameFrame extends JFrame {
             } else {
                 currentColor1.set(ChessColor.WHITE);
             }
+            pickPicture.set(JOptionPane.showOptionDialog(null, "Select your pictures!", "Select", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, picture, picture[0]));
             chessboard.setCurrentColor(1);
+            chessboard.init(SelectColor.get() == 0 ? ChessColor.BLACK : ChessColor.WHITE, pickPicture.get());
             chessboard.setVisible(false);
-            chessboard.init(currentColor1.get());
             addLabel(chessboard, chessboard.sta);
             chessboard.setVisible(true);
 
@@ -192,6 +197,7 @@ public class ChessGameFrame extends JFrame {
             int value = fileChooser.showOpenDialog(new ChessGameFrame(1000, 760));
             if (value == JFileChooser.APPROVE_OPTION) {
                 path = fileChooser.getSelectedFile().getName();
+            } else {
             }
 //            String path = JOptionPane.showInputDialog(this, "Input filename here");
             this.filename = path;

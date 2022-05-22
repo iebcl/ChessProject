@@ -26,18 +26,17 @@ public class Chessboard extends JComponent {
 
 // Constructor
 
-    public Chessboard(int width, int height, JLabel statusLabel, AtomicInteger SelectColor) {
+    public Chessboard(int width, int height, JLabel statusLabel, AtomicInteger SelectColor, AtomicInteger SelectPicture) {
         setLayout(null); // Use absolute layout.
         setSize(width, height);
         CHESS_SIZE = width / 8;
         if (SelectColor.get() == 0) {
-//            System.out.println(SelectColor.get());
             currentColor = ChessColor.WHITE;
         } else {
             currentColor = ChessColor.WHITE;
         }
-        System.out.println( currentColor);
-        init(currentColor);
+//        System.out.printf("chessboard size = %d, chess size = %d\n", width, CHESS_SIZE);
+        init(currentColor,SelectPicture.get());
         sta = statusLabel;
     }
 
@@ -70,121 +69,120 @@ public class Chessboard extends JComponent {
 
 // Init
 
-    public void init(ChessColor currentColor1) {
-
-        initiateEmptyChessboard();
+    public void init(ChessColor currentColor1, int pictureNum) {
+        initiateEmptyChessboard(pictureNum);
         currentColor = ChessColor.WHITE;
         if (currentColor1 == ChessColor.WHITE) {
             turnchessboard = true;
-            initRookOnBoard(0, 0, ChessColor.BLACK);
-            initRookOnBoard(0, CHESSBOARD_SIZE - 1, ChessColor.BLACK);
-            initRookOnBoard(CHESSBOARD_SIZE - 1, 0, ChessColor.WHITE);
-            initRookOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 1, ChessColor.WHITE);
-            initKnightOnBoard(0, 1, ChessColor.BLACK);
-            initKnightOnBoard(0, CHESSBOARD_SIZE - 2, ChessColor.BLACK);
-            initKnightOnBoard(CHESSBOARD_SIZE - 1, 1, ChessColor.WHITE);
-            initKnightOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 2, ChessColor.WHITE);
-            initBishopOnBoard(0, 2, ChessColor.BLACK);
-            initBishopOnBoard(0, CHESSBOARD_SIZE - 3, ChessColor.BLACK);
-            initBishopOnBoard(CHESSBOARD_SIZE - 1, 2, ChessColor.WHITE);
-            initBishopOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 3, ChessColor.WHITE);
-            initQueenOnBoard(0, 3, ChessColor.BLACK);
-            initQueenOnBoard(CHESSBOARD_SIZE - 1, 3, ChessColor.WHITE);
-            initKingOnBoard(0, 4, ChessColor.BLACK);
-            initKingOnBoard(CHESSBOARD_SIZE - 1, 4, ChessColor.WHITE);
-            initPawnOnBoard(1, 0, ChessColor.BLACK);
-            initPawnOnBoard(1, 1, ChessColor.BLACK);
-            initPawnOnBoard(1, 2, ChessColor.BLACK);
-            initPawnOnBoard(1, 3, ChessColor.BLACK);
-            initPawnOnBoard(1, 4, ChessColor.BLACK);
-            initPawnOnBoard(1, 5, ChessColor.BLACK);
-            initPawnOnBoard(1, 6, ChessColor.BLACK);
-            initPawnOnBoard(1, 7, ChessColor.BLACK);
-            initPawnOnBoard(CHESSBOARD_SIZE - 2, 0, ChessColor.WHITE);
-            initPawnOnBoard(CHESSBOARD_SIZE - 2, 1, ChessColor.WHITE);
-            initPawnOnBoard(CHESSBOARD_SIZE - 2, 2, ChessColor.WHITE);
-            initPawnOnBoard(CHESSBOARD_SIZE - 2, 3, ChessColor.WHITE);
-            initPawnOnBoard(CHESSBOARD_SIZE - 2, 4, ChessColor.WHITE);
-            initPawnOnBoard(CHESSBOARD_SIZE - 2, 5, ChessColor.WHITE);
-            initPawnOnBoard(CHESSBOARD_SIZE - 2, 6, ChessColor.WHITE);
-            initPawnOnBoard(CHESSBOARD_SIZE - 2, 7, ChessColor.WHITE);
+            initRookOnBoard(0, 0, ChessColor.BLACK, pictureNum);
+            initRookOnBoard(0, CHESSBOARD_SIZE - 1, ChessColor.BLACK, pictureNum);
+            initRookOnBoard(CHESSBOARD_SIZE - 1, 0, ChessColor.WHITE, pictureNum);
+            initRookOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 1, ChessColor.WHITE, pictureNum);
+            initKnightOnBoard(0, 1, ChessColor.BLACK, pictureNum);
+            initKnightOnBoard(0, CHESSBOARD_SIZE - 2, ChessColor.BLACK, pictureNum);
+            initKnightOnBoard(CHESSBOARD_SIZE - 1, 1, ChessColor.WHITE, pictureNum);
+            initKnightOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 2, ChessColor.WHITE, pictureNum);
+            initBishopOnBoard(0, 2, ChessColor.BLACK,pictureNum);
+            initBishopOnBoard(0, CHESSBOARD_SIZE - 3, ChessColor.BLACK,pictureNum);
+            initBishopOnBoard(CHESSBOARD_SIZE - 1, 2, ChessColor.WHITE,pictureNum);
+            initBishopOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 3, ChessColor.WHITE,pictureNum);
+            initQueenOnBoard(0, 3, ChessColor.BLACK,pictureNum);
+            initQueenOnBoard(CHESSBOARD_SIZE - 1, 3, ChessColor.WHITE,pictureNum);
+            initKingOnBoard(0, 4, ChessColor.BLACK,pictureNum);
+            initKingOnBoard(CHESSBOARD_SIZE - 1, 4, ChessColor.WHITE,pictureNum);
+            initPawnOnBoard(1, 0, ChessColor.BLACK,pictureNum);
+            initPawnOnBoard(1, 1, ChessColor.BLACK,pictureNum);
+            initPawnOnBoard(1, 2, ChessColor.BLACK,pictureNum);
+            initPawnOnBoard(1, 3, ChessColor.BLACK,pictureNum);
+            initPawnOnBoard(1, 4, ChessColor.BLACK,pictureNum);
+            initPawnOnBoard(1, 5, ChessColor.BLACK,pictureNum);
+            initPawnOnBoard(1, 6, ChessColor.BLACK,pictureNum);
+            initPawnOnBoard(1, 7, ChessColor.BLACK,pictureNum);
+            initPawnOnBoard(CHESSBOARD_SIZE - 2, 0, ChessColor.WHITE,pictureNum);
+            initPawnOnBoard(CHESSBOARD_SIZE - 2, 1, ChessColor.WHITE,pictureNum);
+            initPawnOnBoard(CHESSBOARD_SIZE - 2, 2, ChessColor.WHITE,pictureNum);
+            initPawnOnBoard(CHESSBOARD_SIZE - 2, 3, ChessColor.WHITE,pictureNum);
+            initPawnOnBoard(CHESSBOARD_SIZE - 2, 4, ChessColor.WHITE,pictureNum);
+            initPawnOnBoard(CHESSBOARD_SIZE - 2, 5, ChessColor.WHITE,pictureNum);
+            initPawnOnBoard(CHESSBOARD_SIZE - 2, 6, ChessColor.WHITE,pictureNum);
+            initPawnOnBoard(CHESSBOARD_SIZE - 2, 7, ChessColor.WHITE,pictureNum);
         } else {
             turnchessboard = false;
-            initRookOnBoard(0, 0, ChessColor.WHITE);
-            initRookOnBoard(0, CHESSBOARD_SIZE - 1, ChessColor.WHITE);
-            initRookOnBoard(CHESSBOARD_SIZE - 1, 0, ChessColor.BLACK);
-            initRookOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 1, ChessColor.BLACK);
-            initKnightOnBoard(0, 1, ChessColor.WHITE);
-            initKnightOnBoard(0, CHESSBOARD_SIZE - 2, ChessColor.WHITE);
-            initKnightOnBoard(CHESSBOARD_SIZE - 1, 1, ChessColor.BLACK);
-            initKnightOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 2, ChessColor.BLACK);
-            initBishopOnBoard(0, 2, ChessColor.WHITE);
-            initBishopOnBoard(0, CHESSBOARD_SIZE - 3, ChessColor.WHITE);
-            initBishopOnBoard(CHESSBOARD_SIZE - 1, 2, ChessColor.BLACK);
-            initBishopOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 3, ChessColor.BLACK);
-            initQueenOnBoard(0, 3, ChessColor.WHITE);
-            initQueenOnBoard(CHESSBOARD_SIZE - 1, 3, ChessColor.BLACK);
-            initKingOnBoard(0, 4, ChessColor.WHITE);
-            initKingOnBoard(CHESSBOARD_SIZE - 1, 4, ChessColor.BLACK);
-            initPawnOnBoard(1, 0, ChessColor.WHITE);
-            initPawnOnBoard(1, 1, ChessColor.WHITE);
-            initPawnOnBoard(1, 2, ChessColor.WHITE);
-            initPawnOnBoard(1, 3, ChessColor.WHITE);
-            initPawnOnBoard(1, 4, ChessColor.WHITE);
-            initPawnOnBoard(1, 5, ChessColor.WHITE);
-            initPawnOnBoard(1, 6, ChessColor.WHITE);
-            initPawnOnBoard(1, 7, ChessColor.WHITE);
-            initPawnOnBoard(CHESSBOARD_SIZE - 2, 0, ChessColor.BLACK);
-            initPawnOnBoard(CHESSBOARD_SIZE - 2, 1, ChessColor.BLACK);
-            initPawnOnBoard(CHESSBOARD_SIZE - 2, 2, ChessColor.BLACK);
-            initPawnOnBoard(CHESSBOARD_SIZE - 2, 3, ChessColor.BLACK);
-            initPawnOnBoard(CHESSBOARD_SIZE - 2, 4, ChessColor.BLACK);
-            initPawnOnBoard(CHESSBOARD_SIZE - 2, 5, ChessColor.BLACK);
-            initPawnOnBoard(CHESSBOARD_SIZE - 2, 6, ChessColor.BLACK);
-            initPawnOnBoard(CHESSBOARD_SIZE - 2, 7, ChessColor.BLACK);
+            initRookOnBoard(0, 0, ChessColor.WHITE,pictureNum);
+            initRookOnBoard(0, CHESSBOARD_SIZE - 1, ChessColor.WHITE,pictureNum);
+            initRookOnBoard(CHESSBOARD_SIZE - 1, 0, ChessColor.BLACK,pictureNum);
+            initRookOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 1, ChessColor.BLACK,pictureNum);
+            initKnightOnBoard(0, 1, ChessColor.WHITE,pictureNum);
+            initKnightOnBoard(0, CHESSBOARD_SIZE - 2, ChessColor.WHITE,pictureNum);
+            initKnightOnBoard(CHESSBOARD_SIZE - 1, 1, ChessColor.BLACK,pictureNum);
+            initKnightOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 2, ChessColor.BLACK,pictureNum);
+            initBishopOnBoard(0, 2, ChessColor.WHITE,pictureNum);
+            initBishopOnBoard(0, CHESSBOARD_SIZE - 3, ChessColor.WHITE,pictureNum);
+            initBishopOnBoard(CHESSBOARD_SIZE - 1, 2, ChessColor.BLACK,pictureNum);
+            initBishopOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 3, ChessColor.BLACK,pictureNum);
+            initQueenOnBoard(0, 3, ChessColor.WHITE,pictureNum);
+            initQueenOnBoard(CHESSBOARD_SIZE - 1, 3, ChessColor.BLACK,pictureNum);
+            initKingOnBoard(0, 4, ChessColor.WHITE,pictureNum);
+            initKingOnBoard(CHESSBOARD_SIZE - 1, 4, ChessColor.BLACK,pictureNum);
+            initPawnOnBoard(1, 0, ChessColor.WHITE,pictureNum);
+            initPawnOnBoard(1, 1, ChessColor.WHITE,pictureNum);
+            initPawnOnBoard(1, 2, ChessColor.WHITE,pictureNum);
+            initPawnOnBoard(1, 3, ChessColor.WHITE,pictureNum);
+            initPawnOnBoard(1, 4, ChessColor.WHITE,pictureNum);
+            initPawnOnBoard(1, 5, ChessColor.WHITE,pictureNum);
+            initPawnOnBoard(1, 6, ChessColor.WHITE,pictureNum);
+            initPawnOnBoard(1, 7, ChessColor.WHITE,pictureNum);
+            initPawnOnBoard(CHESSBOARD_SIZE - 2, 0, ChessColor.BLACK,pictureNum);
+            initPawnOnBoard(CHESSBOARD_SIZE - 2, 1, ChessColor.BLACK,pictureNum);
+            initPawnOnBoard(CHESSBOARD_SIZE - 2, 2, ChessColor.BLACK,pictureNum);
+            initPawnOnBoard(CHESSBOARD_SIZE - 2, 3, ChessColor.BLACK,pictureNum);
+            initPawnOnBoard(CHESSBOARD_SIZE - 2, 4, ChessColor.BLACK,pictureNum);
+            initPawnOnBoard(CHESSBOARD_SIZE - 2, 5, ChessColor.BLACK,pictureNum);
+            initPawnOnBoard(CHESSBOARD_SIZE - 2, 6, ChessColor.BLACK,pictureNum);
+            initPawnOnBoard(CHESSBOARD_SIZE - 2, 7, ChessColor.BLACK,pictureNum);
         }
     }
 
-    public void initiateEmptyChessboard() {
+    public void initiateEmptyChessboard(int picture) {
         for (int i = 0; i < chessComponents.length; i++) {
             for (int j = 0; j < chessComponents[i].length; j++) {
-                putChessOnBoard(new EmptySlotComponent(new ChessboardPoint(i, j), calculatePoint(i, j), clickController, CHESS_SIZE, false));
+                putChessOnBoard(new EmptySlotComponent(new ChessboardPoint(i, j), calculatePoint(i, j), clickController, CHESS_SIZE, false,picture));
             }
         }
     }
 
-    private void initRookOnBoard(int row, int col, ChessColor color) {
-        ChessComponent chessComponent = new RookChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE, false);
+    private void initRookOnBoard(int row, int col, ChessColor color,int picture) {
+        ChessComponent chessComponent = new RookChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE, false,picture);
         chessComponent.setVisible(true);
         putChessOnBoard(chessComponent);
     }
 
-    private void initPawnOnBoard(int row, int col, ChessColor color) {
-        ChessComponent chessComponent = new PawnChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE, false);
+    private void initPawnOnBoard(int row, int col, ChessColor color,int picture) {
+        ChessComponent chessComponent = new PawnChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE, false,picture);
         chessComponent.setVisible(true);
         putChessOnBoard(chessComponent);
     }
 
-    private void initKnightOnBoard(int row, int col, ChessColor color) {
-        ChessComponent chessComponent = new KnightChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE, false);
+    private void initKnightOnBoard(int row, int col, ChessColor color,int picture) {
+        ChessComponent chessComponent = new KnightChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE, false,picture);
         chessComponent.setVisible(true);
         putChessOnBoard(chessComponent);
     }
 
-    private void initKingOnBoard(int row, int col, ChessColor color) {
-        ChessComponent chessComponent = new KingChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE, false);
+    private void initKingOnBoard(int row, int col, ChessColor color,int picture) {
+        ChessComponent chessComponent = new KingChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE, false,picture);
         chessComponent.setVisible(true);
         putChessOnBoard(chessComponent);
     }
 
-    private void initQueenOnBoard(int row, int col, ChessColor color) {
-        ChessComponent chessComponent = new QueenChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE, false);
+    private void initQueenOnBoard(int row, int col, ChessColor color,int picture) {
+        ChessComponent chessComponent = new QueenChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE, false,picture);
         chessComponent.setVisible(true);
         putChessOnBoard(chessComponent);
     }
 
-    private void initBishopOnBoard(int row, int col, ChessColor color) {
-        ChessComponent chessComponent = new BishopChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE, false);
+    private void initBishopOnBoard(int row, int col, ChessColor color,int picture) {
+        ChessComponent chessComponent = new BishopChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE, false,picture);
         chessComponent.setVisible(true);
         putChessOnBoard(chessComponent);
     }
@@ -192,24 +190,125 @@ public class Chessboard extends JComponent {
 // Game
 
     public void loadGame(List<String> chessData) {
-//        chessData.forEach(System.out::println);
         if (chessData.size() == 0) {
             JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "No content!", "warning", 0);
             return;
         } else {
+            // Color
+            ChessColor tempcolor;
             if (chessData.get(0).equals("WHITE")) {
-                this.currentColor = ChessColor.WHITE;
+                tempcolor = ChessColor.WHITE;
             } else if (chessData.get(0).equals("BLACK")) {
-                this.currentColor = ChessColor.BLACK;
+                tempcolor = ChessColor.BLACK;
             } else {
                 JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "No current player message!", "Warning", 0);
                 return;
             }
+
+            // Chessboard
             if (chessData.size() != 65) {
                 JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chessboard!", "Warning", 0);
                 return;
             }
-            this.init(this.currentColor);
+
+            // Chess
+            for (int i = 1; i < 65; i++) {
+                int x = (i - 1) / 8;
+                int y = i - 8 * x - 1;
+                char c = chessData.get(i).charAt(0);
+                ChessColor tempColori;
+                if (c == 'N') {
+                    if (chessData.get(i).length() >= 4) {
+                        if (chessData.get(i).substring(0, 4).equals("NONE")) {
+//                            this.remove(chessComponents[x][y]);
+//                            chessComponents[x][y] = new EmptySlotComponent(new ChessboardPoint(x, y), calculatePoint(x, y), clickController, CHESS_SIZE, false);
+//                            this.add(chessComponents[x][y]);
+                            continue;
+                        }
+                    }
+                    JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chess!", "Warning", 0);
+                    return;
+                } else if (c == 'W') {
+                    if (chessData.get(i).length() >= 5) {
+                        if (chessData.get(i).substring(0, 5).equals("WHITE")) {
+//                            tempColori = ChessColor.WHITE;
+                        } else {
+                            JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chess!", "Warning", 0);
+                            return;
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chess!", "Warning", 0);
+                        return;
+                    }
+                } else if (c == 'B') {
+                    if (chessData.get(i).length() >= 5) {
+                        if (chessData.get(i).substring(0, 5).equals("BLACK")) {
+//                            tempColori = ChessColor.BLACK;
+                        } else {
+                            JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chess!", "Warning", 0);
+                            return;
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chess!", "Warning", 0);
+                        return;
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chess!", "Warning", 0);
+                    return;
+                }
+
+                if (chessData.get(i).length() == 12
+                        && chessData.get(i).substring(5, 11).equals("Bishop")
+                        && (chessData.get(i).charAt(11) == 't' || chessData.get(i).charAt(11) == 'f')) {
+//                    this.remove(chessComponents[x][y]);
+//                    boolean moved = chessData.get(i).charAt(11) == 't';
+//                    chessComponents[x][y] = new BishopChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved);
+                } else if (chessData.get(i).length() == 10
+                        && chessData.get(i).substring(5, 9).equals("King")
+                        && (chessData.get(i).charAt(9) == 't' || chessData.get(i).charAt(9) == 'f')) {
+//                    this.remove(chessComponents[x][y]);
+//                    boolean moved = chessData.get(i).charAt(9) == 't';
+//                    chessComponents[x][y] = new KingChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved);
+                } else if (chessData.get(i).length() == 12
+                        && chessData.get(i).substring(5, 11).equals("Knight")
+                        && (chessData.get(i).charAt(11) == 't' || chessData.get(i).charAt(11) == 'f')) {
+//                    this.remove(chessComponents[x][y]);
+//                    boolean moved = chessData.get(i).charAt(11) == 't';
+//                    chessComponents[x][y] = new KnightChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved);
+                } else if (chessData.get(i).length() == 10
+                        && chessData.get(i).substring(5, 9).equals("Pawn")
+                        && (chessData.get(i).charAt(9) == 't' || chessData.get(i).charAt(9) == 'f')) {
+//                    this.remove(chessComponents[x][y]);
+//                    boolean moved = chessData.get(i).charAt(9) == 't';
+//                    chessComponents[x][y] = new PawnChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved);
+                } else if (chessData.get(i).length() == 11
+                        && chessData.get(i).substring(5, 10).equals("Queen")
+                        && (chessData.get(i).charAt(10) == 't' || chessData.get(i).charAt(10) == 'f')) {
+//                    this.remove(chessComponents[x][y]);
+//                    boolean moved = chessData.get(i).charAt(10) == 't';
+//                    chessComponents[x][y] = new QueenChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved);
+                } else if (chessData.get(i).length() == 10
+                        && chessData.get(i).substring(5, 9).equals("Rook")
+                        && (chessData.get(i).charAt(9) == 't' || chessData.get(i).charAt(9) == 'f')) {
+//                    this.remove(chessComponents[x][y]);
+//                    boolean moved = chessData.get(i).charAt(9) == 't';
+//                    chessComponents[x][y] = new RookChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved);
+                } else {
+//                    init(currentColor);
+                    JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chess!", "Warning", 0);
+                    return;
+                }
+//                this.add(chessComponents[x][y]);
+//                repaint();
+            }
+
+            // Init
+            AtomicInteger SelectPicture = new AtomicInteger();
+            Object[] picture = {"black or white", "color"};
+            SelectPicture.set(JOptionPane.showOptionDialog(null, "Select your pictures!", "Select", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, picture, picture[0]));
+//
+            this.currentColor = tempcolor;
+            this.init(this.currentColor, 0);
             for (int i = 1; i < 65; i++) {
                 int x = (i - 1) / 8;
                 int y = i - 8 * x - 1;
@@ -219,7 +318,7 @@ public class Chessboard extends JComponent {
                     if (chessData.get(i).length() >= 4) {
                         if (chessData.get(i).substring(0, 4).equals("NONE")) {
                             this.remove(chessComponents[x][y]);
-                            chessComponents[x][y] = new EmptySlotComponent(new ChessboardPoint(x, y), calculatePoint(x, y), clickController, CHESS_SIZE, false);
+                            chessComponents[x][y] = new EmptySlotComponent(new ChessboardPoint(x, y), calculatePoint(x, y), clickController, CHESS_SIZE, false,SelectPicture.get());
                             this.add(chessComponents[x][y]);
                             continue;
                         }
@@ -260,39 +359,39 @@ public class Chessboard extends JComponent {
                         && (chessData.get(i).charAt(11) == 't' || chessData.get(i).charAt(11) == 'f')) {
                     this.remove(chessComponents[x][y]);
                     boolean moved = chessData.get(i).charAt(11) == 't';
-                    chessComponents[x][y] = new BishopChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved);
+                    chessComponents[x][y] = new BishopChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved,SelectPicture.get());
                 } else if (chessData.get(i).length() == 10
                         && chessData.get(i).substring(5, 9).equals("King")
                         && (chessData.get(i).charAt(9) == 't' || chessData.get(i).charAt(9) == 'f')) {
                     this.remove(chessComponents[x][y]);
                     boolean moved = chessData.get(i).charAt(9) == 't';
-                    chessComponents[x][y] = new KingChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved);
+                    chessComponents[x][y] = new KingChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved,SelectPicture.get());
                 } else if (chessData.get(i).length() == 12
                         && chessData.get(i).substring(5, 11).equals("Knight")
                         && (chessData.get(i).charAt(11) == 't' || chessData.get(i).charAt(11) == 'f')) {
                     this.remove(chessComponents[x][y]);
                     boolean moved = chessData.get(i).charAt(11) == 't';
-                    chessComponents[x][y] = new KnightChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved);
+                    chessComponents[x][y] = new KnightChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE,moved,SelectPicture.get());
                 } else if (chessData.get(i).length() == 10
                         && chessData.get(i).substring(5, 9).equals("Pawn")
                         && (chessData.get(i).charAt(9) == 't' || chessData.get(i).charAt(9) == 'f')) {
                     this.remove(chessComponents[x][y]);
                     boolean moved = chessData.get(i).charAt(9) == 't';
-                    chessComponents[x][y] = new PawnChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved);
+                    chessComponents[x][y] = new PawnChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved,SelectPicture.get());
                 } else if (chessData.get(i).length() == 11
                         && chessData.get(i).substring(5, 10).equals("Queen")
                         && (chessData.get(i).charAt(10) == 't' || chessData.get(i).charAt(10) == 'f')) {
                     this.remove(chessComponents[x][y]);
                     boolean moved = chessData.get(i).charAt(10) == 't';
-                    chessComponents[x][y] = new QueenChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved);
+                    chessComponents[x][y] = new QueenChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved,SelectPicture.get());
                 } else if (chessData.get(i).length() == 10
                         && chessData.get(i).substring(5, 9).equals("Rook")
                         && (chessData.get(i).charAt(9) == 't' || chessData.get(i).charAt(9) == 'f')) {
                     this.remove(chessComponents[x][y]);
                     boolean moved = chessData.get(i).charAt(9) == 't';
-                    chessComponents[x][y] = new RookChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved);
+                    chessComponents[x][y] = new RookChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved,SelectPicture.get());
                 } else {
-                    init(currentColor);
+                    init(currentColor,SelectPicture.get());
                     JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chess!", "Warning", 0);
                     return;
                 }
@@ -318,7 +417,7 @@ public class Chessboard extends JComponent {
         // Note that chess1 has higher priority, 'destroys' chess2 if exists.
         if (!(chess2 instanceof EmptySlotComponent)) {
             remove(chess2);
-            add(chess2 = new EmptySlotComponent(chess2.getChessboardPoint(), chess2.getLocation(), clickController, CHESS_SIZE, false));
+            add(chess2 = new EmptySlotComponent(chess2.getChessboardPoint(), chess2.getLocation(), clickController, CHESS_SIZE, false,chess1.picture));
         }
         chess1.swapLocation(chess2);
         int row1 = chess1.getChessboardPoint().getX(), col1 = chess1.getChessboardPoint().getY();

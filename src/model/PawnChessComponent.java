@@ -30,6 +30,8 @@ public class PawnChessComponent extends ChessComponent {
     private Image PawnImage;
     private boolean StepOne = true;
     private int size;
+    public int  picture;
+
     AtomicInteger ButtonSelect = new AtomicInteger();
 
     /**
@@ -37,13 +39,13 @@ public class PawnChessComponent extends ChessComponent {
      *
      * @throws IOException
      */
-    public void loadResource() throws IOException {
-        if (Pawn_WHITE == null) {
-            Pawn_WHITE = ImageIO.read(new File("./images/pawn-white.png"));
-        }
-
-        if (Pawn_BLACK == null) {
+    public void loadResource(int picture) throws IOException {
+        if(picture==0){  Pawn_WHITE = ImageIO.read(new File("./images/pawn-white.png"));
             Pawn_BLACK = ImageIO.read(new File("./images/pawn-black.png"));
+
+        }else  if(picture==1){ Pawn_WHITE = ImageIO.read(new File("./images/pawn-white1.png"));
+               Pawn_BLACK = ImageIO.read(new File("./images/pawn-black1.png"));
+
         }
     }
 
@@ -63,9 +65,9 @@ public class PawnChessComponent extends ChessComponent {
      * @param color 棋子颜色
      */
 
-    private void initiatePawnImage(ChessColor color) {
+    private void initiatePawnImage(ChessColor color,int picture) {
         try {
-            loadResource();
+            loadResource(picture);
             if (color == ChessColor.WHITE) {
                 PawnImage = Pawn_WHITE;
             } else if (color == ChessColor.BLACK) {
@@ -76,9 +78,9 @@ public class PawnChessComponent extends ChessComponent {
         }
     }
 
-    public PawnChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size, boolean moved) {
-        super("Pawn", chessboardPoint, location, color, listener, size, moved);
-        initiatePawnImage(color);
+    public PawnChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size, boolean moved,int picture) {
+        super("Pawn", chessboardPoint, location, color, listener, size, moved,picture);
+        initiatePawnImage(color,picture);
         this.size = size;
     }
 
@@ -197,7 +199,7 @@ public class PawnChessComponent extends ChessComponent {
                             ClickController p = chessComponents[destination.getX() - 1][destination.getY()].getClickController();
                             int s = size;//为新的空棋子的参数
                             chessboard.remove(chessComponents[destination.getX() - 1][destination.getY()]);
-                            chessComponents[destination.getX() - 1][destination.getY()] = new EmptySlotComponent(k, l, p, s, false);//新建空棋子
+                            chessComponents[destination.getX() - 1][destination.getY()] = new EmptySlotComponent(k, l, p, s, false,picture);//新建空棋子
                             chessboard.add(chessComponents[destination.getX() - 1][destination.getY()]);
                             super.flag1 = true;
                             ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
@@ -231,7 +233,7 @@ public class PawnChessComponent extends ChessComponent {
                             ClickController p = chessComponents[pointx][destination.getY()].getClickController();
                             int s = size;//为新的空棋子的参数
                             chessboard.remove(chessComponents[pointx][destination.getY()]);
-                            chessComponents[pointx][destination.getY()] = new EmptySlotComponent(k, l, p, s, false);//新建空棋子
+                            chessComponents[pointx][destination.getY()] = new EmptySlotComponent(k, l, p, s, false,picture);//新建空棋子
                             chessboard.add(chessComponents[pointx][destination.getY()]);
                             super.flag1 = true;
                             ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
@@ -364,7 +366,7 @@ public class PawnChessComponent extends ChessComponent {
                             ClickController p = chessComponents[pointx][destination.getY()].getClickController();
                             int s = size;//为新的空棋子的参数
                             chessboard.remove(chessComponents[pointx][destination.getY()]);
-                            chessComponents[pointx][destination.getY()] = new EmptySlotComponent(k, l, p, s, false);//新建空棋子
+                            chessComponents[pointx][destination.getY()] = new EmptySlotComponent(k, l, p, s, false,picture);//新建空棋子
                             chessboard.add(chessComponents[pointx][destination.getY()]);
                             super.flag1 = true;
                             ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
@@ -400,7 +402,7 @@ public class PawnChessComponent extends ChessComponent {
                             ClickController p = chessComponents[pointx][destination.getY()].getClickController();
                             int s = size;//为新的空棋子的参数
                             chessboard.remove(chessComponents[pointx][destination.getY()]);
-                            chessComponents[pointx][destination.getY()] = new EmptySlotComponent(k, l, p, s, false);//新建空棋子
+                            chessComponents[pointx][destination.getY()] = new EmptySlotComponent(k, l, p, s, false,picture);//新建空棋子
                             chessboard.add(chessComponents[pointx][destination.getY()]);
                             super.flag1 = true;
                             ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
@@ -443,7 +445,7 @@ public class PawnChessComponent extends ChessComponent {
         Object[] turn = {"Queen", "Rook", "Knight", "Bishop"};
         ButtonSelect.set(JOptionPane.showOptionDialog(null, "\n" +
                 "Soldiers line up changes", "Select", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, turn, turn[0]));
-        this.getClickController().turntoOther(this.getChessboardPoint(), this.size, ButtonSelect.get());
+        this.getClickController().turntoOther(this.getChessboardPoint(), this.size, ButtonSelect.get(),this.picture);
 //        ChessboardPoint source = getChessboardPoint();
 //        ChessboardPoint k = new ChessboardPoint(source.getX(), source.getY());
 //        Point l = chessComponents[source.getX()][source.getY()].getLocation();

@@ -21,6 +21,7 @@ public class KingChessComponent extends ChessComponent {
      */
     private static Image King_WHITE;
     private static Image King_BLACK;
+    public int  picture;
 
     /**
      * 王棋子对象自身的图片，是上面两种中的一种
@@ -32,13 +33,15 @@ public class KingChessComponent extends ChessComponent {
      *
      * @throws IOException
      */
-    public void loadResource() throws IOException {
-        if (King_WHITE == null) {
-            King_WHITE = ImageIO.read(new File("./images/king-white.png"));
-        }
+    public void loadResource(int picture) throws IOException {
+        if(picture==0){
+                King_WHITE = ImageIO.read(new File("./images/king-white.png"));
 
-        if (King_BLACK == null) {
-            King_BLACK = ImageIO.read(new File("./images/king-black.png"));
+                King_BLACK = ImageIO.read(new File("./images/king-black.png"));
+
+        }else if(picture==1) {
+                King_WHITE = ImageIO.read(new File("./images/king-white1.png"));
+              King_BLACK = ImageIO.read(new File("./images/king-black1.png"));
         }
     }
 
@@ -49,9 +52,9 @@ public class KingChessComponent extends ChessComponent {
      * @param color 棋子颜色
      */
 
-    private void initiateKingImage(ChessColor color) {
+    private void initiateKingImage(ChessColor color,int picture) {
         try {
-            loadResource();
+            loadResource(picture);
             if (color == ChessColor.WHITE) {
                 KingImage = King_WHITE;
             } else if (color == ChessColor.BLACK) {
@@ -62,9 +65,9 @@ public class KingChessComponent extends ChessComponent {
         }
     }
 
-    public KingChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size, boolean moved) {
-        super("King", chessboardPoint, location, color, listener, size, moved);
-        initiateKingImage(color);
+    public KingChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size, boolean moved ,int picture) {
+        super("King", chessboardPoint, location, color, listener, size, moved,picture);
+        initiateKingImage(color,picture);
     }
 
     /**
@@ -112,7 +115,7 @@ public class KingChessComponent extends ChessComponent {
                                 if (j != source.getX() && k != source.getY()) {
                                     if (chessComponents[j][k].canMoveTo(chessComponents, new ChessboardPoint(source.getX(), i), chessComponents[j][k].getChessColor(), Turnboard, chessboard)) {
 //                                        chessboard.remove(chessComponents[source.getX()][i]);
-                                        chessComponents[source.getX()][i] = new EmptySlotComponent(new ChessboardPoint(source.getX(), i), new Point(source.getX(), i), super.getClickController(), chessboard.getCHESS_SIZE(), false);
+                                        chessComponents[source.getX()][i] = new EmptySlotComponent(new ChessboardPoint(source.getX(), i), new Point(source.getX(), i), super.getClickController(), chessboard.getCHESS_SIZE(), false,picture);
 //                                        chessComponents[source.getX()][i].setVisible(true);
 //                                        chessboard.add(chessComponents[source.getX()][i]);
                                         repaint();
@@ -122,7 +125,7 @@ public class KingChessComponent extends ChessComponent {
                             }
                         }
 //                        chessboard.remove(chessComponents[source.getX()][i]);
-                        chessComponents[source.getX()][i] = new EmptySlotComponent(new ChessboardPoint(source.getX(), i), new Point(source.getX(), i), super.getClickController(), chessboard.getCHESS_SIZE(), false);
+                        chessComponents[source.getX()][i] = new EmptySlotComponent(new ChessboardPoint(source.getX(), i), new Point(source.getX(), i), super.getClickController(), chessboard.getCHESS_SIZE(), false,picture);
 //                        chessComponents[source.getX()][i].setVisible(true);
 //                        chessboard.add(chessComponents[source.getX()][i]);
                     }
@@ -131,7 +134,7 @@ public class KingChessComponent extends ChessComponent {
                     chessComponents[source.getX()][5] = chessComponents[source.getX()][7];
                     chessComponents[source.getX()][5].setChessboardPoint(new ChessboardPoint(source.getX(), 5));
                     chessComponents[source.getX()][5].setMoved(true);
-                    chessComponents[source.getX()][7] = new EmptySlotComponent(new ChessboardPoint(source.getX(), 7), new Point(source.getX(), 7), getClickController(), chessboard.getCHESS_SIZE(), false);
+                    chessComponents[source.getX()][7] = new EmptySlotComponent(new ChessboardPoint(source.getX(), 7), new Point(source.getX(), 7), getClickController(), chessboard.getCHESS_SIZE(), false,picture);
                     chessboard.add(chessComponents[source.getX()][7]);
                     chessboard.add(chessComponents[source.getX()][5]);
                     repaint();
@@ -155,7 +158,7 @@ public class KingChessComponent extends ChessComponent {
                                 if (j != source.getX() && k != source.getY()) {
                                     if (chessComponents[j][k].canMoveTo(chessComponents, new ChessboardPoint(source.getX(), i), chessComponents[j][k].getChessColor(), Turnboard, chessboard)) {
 //                                        chessboard.remove(chessComponents[source.getX()][i]);
-                                        chessComponents[source.getX()][i] = new EmptySlotComponent(new ChessboardPoint(source.getX(), i), new Point(source.getX(), i), super.getClickController(), chessboard.getCHESS_SIZE(), false);
+                                        chessComponents[source.getX()][i] = new EmptySlotComponent(new ChessboardPoint(source.getX(), i), new Point(source.getX(), i), super.getClickController(), chessboard.getCHESS_SIZE(), false,picture);
 //                                        chessComponents[source.getX()][i].setVisible(true);
 //                                        chessboard.add(chessComponents[source.getX()][i]);
                                         return false;
@@ -164,7 +167,7 @@ public class KingChessComponent extends ChessComponent {
                             }
                         }
 //                        chessboard.remove(chessComponents[source.getX()][i]);
-                        chessComponents[source.getX()][i] = new EmptySlotComponent(new ChessboardPoint(source.getX(), i), new Point(source.getX(), i), super.getClickController(), chessboard.getCHESS_SIZE(), false);
+                        chessComponents[source.getX()][i] = new EmptySlotComponent(new ChessboardPoint(source.getX(), i), new Point(source.getX(), i), super.getClickController(), chessboard.getCHESS_SIZE(), false,picture);
 //                        chessboard.add(chessComponents[source.getX()][i]);
                     }
                     chessboard.remove(chessComponents[source.getX()][0]);
@@ -173,7 +176,7 @@ public class KingChessComponent extends ChessComponent {
                     chessComponents[source.getX()][3].setChessboardPoint(new ChessboardPoint(source.getX(), 3));
 //                    chessboard.remove(chessComponents[source.getX()][0]);
                     chessComponents[source.getX()][3].setMoved(true);
-                    chessComponents[source.getX()][0] = new EmptySlotComponent(new ChessboardPoint(source.getX(), 0), new Point(source.getX(), 0), getClickController(), chessboard.getCHESS_SIZE(), false);
+                    chessComponents[source.getX()][0] = new EmptySlotComponent(new ChessboardPoint(source.getX(), 0), new Point(source.getX(), 0), getClickController(), chessboard.getCHESS_SIZE(), false,picture);
 //                    chessboard.add(chessComponents[source.getX()][0]);
                     chessboard.add(chessComponents[source.getX()][0]);
                     chessboard.add(chessComponents[source.getX()][3]);

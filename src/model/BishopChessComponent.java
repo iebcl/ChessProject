@@ -29,19 +29,19 @@ public class BishopChessComponent extends ChessComponent {
      * 象棋子对象自身的图片，是上面两种中的一种
      */
     private Image BishopImage;
-
+    public int  picture;
     /**
      * 读取加载象棋子的图片
      *
      * @throws IOException
      */
-    public void loadResource() throws IOException {
-        if (Bishop_WHITE == null) {
+    public void loadResource(int picture) throws IOException {
+        if(picture==0){
             Bishop_WHITE = ImageIO.read(new File("./images/bishop-white.png"));
-        }
-
-        if (Bishop_BLACK == null) {
             Bishop_BLACK = ImageIO.read(new File("./images/bishop-black.png"));
+          }else if(picture==1){
+               Bishop_WHITE = ImageIO.read(new File("./images/bishop-white1.png"));
+               Bishop_BLACK = ImageIO.read(new File("./images/bishop-black1.png"));
         }
     }
 
@@ -52,9 +52,9 @@ public class BishopChessComponent extends ChessComponent {
      * @param color 棋子颜色
      */
 
-    private void initiateBishopImage(ChessColor color) {
+    private void initiateBishopImage(ChessColor color,int picture) {
         try {
-            loadResource();
+            loadResource(picture);
             if (color == ChessColor.WHITE) {
                 BishopImage = Bishop_WHITE;
             } else if (color == ChessColor.BLACK) {
@@ -65,9 +65,9 @@ public class BishopChessComponent extends ChessComponent {
         }
     }
 
-    public BishopChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size, boolean moved) {
-        super("Bishop", chessboardPoint, location, color, listener, size,moved);
-        initiateBishopImage(color);
+    public BishopChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size, boolean moved,int picture) {
+        super("Bishop", chessboardPoint, location, color, listener, size,moved,picture);
+        initiateBishopImage(color,picture);
     }
 
     /**

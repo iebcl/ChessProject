@@ -33,10 +33,12 @@ public abstract class ChessComponent extends JComponent {
     private boolean Moved;
     private boolean firstAndTwo = false;//这个为第一次行棋且直进两格
     public boolean flag1 = false;
+    public int  picture;
+
 
 // Constructor
 
-    protected ChessComponent(String name, ChessboardPoint chessboardPoint, Point location, ChessColor chessColor, ClickController clickController, int size, boolean moved) {
+    protected ChessComponent(String name, ChessboardPoint chessboardPoint, Point location, ChessColor chessColor, ClickController clickController, int size, boolean moved,int picture) {
         enableEvents(AWTEvent.MOUSE_EVENT_MASK);
         setLocation(location);
         setSize(size, size);
@@ -104,12 +106,11 @@ public abstract class ChessComponent extends JComponent {
 
     public abstract boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination, ChessColor color, Boolean Turnboard, Chessboard chessboard);
 
-    public abstract void loadResource() throws IOException; // 加载一些特定资源，如棋子图片等等; @throws IOException 如果一些资源找不到(如棋子图片路径错误)，就会抛出异常
+    public abstract void loadResource(int num) throws IOException; // 加载一些特定资源，如棋子图片等等; @throws IOException 如果一些资源找不到(如棋子图片路径错误)，就会抛出异常
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponents(g);
-//        System.out.printf("repaint chess [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
         Color squareColor = BACKGROUND_COLORS[(chessboardPoint.getX() + chessboardPoint.getY()) % 2];
         g.setColor(squareColor);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
