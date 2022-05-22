@@ -65,8 +65,8 @@ public class BishopChessComponent extends ChessComponent {
         }
     }
 
-    public BishopChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size) {
-        super("Bishop", chessboardPoint, location, color, listener, size);
+    public BishopChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size, boolean moved) {
+        super("Bishop", chessboardPoint, location, color, listener, size,moved);
         initiateBishopImage(color);
     }
 

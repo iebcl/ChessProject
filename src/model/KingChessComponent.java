@@ -62,8 +62,8 @@ public class KingChessComponent extends ChessComponent {
         }
     }
 
-    public KingChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size) {
-        super("King", chessboardPoint, location, color, listener, size);
+    public KingChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size, boolean moved) {
+        super("King", chessboardPoint, location, color, listener, size, moved);
         initiateKingImage(color);
     }
 
@@ -76,7 +76,7 @@ public class KingChessComponent extends ChessComponent {
      */
 
     @Override
-    public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination, ChessColor color,Boolean Turnboard,  Chessboard chessboard) {
+    public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination, ChessColor color, Boolean Turnboard, Chessboard chessboard) {
         ChessboardPoint source = getChessboardPoint();
         //翻转对象没有影响
 
@@ -84,20 +84,104 @@ public class KingChessComponent extends ChessComponent {
                 && destination.getY() - source.getY() <= 1 && destination.getY() - source.getY() >= -1) {
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
-                    if (!chessComponents[i][j].getChessColor().equals(color) && chessComponents[i][j].
-                            canMoveTo(chessComponents, destination, color,Turnboard, chessboard)) {
+                    if (!chessComponents[i][j].getChessColor().equals(color)
+                            && chessComponents[i][j].canMoveTo(chessComponents, destination, color, Turnboard, chessboard)) {
                         return false;
                     }
                 }
             }
-            if(color.equals(ChessColor.BLACK)) {
-                color.setLastone(Color.BLACK, false,11,11);//设置为11，即不在棋盘上，不影响吃过路兵功能
-            }else if(color.equals(ChessColor.WHITE)){
-                color.setLastone(Color.WHITE, false,11,11);//设置为11，即不在棋盘上，不影响吃过路兵功能
+            if (color.equals(ChessColor.BLACK)) {
+                color.setLastone(Color.BLACK, false, 11, 11);//设置为11，即不在棋盘上，不影响吃过路兵功能
+            } else if (color.equals(ChessColor.WHITE)) {
+                color.setLastone(Color.WHITE, false, 11, 11);//设置为11，即不在棋盘上，不影响吃过路兵功能
             }
             return true;
+        } else if (destination.getX() == source.getX() && !super.isMoved()) {
+            if (destination.getY() - source.getY() == 2) {
+                if (!chessComponents[source.getX()][7].isMoved()) {
+                    for (int i = 5; i < 7; i++) {
+                        if (!(chessComponents[source.getX()][i] instanceof EmptySlotComponent)) {
+                            return false;
+                        }
+//                        chessboard.remove(chessComponents[source.getX()][i]);
+                        chessComponents[source.getX()][i] = chessComponents[source.getX()][source.getY()];
+                        chessComponents[source.getX()][i].setChessboardPoint(new ChessboardPoint(source.getX(), i));
+//                        chessboard.add(chessComponents[source.getX()][i]);
+                        for (int j = 0; j < 8; j++) {
+                            for (int k = 0; k < 8; k++) {
+                                if (j != source.getX() && k != source.getY()) {
+                                    if (chessComponents[j][k].canMoveTo(chessComponents, new ChessboardPoint(source.getX(), i), chessComponents[j][k].getChessColor(), Turnboard, chessboard)) {
+//                                        chessboard.remove(chessComponents[source.getX()][i]);
+                                        chessComponents[source.getX()][i] = new EmptySlotComponent(new ChessboardPoint(source.getX(), i), new Point(source.getX(), i), super.getClickController(), chessboard.getCHESS_SIZE(), false);
+//                                        chessComponents[source.getX()][i].setVisible(true);
+//                                        chessboard.add(chessComponents[source.getX()][i]);
+                                        repaint();
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+//                        chessboard.remove(chessComponents[source.getX()][i]);
+                        chessComponents[source.getX()][i] = new EmptySlotComponent(new ChessboardPoint(source.getX(), i), new Point(source.getX(), i), super.getClickController(), chessboard.getCHESS_SIZE(), false);
+//                        chessComponents[source.getX()][i].setVisible(true);
+//                        chessboard.add(chessComponents[source.getX()][i]);
+                    }
+                    chessboard.remove(chessComponents[source.getX()][7]);
+                    chessboard.remove(chessComponents[source.getX()][5]);
+                    chessComponents[source.getX()][5] = chessComponents[source.getX()][7];
+                    chessComponents[source.getX()][5].setChessboardPoint(new ChessboardPoint(source.getX(), 5));
+                    chessComponents[source.getX()][5].setMoved(true);
+                    chessComponents[source.getX()][7] = new EmptySlotComponent(new ChessboardPoint(source.getX(), 7), new Point(source.getX(), 7), getClickController(), chessboard.getCHESS_SIZE(), false);
+                    chessboard.add(chessComponents[source.getX()][7]);
+                    chessboard.add(chessComponents[source.getX()][5]);
+                    repaint();
+                    return true;
+                }
+            } else if (destination.getY() - source.getY() == -2) {
+                if (!chessComponents[source.getX()][0].isMoved()) {
+                    for (int i = 3; i > 0; i--) {
+                        if (!(chessComponents[source.getX()][i] instanceof EmptySlotComponent)) {
+                            return false;
+                        }
+                    }
+                    for (int i = 3; i > 1; i--) {
+//                        chessboard.remove(chessComponents[source.getX()][i]);
+//                        chessboard.remove(chessComponents[source.getX()][i]);
+                        chessComponents[source.getX()][i] = chessComponents[source.getX()][source.getY()];
+                        chessComponents[source.getX()][i].setChessboardPoint(new ChessboardPoint(source.getX(), i));
+//                        chessboard.add(chessComponents[source.getX()][i]);
+                        for (int j = 0; j < 8; j++) {
+                            for (int k = 0; k < 8; k++) {
+                                if (j != source.getX() && k != source.getY()) {
+                                    if (chessComponents[j][k].canMoveTo(chessComponents, new ChessboardPoint(source.getX(), i), chessComponents[j][k].getChessColor(), Turnboard, chessboard)) {
+//                                        chessboard.remove(chessComponents[source.getX()][i]);
+                                        chessComponents[source.getX()][i] = new EmptySlotComponent(new ChessboardPoint(source.getX(), i), new Point(source.getX(), i), super.getClickController(), chessboard.getCHESS_SIZE(), false);
+//                                        chessComponents[source.getX()][i].setVisible(true);
+//                                        chessboard.add(chessComponents[source.getX()][i]);
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+//                        chessboard.remove(chessComponents[source.getX()][i]);
+                        chessComponents[source.getX()][i] = new EmptySlotComponent(new ChessboardPoint(source.getX(), i), new Point(source.getX(), i), super.getClickController(), chessboard.getCHESS_SIZE(), false);
+//                        chessboard.add(chessComponents[source.getX()][i]);
+                    }
+                    chessboard.remove(chessComponents[source.getX()][0]);
+                    chessboard.remove(chessComponents[source.getX()][3]);
+                    chessComponents[source.getX()][3] = chessComponents[source.getX()][0];
+                    chessComponents[source.getX()][3].setChessboardPoint(new ChessboardPoint(source.getX(), 3));
+//                    chessboard.remove(chessComponents[source.getX()][0]);
+                    chessComponents[source.getX()][3].setMoved(true);
+                    chessComponents[source.getX()][0] = new EmptySlotComponent(new ChessboardPoint(source.getX(), 0), new Point(source.getX(), 0), getClickController(), chessboard.getCHESS_SIZE(), false);
+//                    chessboard.add(chessComponents[source.getX()][0]);
+                    chessboard.add(chessComponents[source.getX()][0]);
+                    chessboard.add(chessComponents[source.getX()][3]);
+                    repaint();
+                    return true;
+                }
+            }
         }
-
         return false;
     }
 

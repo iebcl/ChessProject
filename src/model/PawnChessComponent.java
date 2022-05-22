@@ -76,8 +76,8 @@ public class PawnChessComponent extends ChessComponent {
         }
     }
 
-    public PawnChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size) {
-        super("Pawn", chessboardPoint, location, color, listener, size);
+    public PawnChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size, boolean moved) {
+        super("Pawn", chessboardPoint, location, color, listener, size, moved);
         initiatePawnImage(color);
         this.size = size;
     }
@@ -197,7 +197,7 @@ public class PawnChessComponent extends ChessComponent {
                             ClickController p = chessComponents[destination.getX() - 1][destination.getY()].getClickController();
                             int s = size;//为新的空棋子的参数
                             chessboard.remove(chessComponents[destination.getX() - 1][destination.getY()]);
-                            chessComponents[destination.getX() - 1][destination.getY()] = new EmptySlotComponent(k, l, p, s);//新建空棋子
+                            chessComponents[destination.getX() - 1][destination.getY()] = new EmptySlotComponent(k, l, p, s, false);//新建空棋子
                             chessboard.add(chessComponents[destination.getX() - 1][destination.getY()]);
                             super.flag1 = true;
                             ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
@@ -231,7 +231,7 @@ public class PawnChessComponent extends ChessComponent {
                             ClickController p = chessComponents[pointx][destination.getY()].getClickController();
                             int s = size;//为新的空棋子的参数
                             chessboard.remove(chessComponents[pointx][destination.getY()]);
-                            chessComponents[pointx][destination.getY()] = new EmptySlotComponent(k, l, p, s);//新建空棋子
+                            chessComponents[pointx][destination.getY()] = new EmptySlotComponent(k, l, p, s, false);//新建空棋子
                             chessboard.add(chessComponents[pointx][destination.getY()]);
                             super.flag1 = true;
                             ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
@@ -364,7 +364,7 @@ public class PawnChessComponent extends ChessComponent {
                             ClickController p = chessComponents[pointx][destination.getY()].getClickController();
                             int s = size;//为新的空棋子的参数
                             chessboard.remove(chessComponents[pointx][destination.getY()]);
-                            chessComponents[pointx][destination.getY()] = new EmptySlotComponent(k, l, p, s);//新建空棋子
+                            chessComponents[pointx][destination.getY()] = new EmptySlotComponent(k, l, p, s, false);//新建空棋子
                             chessboard.add(chessComponents[pointx][destination.getY()]);
                             super.flag1 = true;
                             ifarrive(chessComponents, destination, color, turnchessboard, chessboard);
@@ -400,7 +400,7 @@ public class PawnChessComponent extends ChessComponent {
                             ClickController p = chessComponents[pointx][destination.getY()].getClickController();
                             int s = size;//为新的空棋子的参数
                             chessboard.remove(chessComponents[pointx][destination.getY()]);
-                            chessComponents[pointx][destination.getY()] = new EmptySlotComponent(k, l, p, s);//新建空棋子
+                            chessComponents[pointx][destination.getY()] = new EmptySlotComponent(k, l, p, s, false);//新建空棋子
                             chessboard.add(chessComponents[pointx][destination.getY()]);
                             super.flag1 = true;
                             ifarrive(chessComponents, destination, color, turnchessboard, chessboard);

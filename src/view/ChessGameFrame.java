@@ -14,9 +14,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static javax.swing.JFileChooser.CANCEL_OPTION;
 
-/**
- * 这个类表示游戏过程中的整个游戏界面，是一切的载体
- */
 public class ChessGameFrame extends JFrame {
     //    public final Dimension FRAME_SIZE ;
     private final int WIDTH;
@@ -114,6 +111,7 @@ public class ChessGameFrame extends JFrame {
                     for (int j = 0; j < 8; j++) {
                         writer.write(chessboard.getChessComponents()[i][j].getChessColor().toString());
                         writer.write(chessboard.getChessComponents()[i][j].getName());
+                        writer.write("f");
                         writer.newLine();
                     }
                 }
@@ -156,6 +154,19 @@ public class ChessGameFrame extends JFrame {
             try {
                 File file = new File(dir);
                 file.createNewFile();
+                BufferedWriter writer = new BufferedWriter(new FileWriter("resource\\" + getFilename() + ".txt"));
+                writer.write(chessboard.getCurrentColor().toString());
+                writer.newLine();
+                for (int i = 0; i < 8; i++) {
+                    for (int j = 0; j < 8; j++) {
+                        writer.write(chessboard.getChessComponents()[i][j].getChessColor().toString());
+                        writer.write(chessboard.getChessComponents()[i][j].getName());
+                        writer.write("f");
+                        writer.newLine();
+                    }
+                }
+                writer.flush();
+                writer.close();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -181,8 +192,7 @@ public class ChessGameFrame extends JFrame {
             int value = fileChooser.showOpenDialog(new ChessGameFrame(1000, 760));
             if (value == JFileChooser.APPROVE_OPTION) {
                 path = fileChooser.getSelectedFile().getName();
-            }else{
-//                fileChooser.
+            } else {
             }
 //            String path = JOptionPane.showInputDialog(this, "Input filename here");
             this.filename = path;
@@ -216,6 +226,7 @@ public class ChessGameFrame extends JFrame {
                     for (int j = 0; j < 8; j++) {
                         writer.write(chessboard.getChessComponents()[i][j].getChessColor().toString());
                         writer.write(chessboard.getChessComponents()[i][j].getName());
+                        writer.write(chessboard.getChessComponents()[i][j].isMoved() ? "t" : "f");
                         writer.newLine();
                     }
                 }

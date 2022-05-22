@@ -1,6 +1,5 @@
 package controller;
 
-
 import model.*;
 import view.ChessGameFrame;
 import view.Chessboard;
@@ -57,33 +56,36 @@ public class ClickController {
      */
 
     private boolean handleSecond(ChessComponent chessComponent) {
-        if (chessComponent.getName().equals("Pawn")) {
-            boolean a = chessComponent.getChessColor() != chessboard.getCurrentColor() &&
-                    first.canMoveTo(chessboard.getChessComponents(), chessComponent.getChessboardPoint(), first.getChessColor(), chessboard.getTurnchessboard(), chessboard);
-            return a;
-        } else {
-            boolean a = chessComponent.getChessColor() != chessboard.getCurrentColor() &&
-                    first.canMoveTo(chessboard.getChessComponents(), chessComponent.getChessboardPoint(), first.getChessColor(), chessboard.getTurnchessboard(), chessboard);
-            return a;
-        }
+//        if (chessComponent.getName().equals("Pawn")) {
+//            boolean a = chessComponent.getChessColor() != chessboard.getCurrentColor() &&
+//                    first.canMoveTo(chessboard.getChessComponents(), chessComponent.getChessboardPoint(), first.getChessColor(), chessboard.getTurnchessboard(), chessboard);
+//            return a;
+//        } else {
+//            boolean a = chessComponent.getChessColor() != chessboard.getCurrentColor() &&
+//                    first.canMoveTo(chessboard.getChessComponents(), chessComponent.getChessboardPoint(), first.getChessColor(), chessboard.getTurnchessboard(), chessboard);
+//            return a;
+//        }
+        return chessComponent.getChessColor() != chessboard.getCurrentColor()
+                && first.canMoveTo(chessboard.getChessComponents(), chessComponent.getChessboardPoint(), first.getChessColor(), chessboard.getTurnchessboard(), chessboard);
     }
-    public  void  turntoOther(ChessboardPoint chesspoint,int size,int select){
+
+    public void turntoOther(ChessboardPoint chesspoint, int size, int select) {
         ChessboardPoint source = chesspoint;
         ChessboardPoint k = new ChessboardPoint(source.getX(), source.getY());
         Point l = first.getLocation();
-        ClickController p =first.getClickController();
+        ClickController p = first.getClickController();
         int s = size;//为新的空棋子的参数
         chessboard.remove(first);
         if (select == 0)//选后
         {
-            first= new QueenChessComponent(k, l, first.getChessColor(), p, s);
+            first = new QueenChessComponent(k, l, first.getChessColor(), p, s, true);
         } else if (select == 1)//Rook
         {
-            first= new RookChessComponent(k, l, first.getChessColor(), p, s);
+            first = new RookChessComponent(k, l, first.getChessColor(), p, s, true);
         } else if (select == 2) {
-            first= new KnightChessComponent(k, l, first.getChessColor(), p, s);
-        } else if (select== 3) {
-           first= new BishopChessComponent(k, l, first.getChessColor(), p, s);
+            first = new KnightChessComponent(k, l, first.getChessColor(), p, s, true);
+        } else if (select == 3) {
+            first = new BishopChessComponent(k, l, first.getChessColor(), p, s, true);
         }
         chessboard.add(first);
     }

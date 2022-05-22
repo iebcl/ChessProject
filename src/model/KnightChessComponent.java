@@ -62,8 +62,8 @@ public class KnightChessComponent extends ChessComponent {
         }
     }
 
-    public KnightChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size) {
-        super("Knight", chessboardPoint, location, color, listener, size);
+    public KnightChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size, boolean moved) {
+        super("Knight", chessboardPoint, location, color, listener, size, moved);
         initiateKnightImage(color);
     }
 

@@ -30,6 +30,7 @@ public enum ChessColor {
             WHITE.lastY=y;
         }
     }
+
     public String getName() {
         return name;
     }

@@ -62,8 +62,8 @@ public class QueenChessComponent extends ChessComponent {
         }
     }
 
-    public QueenChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size) {
-        super("Queen", chessboardPoint, location, color, listener, size);
+    public QueenChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor color, ClickController listener, int size, boolean moved) {
+        super("Queen", chessboardPoint, location, color, listener, size, moved);
         initiateQueenImage(color);
     }
 
@@ -76,7 +76,7 @@ public class QueenChessComponent extends ChessComponent {
      */
 
     @Override
-    public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination, ChessColor color,Boolean Turnboard,  Chessboard chessboard) {
+    public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination, ChessColor color, Boolean Turnboard, Chessboard chessboard) {
         ChessboardPoint source = getChessboardPoint();
         //翻转对象没有影响
         if (source.getX() == destination.getX()) {
@@ -134,10 +134,10 @@ public class QueenChessComponent extends ChessComponent {
         } else {
             return false;
         }
-        if(color.equals(ChessColor.BLACK)) {
-            color.setLastone(Color.BLACK, false,11,11);//设置为11，即不在棋盘上，不影响吃过路兵功能
-        }else if(color.equals(ChessColor.WHITE)){
-            color.setLastone(Color.WHITE, false,11,11);//设置为11，即不在棋盘上，不影响吃过路兵功能
+        if (color.equals(ChessColor.BLACK)) {
+            color.setLastone(Color.BLACK, false, 11, 11);//设置为11，即不在棋盘上，不影响吃过路兵功能
+        } else if (color.equals(ChessColor.WHITE)) {
+            color.setLastone(Color.WHITE, false, 11, 11);//设置为11，即不在棋盘上，不影响吃过路兵功能
         }
         return true;
     }
