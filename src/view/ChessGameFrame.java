@@ -10,7 +10,9 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.Font;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,6 +20,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static javax.swing.JFileChooser.CANCEL_OPTION;
+
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
+import javax.imageio.ImageIO;
 
 public class ChessGameFrame extends JFrame {
     //    public final Dimension FRAME_SIZE ;
@@ -47,10 +55,12 @@ public class ChessGameFrame extends JFrame {
         Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE, statusLabel, SelectColor, SelectPicture);
 
         JLabel background = new JLabel(new ImageIcon("./images/backg.jpg"));
-        JButton start = new JButton("Start");
-        JButton restart = new JButton("Restart");
-        JButton load = new JButton("Load");
-        JButton store = new JButton("Store");
+
+        JButton start=newStart();
+
+        JButton restart =newReStart();
+        JButton load = newload();
+        JButton store =newStore();
         addStart(chessboard, statusLabel, start);//开始按键
         addReStart(restart);
         addLoad(load);
@@ -59,14 +69,12 @@ public class ChessGameFrame extends JFrame {
         PressReStartButton(background, restart, chessboard, statusLabel, SelectColor, SelectPicture);//重新开始，背景图片重新可见
         PressLoadButton(chessboard, background, load, start);
         PressStoreButton(chessboard, store);
-
         addBackGround(background);//开始时的背景设置，可以换图片
 
         //Demo中的
         addChessboard(chessboard);
 //        addLabel(chessboard, statusLabel);
 //        addHelloButton();
-
     }
 
 
@@ -74,12 +82,75 @@ public class ChessGameFrame extends JFrame {
     public static String getFilename() {
         return filename;
     }
+    private JButton newStart(){
+        JButton start = new JButton("Start");
+        start.setBackground(new Color(176,196,222));
+        start.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                start.setBackground(Color.LIGHT_GRAY);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                start.setBackground(new Color(176,196,222));
+            }
+        });
+        return start;
+    }
+    private JButton newReStart(){
+        JButton Restart = new JButton("Restart");
+        Restart.setBackground(new Color(176,196,222));
+        Restart.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                Restart.setBackground(Color.LIGHT_GRAY);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                Restart.setBackground(new Color(176,196,222));
+            }
+        });
+        return Restart;
+    }
+    private JButton newload(){
+        JButton load = new JButton("Load");
+        load.setBackground(new Color(176,196,222));
+        load.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                load.setBackground(Color.LIGHT_GRAY);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                load.setBackground(new Color(176,196,222));
+            }
+        });
+        return load;
+    }
+    private JButton newStore(){
+        JButton Restart = new JButton("Store");
+        Restart.setBackground(new Color(176,196,222));
+        Restart.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                Restart.setBackground(Color.LIGHT_GRAY);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                Restart.setBackground(new Color(176,196,222));
+            }
+        });
+        return Restart;
+    }
 
 
     // Buttons
     // Start
     private void addStart(Chessboard chessboard, JLabel statusLabel, JButton start) {
-
         start.setLocation(HEIGTH, HEIGTH / 10);
         start.setSize(200, 60);
         start.setFont(new Font("Start", Font.BOLD, 20));
