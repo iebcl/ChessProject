@@ -10,6 +10,11 @@ import view.ChessboardPoint;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
+<<<<<<< HEAD
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
+=======
+>>>>>>> 01c7290042c4efec37bcc8c8156e6a31b6fc2263
 
 public class ClickController {
     private final Chessboard chessboard;
@@ -38,9 +43,17 @@ public class ClickController {
             } else if (handleSecond(chessComponent)) {//canmoveto chesscomponent
                 //repaint in swap chess method.
                 chessboard.swapChessComponents(first, chessComponent);
+                if (chessComponent.getName().equals("King")) {
+                    Object[] over={"OK"};
+                    AtomicInteger Over=new AtomicInteger();
+                    Over.set(JOptionPane.showOptionDialog(null,  "Game over! Winner is "+chessboard.getCurrentColor().getName() , "Select", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, over, over[0]));
+
+                }
                 chessboard.swapColor();//下完这步，换下棋方
                 first.setSelected(false);
                 first = null;
+
+
             }
         }
     }

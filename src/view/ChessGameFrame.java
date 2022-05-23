@@ -2,7 +2,12 @@ package view;
 
 import controller.GameController;
 import model.ChessColor;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.Font;
@@ -123,6 +128,7 @@ public class ChessGameFrame extends JFrame {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
+            playBgm();
         });
     }
 
@@ -276,4 +282,19 @@ public class ChessGameFrame extends JFrame {
         add(statusLabel);
     }
 
+    public static void playBgm() {
+        File file = new File("resource//Windows XP 关机.wav");
+        Clip clip = null;
+        try {
+            if (file.exists()) {
+                AudioInputStream audioInput = AudioSystem.getAudioInputStream(file);
+                clip = AudioSystem.getClip();
+                clip.open(audioInput);
+                clip.start();
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 }
