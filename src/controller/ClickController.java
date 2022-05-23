@@ -10,11 +10,8 @@ import view.ChessboardPoint;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
-<<<<<<< HEAD
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-=======
->>>>>>> 01c7290042c4efec37bcc8c8156e6a31b6fc2263
 
 public class ClickController {
     private final Chessboard chessboard;
