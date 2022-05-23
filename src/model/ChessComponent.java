@@ -23,9 +23,7 @@ public abstract class ChessComponent extends JComponent {
 
     // private static final Dimension CHESSGRID_SIZE = new Dimension(1080 / 4 * 3 / 8, 1080 / 4 * 3 / 8); // 主要用于确定每个棋子在页面中显示的大小
     private static final Color[] BACKGROUND_COLORS = {Color.WHITE, Color.LIGHT_GRAY};
-
     private ClickController clickController; // handle click event
-
     private ChessboardPoint chessboardPoint; // 表示8*8棋盘中，当前棋子在棋格对应的位置，如(0, 0), (1, 0), (0, 7),(7, 7)等等
     protected ChessColor chessColor; //表示这个棋子的颜色，有白色，黑色，无色三种
     private String name;
@@ -33,12 +31,12 @@ public abstract class ChessComponent extends JComponent {
     private boolean Moved;
     private boolean firstAndTwo = false;//这个为第一次行棋且直进两格
     public boolean flag1 = false;
-    public int  picture;
+    public int picture;
 
 
 // Constructor
 
-    protected ChessComponent(String name, ChessboardPoint chessboardPoint, Point location, ChessColor chessColor, ClickController clickController, int size, boolean moved,int picture) {
+    protected ChessComponent(String name, ChessboardPoint chessboardPoint, Point location, ChessColor chessColor, ClickController clickController, int size, boolean moved, int picture) {
         enableEvents(AWTEvent.MOUSE_EVENT_MASK);
         setLocation(location);
         setSize(size, size);
@@ -72,6 +70,10 @@ public abstract class ChessComponent extends JComponent {
 
     public ChessColor getChessColor() {
         return chessColor;
+    }
+
+    public java.util.List<ChessboardPoint> canMoveToPoints(ChessComponent[][] chessComponents, ChessColor color, Boolean Turnboard, Chessboard chessboard) {
+        return null;
     }
 
     public void setMoved(boolean moved) {
@@ -140,10 +142,15 @@ public abstract class ChessComponent extends JComponent {
          */
 
         super.processMouseEvent(e);
-
         if (e.getID() == MouseEvent.MOUSE_PRESSED) {
             clickController.onClick(this);
         }
+        if (e.getID() == MouseEvent.MOUSE_ENTERED) {
+            clickController.onMovedin(this);
+//            System.out.println("cl");
+        }
+        if (e.getID() == MouseEvent.MOUSE_EXITED) {
+            clickController.onMovedout(this);
+        }
     }
-
 }
