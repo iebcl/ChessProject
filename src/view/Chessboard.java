@@ -68,7 +68,9 @@ public class Chessboard extends JComponent {
     }
 
 // Init
-
+    public void moveIn(int x,int y){
+        chessComponents[x][y].setBackground(Color.blue);
+    }
     public void init(ChessColor currentColor1, int pictureNum) {
         initiateEmptyChessboard(pictureNum);
         currentColor = ChessColor.WHITE;
