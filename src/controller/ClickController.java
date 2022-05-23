@@ -32,6 +32,9 @@ public class ClickController {
                 first.repaint();
             }
         } else {//选中棋子
+            if(first.getName().equals("Bishop") ){
+//                System.out.println(first.canMoveToPoints(chessboard.getChessComponents(), chessboard.getCurrentColor(),false,chessboard));
+            }
             if (first == chessComponent) { // 再次点击取消选取
                 chessComponent.setSelected(false);
                 ChessComponent recordFirst = first;
@@ -59,7 +62,15 @@ public class ClickController {
      * @param chessComponent 目标选取的棋子
      * @return 目标选取的棋子是否与棋盘记录的当前行棋方颜色相同
      */
+    public void onMovedin(ChessComponent chessComponent){
+        chessComponent.setBackground(Color.red);
+//        System.out.println(chessComponent.getChessboardPoint().getX());
+        chessboard.moveIn(chessComponent.getChessboardPoint().getX(),chessComponent.getChessboardPoint().getY());
+    }
 
+    public void onMovedout(ChessComponent chessComponent){
+        chessComponent.setBackground(Color.red);
+    }
     private boolean handleFirst(ChessComponent chessComponent) {
         return chessComponent.getChessColor() == chessboard.getCurrentColor();
     }
@@ -103,6 +114,7 @@ public class ClickController {
         }
         chessboard.add(first);
     }
+
     public static void playClick() {
         File file = new File("resource//Windows XP 叮当声.wav");
         InputStream inputStream = null;
