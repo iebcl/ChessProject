@@ -19,10 +19,10 @@ public class Chessboard extends JComponent {
     private final ChessComponent[][] chessComponents = new ChessComponent[CHESSBOARD_SIZE][CHESSBOARD_SIZE];
     private ChessColor currentColor; // 当前行棋方
     //all chessComponents in this chessboard are shared only one model controller
-
     private final ClickController clickController = new ClickController(this);
     Boolean turnchessboard; // 选择不同颜色后棋盘翻倒
     JLabel sta;
+    int Picture;
 
 // Constructor
 
@@ -38,6 +38,7 @@ public class Chessboard extends JComponent {
 //        System.out.printf("chessboard size = %d, chess size = %d\n", width, CHESS_SIZE);
         init(currentColor,SelectPicture.get());
         sta = statusLabel;
+        this.Picture = Integer.parseInt(String.valueOf(SelectPicture));
     }
 
 // Getter and Setter
@@ -45,7 +46,6 @@ public class Chessboard extends JComponent {
     public int getCHESS_SIZE() {
         return CHESS_SIZE;
     }
-
 
     public ChessComponent[][] getChessComponents() {
         return chessComponents;
@@ -67,10 +67,20 @@ public class Chessboard extends JComponent {
         return turnchessboard;
     }
 
+    public ClickController getClickController() {
+        return clickController;
+    }
+
+    public int getPicture() {
+        return Picture;
+    }
+
 // Init
+
     public void moveIn(int x,int y){
         chessComponents[x][y].setBackground(Color.blue);
     }
+
     public void init(ChessColor currentColor1, int pictureNum) {
         initiateEmptyChessboard(pictureNum);
         currentColor = ChessColor.WHITE;
@@ -191,7 +201,7 @@ public class Chessboard extends JComponent {
 
 // Game
 
-    public void loadGame(List<String> chessData) {
+    public void loadGame(List<String> chessData, ChessGameFrame chessGameFrame) {
         if (chessData.size() == 0) {
             JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "No content!", "warning", 0);
             return;
@@ -208,7 +218,7 @@ public class Chessboard extends JComponent {
             }
 
             // Chessboard
-            if (chessData.size() != 65) {
+            if (chessData.size() != 66) {
                 JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chessboard!", "Warning", 0);
                 return;
             }
@@ -300,6 +310,7 @@ public class Chessboard extends JComponent {
                     JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chess!", "Warning", 0);
                     return;
                 }
+                chessGameFrame.setCounter(Integer.parseInt(chessData.get(65)));
 //                this.add(chessComponents[x][y]);
 //                repaint();
             }
@@ -400,6 +411,7 @@ public class Chessboard extends JComponent {
                 this.add(chessComponents[x][y]);
                 repaint();
             }
+
             sta.setText("Time for " + currentColor.getName());
             this.setVisible(true);
         }
@@ -442,7 +454,7 @@ public class Chessboard extends JComponent {
         ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     }
 
-    private Point calculatePoint(int row, int col) {
+    Point calculatePoint(int row, int col) {
         return new Point(col * CHESS_SIZE, row * CHESS_SIZE);
     }
 
