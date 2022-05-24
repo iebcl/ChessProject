@@ -20,7 +20,7 @@ public class GameController {
         this.chessboard = chessboard;
     }
 
-    public List<String> loadGameFromFile(String filename) {
+    public List<String> loadGameFromFile(String filename, ChessGameFrame chessGameFrame) {
         if(filename.length()<=4)
                 return null;
         if (!filename.substring(filename.length() - 4).equals(".txt")) {
@@ -35,7 +35,7 @@ public class GameController {
                 while ((line = reader.readLine()) != null) {
                     readLines.add(line);
                 }
-                chessboard.loadGame(readLines);
+                chessboard.loadGame(readLines, chessGameFrame);
                 reader.close();
                 fileReader.close();
                 return readLines;
