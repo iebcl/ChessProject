@@ -37,6 +37,7 @@ public class ChessGameFrame extends JFrame {
     private GameController gameController;
     private static String filename;
     private static int counter;
+    private static int Picture;
 
     // Constructor
     public ChessGameFrame(int width, int height) {
@@ -44,6 +45,7 @@ public class ChessGameFrame extends JFrame {
         this.WIDTH = width;
         this.HEIGTH = height;
         this.CHESSBOARD_SIZE = HEIGTH * 4 / 5;
+
         this.getContentPane().setBackground(Color.WHITE);
         setSize(WIDTH, HEIGTH);
         setLocationRelativeTo(null); // Center the window.
@@ -54,11 +56,11 @@ public class ChessGameFrame extends JFrame {
         JLabel statusLabel = new JLabel("");
         statusLabel.setForeground(Color.BLUE);
         AtomicInteger SelectColor = new AtomicInteger();
-
         AtomicInteger SelectPicture = new AtomicInteger();
-        Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE, statusLabel, SelectColor, SelectPicture);
 
+        Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE, statusLabel, SelectColor, SelectPicture);
         JLabel background = new JLabel(new ImageIcon("./images/backg.jpg"));
+        Picture = SelectPicture.get();
 
         JButton start = newStart();
         JButton restart = newReStart();
@@ -120,38 +122,6 @@ public class ChessGameFrame extends JFrame {
         return start;
     }
 
-    private JButton changeColor() {
-        JButton start = new JButton("Change");
-        start.setBackground(new Color(176, 196, 222));
-        start.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                start.setBackground(Color.LIGHT_GRAY);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                start.setBackground(new Color(176, 196, 222));
-            }
-        });
-        return start;
-    }
-
-    private  void PressChange(JButton change){
-        change.addActionListener(e -> {
-            if(this.getContentPane().getBackground()==Color.WHITE){
-                this.getContentPane().setBackground(Color.BLACK);
-            }else {
-                this.getContentPane().setBackground(Color.WHITE);
-            };
-        });
-    }
-    private void  addChange(JButton change){
-        change.setSize(80,25);
-        change.setLocation(WIDTH/10*9,HEIGTH/10*9);
-        change.setVisible(true);
-        add(change);
-    }
     private JButton newReStart() {
         JButton Restart = new JButton("Restart");
         Restart.setBackground(new Color(176, 196, 222));
@@ -237,6 +207,22 @@ public class ChessGameFrame extends JFrame {
         return nextStep;
     }
 
+    private JButton changeColor() {
+        JButton start = new JButton("Change");
+        start.setBackground(new Color(176, 196, 222));
+        start.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                start.setBackground(Color.LIGHT_GRAY);
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                start.setBackground(new Color(176, 196, 222));
+            }
+        });
+        return start;
+    }
+
     // Buttons
 
     // Start
@@ -261,6 +247,7 @@ public class ChessGameFrame extends JFrame {
             SelectColor.set(JOptionPane.showOptionDialog(null, "Select your color!", "Select", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, color, color[0]));
             chessboard.setCurrentColor(1);
             pickPicture.set(JOptionPane.showOptionDialog(null, "Select your pictures!", "Select", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, picture, picture[0]));
+            Picture = pickPicture.get();
             chessboard.init(SelectColor.get() == 0 ? ChessColor.BLACK : ChessColor.WHITE, pickPicture.get());
             background.setVisible(false);
             addLabel(chessboard, statusLabel);
@@ -274,7 +261,6 @@ public class ChessGameFrame extends JFrame {
             try {
                 file = new File(dir);
                 file.createNewFile();
-
                 BufferedWriter writer = new BufferedWriter(new FileWriter("resource\\" + getFilename() + ".txt"));
                 writer.write(chessboard.getCurrentColor().toString());
                 writer.newLine();
@@ -337,6 +323,7 @@ public class ChessGameFrame extends JFrame {
                 currentColor1.set(ChessColor.WHITE);
             }
             pickPicture.set(JOptionPane.showOptionDialog(null, "Select your pictures!", "Select", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, picture, picture[0]));
+            Picture = pickPicture.get();
             chessboard.setCurrentColor(1);
             chessboard.init(SelectColor.get() == 0 ? ChessColor.BLACK : ChessColor.WHITE, pickPicture.get());
             chessboard.setVisible(false);
@@ -419,7 +406,6 @@ public class ChessGameFrame extends JFrame {
             removeStartButton(start);
         });
     }
-
 
     // Store
     private void addStore(Chessboard chessboard, JButton store) {
@@ -550,39 +536,27 @@ public class ChessGameFrame extends JFrame {
                             return;
                         }
 
-                        if (readLines.get(i).length() == 12
-                                && readLines.get(i).substring(5, 11).equals("Bishop")
-                                && (readLines.get(i).charAt(11) == 't' || readLines.get(i).charAt(11) == 'f')) {
+                        if (readLines.get(i).length() == 12 && readLines.get(i).substring(5, 11).equals("Bishop") && (readLines.get(i).charAt(11) == 't' || readLines.get(i).charAt(11) == 'f')) {
 //                    chessboard.remove(chessboard.getChessComponents()[x][y]);
 //                    boolean moved = readLines.get(i).charAt(11) == 't';
 //                    chessboard.getChessComponents()[x][y] = new BishopChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved);
-                        } else if (readLines.get(i).length() == 10
-                                && readLines.get(i).substring(5, 9).equals("King")
-                                && (readLines.get(i).charAt(9) == 't' || readLines.get(i).charAt(9) == 'f')) {
+                        } else if (readLines.get(i).length() == 10 && readLines.get(i).substring(5, 9).equals("King") && (readLines.get(i).charAt(9) == 't' || readLines.get(i).charAt(9) == 'f')) {
 //                    chessboard.remove(chessboard.getChessComponents()[x][y]);
 //                    boolean moved = readLines.get(i).charAt(9) == 't';
 //                    chessboard.getChessComponents()[x][y] = new KingChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved);
-                        } else if (readLines.get(i).length() == 12
-                                && readLines.get(i).substring(5, 11).equals("Knight")
-                                && (readLines.get(i).charAt(11) == 't' || readLines.get(i).charAt(11) == 'f')) {
+                        } else if (readLines.get(i).length() == 12 && readLines.get(i).substring(5, 11).equals("Knight") && (readLines.get(i).charAt(11) == 't' || readLines.get(i).charAt(11) == 'f')) {
 //                    chessboard.remove(chessboard.getChessComponents()[x][y]);
 //                    boolean moved = readLines.get(i).charAt(11) == 't';
 //                    chessboard.getChessComponents()[x][y] = new KnightChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved);
-                        } else if (readLines.get(i).length() == 10
-                                && readLines.get(i).substring(5, 9).equals("Pawn")
-                                && (readLines.get(i).charAt(9) == 't' || readLines.get(i).charAt(9) == 'f')) {
+                        } else if (readLines.get(i).length() == 10 && readLines.get(i).substring(5, 9).equals("Pawn") && (readLines.get(i).charAt(9) == 't' || readLines.get(i).charAt(9) == 'f')) {
 //                    chessboard.remove(chessboard.getChessComponents()[x][y]);
 //                    boolean moved = readLines.get(i).charAt(9) == 't';
 //                    chessboard.getChessComponents()[x][y] = new PawnChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved);
-                        } else if (readLines.get(i).length() == 11
-                                && readLines.get(i).substring(5, 10).equals("Queen")
-                                && (readLines.get(i).charAt(10) == 't' || readLines.get(i).charAt(10) == 'f')) {
+                        } else if (readLines.get(i).length() == 11 && readLines.get(i).substring(5, 10).equals("Queen") && (readLines.get(i).charAt(10) == 't' || readLines.get(i).charAt(10) == 'f')) {
 //                    chessboard.remove(chessboard.getChessComponents()[x][y]);
 //                    boolean moved = readLines.get(i).charAt(10) == 't';
 //                    chessboard.getChessComponents()[x][y] = new QueenChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved);
-                        } else if (readLines.get(i).length() == 10
-                                && readLines.get(i).substring(5, 9).equals("Rook")
-                                && (readLines.get(i).charAt(9) == 't' || readLines.get(i).charAt(9) == 'f')) {
+                        } else if (readLines.get(i).length() == 10 && readLines.get(i).substring(5, 9).equals("Rook") && (readLines.get(i).charAt(9) == 't' || readLines.get(i).charAt(9) == 'f')) {
 //                    chessboard.remove(chessboard.getChessComponents()[x][y]);
 //                    boolean moved = readLines.get(i).charAt(9) == 't';
 //                    chessboard.getChessComponents()[x][y] = new RookChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved);
@@ -611,7 +585,7 @@ public class ChessGameFrame extends JFrame {
                             if (readLines.get(i).length() >= 4) {
                                 if (readLines.get(i).substring(0, 4).equals("NONE")) {
                                     chessboard.remove(chessboard.getChessComponents()[x][y]);
-                                    chessboard.getChessComponents()[x][y] = new EmptySlotComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), chessboard.getClickController(), chessboard.getCHESS_SIZE(), false, chessboard.getPicture());
+                                    chessboard.getChessComponents()[x][y] = new EmptySlotComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), chessboard.getClickController(), chessboard.getCHESS_SIZE(), false, Picture);
                                     chessboard.add(chessboard.getChessComponents()[x][y]);
                                     continue;
                                 }
@@ -647,44 +621,32 @@ public class ChessGameFrame extends JFrame {
                             return;
                         }
 
-                        if (readLines.get(i).length() == 12
-                                && readLines.get(i).substring(5, 11).equals("Bishop")
-                                && (readLines.get(i).charAt(11) == 't' || readLines.get(i).charAt(11) == 'f')) {
+                        if (readLines.get(i).length() == 12 && readLines.get(i).substring(5, 11).equals("Bishop") && (readLines.get(i).charAt(11) == 't' || readLines.get(i).charAt(11) == 'f')) {
                             chessboard.remove(chessboard.getChessComponents()[x][y]);
                             boolean moved = readLines.get(i).charAt(11) == 't';
-                            chessboard.getChessComponents()[x][y] = new BishopChessComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), tempColori, chessboard.getClickController(), chessboard.getCHESS_SIZE(), moved, chessboard.getPicture());
-                        } else if (readLines.get(i).length() == 10
-                                && readLines.get(i).substring(5, 9).equals("King")
-                                && (readLines.get(i).charAt(9) == 't' || readLines.get(i).charAt(9) == 'f')) {
+                            chessboard.getChessComponents()[x][y] = new BishopChessComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), tempColori, chessboard.getClickController(), chessboard.getCHESS_SIZE(), moved, Picture);
+                        } else if (readLines.get(i).length() == 10 && readLines.get(i).substring(5, 9).equals("King") && (readLines.get(i).charAt(9) == 't' || readLines.get(i).charAt(9) == 'f')) {
                             chessboard.remove(chessboard.getChessComponents()[x][y]);
                             boolean moved = readLines.get(i).charAt(9) == 't';
-                            chessboard.getChessComponents()[x][y] = new KingChessComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), tempColori, chessboard.getClickController(), chessboard.getCHESS_SIZE(), moved, chessboard.getPicture());
-                        } else if (readLines.get(i).length() == 12
-                                && readLines.get(i).substring(5, 11).equals("Knight")
-                                && (readLines.get(i).charAt(11) == 't' || readLines.get(i).charAt(11) == 'f')) {
+                            chessboard.getChessComponents()[x][y] = new KingChessComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), tempColori, chessboard.getClickController(), chessboard.getCHESS_SIZE(), moved, Picture);
+                        } else if (readLines.get(i).length() == 12 && readLines.get(i).substring(5, 11).equals("Knight") && (readLines.get(i).charAt(11) == 't' || readLines.get(i).charAt(11) == 'f')) {
                             chessboard.remove(chessboard.getChessComponents()[x][y]);
                             boolean moved = readLines.get(i).charAt(11) == 't';
-                            chessboard.getChessComponents()[x][y] = new KnightChessComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), tempColori, chessboard.getClickController(), chessboard.getCHESS_SIZE(), moved, chessboard.getPicture());
-                        } else if (readLines.get(i).length() == 10
-                                && readLines.get(i).substring(5, 9).equals("Pawn")
-                                && (readLines.get(i).charAt(9) == 't' || readLines.get(i).charAt(9) == 'f')) {
+                            chessboard.getChessComponents()[x][y] = new KnightChessComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), tempColori, chessboard.getClickController(), chessboard.getCHESS_SIZE(), moved, Picture);
+                        } else if (readLines.get(i).length() == 10 && readLines.get(i).substring(5, 9).equals("Pawn") && (readLines.get(i).charAt(9) == 't' || readLines.get(i).charAt(9) == 'f')) {
                             chessboard.remove(chessboard.getChessComponents()[x][y]);
                             boolean moved = readLines.get(i).charAt(9) == 't';
-                            chessboard.getChessComponents()[x][y] = new PawnChessComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), tempColori, chessboard.getClickController(), chessboard.getCHESS_SIZE(), moved, chessboard.getPicture());
-                        } else if (readLines.get(i).length() == 11
-                                && readLines.get(i).substring(5, 10).equals("Queen")
-                                && (readLines.get(i).charAt(10) == 't' || readLines.get(i).charAt(10) == 'f')) {
+                            chessboard.getChessComponents()[x][y] = new PawnChessComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), tempColori, chessboard.getClickController(), chessboard.getCHESS_SIZE(), moved, Picture);
+                        } else if (readLines.get(i).length() == 11 && readLines.get(i).substring(5, 10).equals("Queen") && (readLines.get(i).charAt(10) == 't' || readLines.get(i).charAt(10) == 'f')) {
                             chessboard.remove(chessboard.getChessComponents()[x][y]);
                             boolean moved = readLines.get(i).charAt(10) == 't';
-                            chessboard.getChessComponents()[x][y] = new QueenChessComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), tempColori, chessboard.getClickController(), chessboard.getCHESS_SIZE(), moved, chessboard.getPicture());
-                        } else if (readLines.get(i).length() == 10
-                                && readLines.get(i).substring(5, 9).equals("Rook")
-                                && (readLines.get(i).charAt(9) == 't' || readLines.get(i).charAt(9) == 'f')) {
+                            chessboard.getChessComponents()[x][y] = new QueenChessComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), tempColori, chessboard.getClickController(), chessboard.getCHESS_SIZE(), moved, Picture);
+                        } else if (readLines.get(i).length() == 10 && readLines.get(i).substring(5, 9).equals("Rook") && (readLines.get(i).charAt(9) == 't' || readLines.get(i).charAt(9) == 'f')) {
                             chessboard.remove(chessboard.getChessComponents()[x][y]);
                             boolean moved = readLines.get(i).charAt(9) == 't';
-                            chessboard.getChessComponents()[x][y] = new RookChessComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), tempColori, chessboard.getClickController(), chessboard.getCHESS_SIZE(), moved, chessboard.getPicture());
+                            chessboard.getChessComponents()[x][y] = new RookChessComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), tempColori, chessboard.getClickController(), chessboard.getCHESS_SIZE(), moved, Picture);
                         } else {
-                            chessboard.init(chessboard.getCurrentColor(), chessboard.getPicture());
+                            chessboard.init(chessboard.getCurrentColor(), Picture);
                             JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chess!", "Warning", 0);
                             return;
                         }
@@ -796,39 +758,27 @@ public class ChessGameFrame extends JFrame {
                             return;
                         }
 
-                        if (readLines.get(i).length() == 12
-                                && readLines.get(i).substring(5, 11).equals("Bishop")
-                                && (readLines.get(i).charAt(11) == 't' || readLines.get(i).charAt(11) == 'f')) {
+                        if (readLines.get(i).length() == 12 && readLines.get(i).substring(5, 11).equals("Bishop") && (readLines.get(i).charAt(11) == 't' || readLines.get(i).charAt(11) == 'f')) {
 //                    chessboard.remove(chessboard.getChessComponents()[x][y]);
 //                    boolean moved = readLines.get(i).charAt(11) == 't';
 //                    chessboard.getChessComponents()[x][y] = new BishopChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved);
-                        } else if (readLines.get(i).length() == 10
-                                && readLines.get(i).substring(5, 9).equals("King")
-                                && (readLines.get(i).charAt(9) == 't' || readLines.get(i).charAt(9) == 'f')) {
+                        } else if (readLines.get(i).length() == 10 && readLines.get(i).substring(5, 9).equals("King") && (readLines.get(i).charAt(9) == 't' || readLines.get(i).charAt(9) == 'f')) {
 //                    chessboard.remove(chessboard.getChessComponents()[x][y]);
 //                    boolean moved = readLines.get(i).charAt(9) == 't';
 //                    chessboard.getChessComponents()[x][y] = new KingChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved);
-                        } else if (readLines.get(i).length() == 12
-                                && readLines.get(i).substring(5, 11).equals("Knight")
-                                && (readLines.get(i).charAt(11) == 't' || readLines.get(i).charAt(11) == 'f')) {
+                        } else if (readLines.get(i).length() == 12 && readLines.get(i).substring(5, 11).equals("Knight") && (readLines.get(i).charAt(11) == 't' || readLines.get(i).charAt(11) == 'f')) {
 //                    chessboard.remove(chessboard.getChessComponents()[x][y]);
 //                    boolean moved = readLines.get(i).charAt(11) == 't';
 //                    chessboard.getChessComponents()[x][y] = new KnightChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved);
-                        } else if (readLines.get(i).length() == 10
-                                && readLines.get(i).substring(5, 9).equals("Pawn")
-                                && (readLines.get(i).charAt(9) == 't' || readLines.get(i).charAt(9) == 'f')) {
+                        } else if (readLines.get(i).length() == 10 && readLines.get(i).substring(5, 9).equals("Pawn") && (readLines.get(i).charAt(9) == 't' || readLines.get(i).charAt(9) == 'f')) {
 //                    chessboard.remove(chessboard.getChessComponents()[x][y]);
 //                    boolean moved = readLines.get(i).charAt(9) == 't';
 //                    chessboard.getChessComponents()[x][y] = new PawnChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved);
-                        } else if (readLines.get(i).length() == 11
-                                && readLines.get(i).substring(5, 10).equals("Queen")
-                                && (readLines.get(i).charAt(10) == 't' || readLines.get(i).charAt(10) == 'f')) {
+                        } else if (readLines.get(i).length() == 11 && readLines.get(i).substring(5, 10).equals("Queen") && (readLines.get(i).charAt(10) == 't' || readLines.get(i).charAt(10) == 'f')) {
 //                    chessboard.remove(chessboard.getChessComponents()[x][y]);
 //                    boolean moved = readLines.get(i).charAt(10) == 't';
 //                    chessboard.getChessComponents()[x][y] = new QueenChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved);
-                        } else if (readLines.get(i).length() == 10
-                                && readLines.get(i).substring(5, 9).equals("Rook")
-                                && (readLines.get(i).charAt(9) == 't' || readLines.get(i).charAt(9) == 'f')) {
+                        } else if (readLines.get(i).length() == 10 && readLines.get(i).substring(5, 9).equals("Rook") && (readLines.get(i).charAt(9) == 't' || readLines.get(i).charAt(9) == 'f')) {
 //                    chessboard.remove(chessboard.getChessComponents()[x][y]);
 //                    boolean moved = readLines.get(i).charAt(9) == 't';
 //                    chessboard.getChessComponents()[x][y] = new RookChessComponent(new ChessboardPoint(x, y), calculatePoint(x, y), tempColori, clickController, CHESS_SIZE, moved);
@@ -857,7 +807,7 @@ public class ChessGameFrame extends JFrame {
                             if (readLines.get(i).length() >= 4) {
                                 if (readLines.get(i).substring(0, 4).equals("NONE")) {
                                     chessboard.remove(chessboard.getChessComponents()[x][y]);
-                                    chessboard.getChessComponents()[x][y] = new EmptySlotComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), chessboard.getClickController(), chessboard.getCHESS_SIZE(), false, chessboard.getPicture());
+                                    chessboard.getChessComponents()[x][y] = new EmptySlotComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), chessboard.getClickController(), chessboard.getCHESS_SIZE(), false, Picture);
                                     chessboard.add(chessboard.getChessComponents()[x][y]);
                                     continue;
                                 }
@@ -893,44 +843,32 @@ public class ChessGameFrame extends JFrame {
                             return;
                         }
 
-                        if (readLines.get(i).length() == 12
-                                && readLines.get(i).substring(5, 11).equals("Bishop")
-                                && (readLines.get(i).charAt(11) == 't' || readLines.get(i).charAt(11) == 'f')) {
+                        if (readLines.get(i).length() == 12 && readLines.get(i).substring(5, 11).equals("Bishop") && (readLines.get(i).charAt(11) == 't' || readLines.get(i).charAt(11) == 'f')) {
                             chessboard.remove(chessboard.getChessComponents()[x][y]);
                             boolean moved = readLines.get(i).charAt(11) == 't';
-                            chessboard.getChessComponents()[x][y] = new BishopChessComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), tempColori, chessboard.getClickController(), chessboard.getCHESS_SIZE(), moved, chessboard.getPicture());
-                        } else if (readLines.get(i).length() == 10
-                                && readLines.get(i).substring(5, 9).equals("King")
-                                && (readLines.get(i).charAt(9) == 't' || readLines.get(i).charAt(9) == 'f')) {
+                            chessboard.getChessComponents()[x][y] = new BishopChessComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), tempColori, chessboard.getClickController(), chessboard.getCHESS_SIZE(), moved, Picture);
+                        } else if (readLines.get(i).length() == 10 && readLines.get(i).substring(5, 9).equals("King") && (readLines.get(i).charAt(9) == 't' || readLines.get(i).charAt(9) == 'f')) {
                             chessboard.remove(chessboard.getChessComponents()[x][y]);
                             boolean moved = readLines.get(i).charAt(9) == 't';
-                            chessboard.getChessComponents()[x][y] = new KingChessComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), tempColori, chessboard.getClickController(), chessboard.getCHESS_SIZE(), moved, chessboard.getPicture());
-                        } else if (readLines.get(i).length() == 12
-                                && readLines.get(i).substring(5, 11).equals("Knight")
-                                && (readLines.get(i).charAt(11) == 't' || readLines.get(i).charAt(11) == 'f')) {
+                            chessboard.getChessComponents()[x][y] = new KingChessComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), tempColori, chessboard.getClickController(), chessboard.getCHESS_SIZE(), moved, Picture);
+                        } else if (readLines.get(i).length() == 12 && readLines.get(i).substring(5, 11).equals("Knight") && (readLines.get(i).charAt(11) == 't' || readLines.get(i).charAt(11) == 'f')) {
                             chessboard.remove(chessboard.getChessComponents()[x][y]);
                             boolean moved = readLines.get(i).charAt(11) == 't';
-                            chessboard.getChessComponents()[x][y] = new KnightChessComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), tempColori, chessboard.getClickController(), chessboard.getCHESS_SIZE(), moved, chessboard.getPicture());
-                        } else if (readLines.get(i).length() == 10
-                                && readLines.get(i).substring(5, 9).equals("Pawn")
-                                && (readLines.get(i).charAt(9) == 't' || readLines.get(i).charAt(9) == 'f')) {
+                            chessboard.getChessComponents()[x][y] = new KnightChessComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), tempColori, chessboard.getClickController(), chessboard.getCHESS_SIZE(), moved, Picture);
+                        } else if (readLines.get(i).length() == 10 && readLines.get(i).substring(5, 9).equals("Pawn") && (readLines.get(i).charAt(9) == 't' || readLines.get(i).charAt(9) == 'f')) {
                             chessboard.remove(chessboard.getChessComponents()[x][y]);
                             boolean moved = readLines.get(i).charAt(9) == 't';
-                            chessboard.getChessComponents()[x][y] = new PawnChessComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), tempColori, chessboard.getClickController(), chessboard.getCHESS_SIZE(), moved, chessboard.getPicture());
-                        } else if (readLines.get(i).length() == 11
-                                && readLines.get(i).substring(5, 10).equals("Queen")
-                                && (readLines.get(i).charAt(10) == 't' || readLines.get(i).charAt(10) == 'f')) {
+                            chessboard.getChessComponents()[x][y] = new PawnChessComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), tempColori, chessboard.getClickController(), chessboard.getCHESS_SIZE(), moved, Picture);
+                        } else if (readLines.get(i).length() == 11 && readLines.get(i).substring(5, 10).equals("Queen") && (readLines.get(i).charAt(10) == 't' || readLines.get(i).charAt(10) == 'f')) {
                             chessboard.remove(chessboard.getChessComponents()[x][y]);
                             boolean moved = readLines.get(i).charAt(10) == 't';
-                            chessboard.getChessComponents()[x][y] = new QueenChessComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), tempColori, chessboard.getClickController(), chessboard.getCHESS_SIZE(), moved, chessboard.getPicture());
-                        } else if (readLines.get(i).length() == 10
-                                && readLines.get(i).substring(5, 9).equals("Rook")
-                                && (readLines.get(i).charAt(9) == 't' || readLines.get(i).charAt(9) == 'f')) {
+                            chessboard.getChessComponents()[x][y] = new QueenChessComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), tempColori, chessboard.getClickController(), chessboard.getCHESS_SIZE(), moved, Picture);
+                        } else if (readLines.get(i).length() == 10 && readLines.get(i).substring(5, 9).equals("Rook") && (readLines.get(i).charAt(9) == 't' || readLines.get(i).charAt(9) == 'f')) {
                             chessboard.remove(chessboard.getChessComponents()[x][y]);
                             boolean moved = readLines.get(i).charAt(9) == 't';
-                            chessboard.getChessComponents()[x][y] = new RookChessComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), tempColori, chessboard.getClickController(), chessboard.getCHESS_SIZE(), moved, chessboard.getPicture());
+                            chessboard.getChessComponents()[x][y] = new RookChessComponent(new ChessboardPoint(x, y), chessboard.calculatePoint(x, y), tempColori, chessboard.getClickController(), chessboard.getCHESS_SIZE(), moved, Picture);
                         } else {
-                            chessboard.init(chessboard.getCurrentColor(), chessboard.getPicture());
+                            chessboard.init(chessboard.getCurrentColor(), Picture);
                             JOptionPane.showMessageDialog(new ChessGameFrame(1000, 760), "Wrong chess!", "Warning", 0);
                             return;
                         }
@@ -947,6 +885,25 @@ public class ChessGameFrame extends JFrame {
                 f.printStackTrace();
             }
             addLabel(chessboard, chessboard.sta);
+        });
+    }
+
+    // Change Color
+    private void addChange(JButton change) {
+        change.setSize(80, 25);
+        change.setLocation(WIDTH / 10 * 9, HEIGTH / 10 * 9);
+        change.setVisible(true);
+        add(change);
+    }
+
+    private void PressChange(JButton change) {
+        change.addActionListener(e -> {
+            if (this.getContentPane().getBackground() == Color.WHITE) {
+                this.getContentPane().setBackground(Color.BLACK);
+            } else {
+                this.getContentPane().setBackground(Color.WHITE);
+            }
+            ;
         });
     }
 

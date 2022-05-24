@@ -22,7 +22,6 @@ public class Chessboard extends JComponent {
     private final ClickController clickController = new ClickController(this);
     Boolean turnchessboard; // 选择不同颜色后棋盘翻倒
     JLabel sta;
-    int Picture;
 
 // Constructor
 
@@ -38,7 +37,6 @@ public class Chessboard extends JComponent {
 //        System.out.printf("chessboard size = %d, chess size = %d\n", width, CHESS_SIZE);
         init(currentColor,SelectPicture.get());
         sta = statusLabel;
-        this.Picture = Integer.parseInt(String.valueOf(SelectPicture));
     }
 
 // Getter and Setter
@@ -69,10 +67,6 @@ public class Chessboard extends JComponent {
 
     public ClickController getClickController() {
         return clickController;
-    }
-
-    public int getPicture() {
-        return Picture;
     }
 
 // Init
