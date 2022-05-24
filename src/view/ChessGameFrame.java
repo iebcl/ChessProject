@@ -44,7 +44,7 @@ public class ChessGameFrame extends JFrame {
         this.WIDTH = width;
         this.HEIGTH = height;
         this.CHESSBOARD_SIZE = HEIGTH * 4 / 5;
-
+        this.getContentPane().setBackground(Color.WHITE);
         setSize(WIDTH, HEIGTH);
         setLocationRelativeTo(null); // Center the window.
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
@@ -52,6 +52,7 @@ public class ChessGameFrame extends JFrame {
 
         //来源
         JLabel statusLabel = new JLabel("");
+        statusLabel.setForeground(Color.BLUE);
         AtomicInteger SelectColor = new AtomicInteger();
 
         AtomicInteger SelectPicture = new AtomicInteger();
@@ -65,12 +66,15 @@ public class ChessGameFrame extends JFrame {
         JButton store = newStore();
         JButton previousStep = previousStep();
         JButton nextStep = nextStep();
+        JButton change = changeColor();
         addStart(chessboard, statusLabel, start);//开始按键
         addReStart(restart);
         addLoad(load);
         addStore(chessboard, store);
         addPreviousStep(previousStep);
         addNextStep(nextStep);
+        addChange(change);
+        PressChange(change);
         PressStartButton(chessboard, statusLabel, background, start, SelectColor, SelectPicture);//按下开始之后，将背景图片设为不可见
         PressReStartButton(background, restart, chessboard, statusLabel, SelectColor, SelectPicture);//重新开始，背景图片重新可见
         PressLoadButton(chessboard, background, load, start);
@@ -116,6 +120,38 @@ public class ChessGameFrame extends JFrame {
         return start;
     }
 
+    private JButton changeColor() {
+        JButton start = new JButton("Change");
+        start.setBackground(new Color(176, 196, 222));
+        start.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                start.setBackground(Color.LIGHT_GRAY);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                start.setBackground(new Color(176, 196, 222));
+            }
+        });
+        return start;
+    }
+
+    private  void PressChange(JButton change){
+        change.addActionListener(e -> {
+            if(this.getContentPane().getBackground()==Color.WHITE){
+                this.getContentPane().setBackground(Color.BLACK);
+            }else {
+                this.getContentPane().setBackground(Color.WHITE);
+            };
+        });
+    }
+    private void  addChange(JButton change){
+        change.setSize(80,25);
+        change.setLocation(WIDTH/10*9,HEIGTH/10*9);
+        change.setVisible(true);
+        add(change);
+    }
     private JButton newReStart() {
         JButton Restart = new JButton("Restart");
         Restart.setBackground(new Color(176, 196, 222));
@@ -383,6 +419,7 @@ public class ChessGameFrame extends JFrame {
             removeStartButton(start);
         });
     }
+
 
     // Store
     private void addStore(Chessboard chessboard, JButton store) {
