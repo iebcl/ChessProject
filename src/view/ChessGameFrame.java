@@ -215,6 +215,7 @@ public class ChessGameFrame extends JFrame {
             public void mouseEntered(MouseEvent e) {
                 start.setBackground(Color.LIGHT_GRAY);
             }
+
             @Override
             public void mouseExited(MouseEvent e) {
                 start.setBackground(new Color(176, 196, 222));
@@ -223,7 +224,7 @@ public class ChessGameFrame extends JFrame {
         return start;
     }
 
-    // Buttons
+// Buttons
 
     // Start
     private void addStart(Chessboard chessboard, JLabel statusLabel, JButton start) {
@@ -399,7 +400,7 @@ public class ChessGameFrame extends JFrame {
             } else {
             }
 //            String path = JOptionPane.showInputDialog(this, "Input filename here");
-            this.filename = path;
+            this.filename = path.substring(0, path.length() - 4);
             background.setVisible(false);
             gameController.loadGameFromFile(path, this);
             addLabel(chessboard, chessboard.sta);
