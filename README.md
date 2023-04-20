@@ -1,3 +1,5 @@
 # ChessProject
 
-final project of 2022 Spring CS102A at SUSTech
+project of 2022 Spring CS102A at SUSTech
+
+> some bugs remain unfixed
