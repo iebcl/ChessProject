@@ -1,5 +1,11 @@
-# ChessProject
+# Chess Project
 
-project of 2022 Spring CS102A at SUSTech
+SUSTech CS102A 2022 Spring project by Shiyuan Chen and Ye Li
 
-> some bugs remain unfixed
+`src/Main.java` - the main program for the project
+
+`src/control` - interaction with users and saved gane profiles
+
+`src/model` - restricted behaviors for each chess
+
+`src/view` - GUI design
